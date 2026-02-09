@@ -33,7 +33,7 @@ export default function HomeAdvertisement() {
         sx={{ color: 'common.white', mb: 5, typography: 'h2' }}
       >
         Get started with
-        <br /> Minimal kit today
+        <br /> Red Fitness Today!
       </Box>
 
       <Stack
@@ -54,25 +54,7 @@ export default function HomeAdvertisement() {
               bgcolor: 'common.white',
             }}
           >
-            Purchase Now
-          </Button>
-        </m.div>
-
-        <m.div variants={varFade().inRight}>
-          <Button
-            color="inherit"
-            size="large"
-            variant="outlined"
-            target="_blank"
-            rel="noopener"
-            href={paths.freeUI}
-            endIcon={<Iconify icon="eva:external-link-fill" width={16} sx={{ mr: 0.5 }} />}
-            sx={{
-              color: 'common.white',
-              '&:hover': { borderColor: 'currentColor' },
-            }}
-          >
-            Get Free Version
+            Explore Membership Plans
           </Button>
         </m.div>
       </Stack>
@@ -88,7 +70,7 @@ export default function HomeAdvertisement() {
         }}
         transition={{ duration: 4, repeat: Infinity }}
         alt="rocket"
-        src="/assets/images/home/rocket.webp"
+        src="/assets/images/home/dumbelll.png"
         sx={{ maxWidth: 460 }}
       />
     </Stack>

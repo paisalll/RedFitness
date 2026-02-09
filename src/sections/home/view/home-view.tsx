@@ -60,7 +60,7 @@ export default function HomeView() {
           bgcolor: 'background.default',
         }}
       >
-        <HomeMinimal />
+        {/* <HomeMinimal /> */}
 
         <HomeHugePackElements />
 
@@ -77,8 +77,6 @@ export default function HomeView() {
         <HomeCleanInterfaces />
 
         <HomePricing />
-
-        <HomeLookingFor />
 
         <HomeAdvertisement />
       </Box>

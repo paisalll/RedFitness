@@ -55,15 +55,15 @@ const StyledTextGradient = styled(m.h1)(({ theme }) => ({
   ),
   padding: 0,
   marginTop: 8,
-  lineHeight: 1,
+  lineHeight: 1.2, // Sedikit lebih longgar agar tidak menempel
   marginBottom: 24,
-  letterSpacing: 8,
+  letterSpacing: 2, // Dikurangi dari 8 agar lebih rapi
   textAlign: 'center',
   backgroundSize: '400%',
-  fontSize: `${64 / 16}rem`,
+  fontSize: `${40 / 16}rem`, // Diperkecil dari 64px ke 40px
   fontFamily: "'Barlow', sans-serif",
   [theme.breakpoints.up('md')]: {
-    fontSize: `${96 / 16}rem`,
+    fontSize: `${56 / 16}rem`, // Diperkecil dari 96px ke 56px
   },
 }));
 
@@ -183,18 +183,6 @@ export default function HomeHero() {
       }}
     >
       <m.div variants={varFade().in}>
-        <Typography
-          variant="h2"
-          sx={{
-            textAlign: 'center',
-          }}
-        >
-          Start a <br />
-          New Project with
-        </Typography>
-      </m.div>
-
-      <m.div variants={varFade().in}>
         <StyledTextGradient
           animate={{ backgroundPosition: '200% center' }}
           transition={{
@@ -204,15 +192,8 @@ export default function HomeHero() {
             repeat: Infinity,
           }}
         >
-          Minimal
+          Duo Membership from Rp499K
         </StyledTextGradient>
-      </m.div>
-
-      <m.div variants={varFade().in}>
-        <Typography variant="body2" sx={{ textAlign: 'center' }}>
-          The starting point for your next project is based on MUI.Easy customization Helps you
-          build apps faster and better.
-        </Typography>
       </m.div>
 
       <m.div variants={varFade().in}>
@@ -244,7 +225,7 @@ export default function HomeHero() {
               variant="contained"
               startIcon={<Iconify icon="eva:flash-fill" width={24} />}
             >
-              Live Preview
+              Get Offer Now
             </Button>
 
             <Link
@@ -260,44 +241,12 @@ export default function HomeHero() {
               }}
             >
               <Iconify icon="eva:external-link-fill" width={16} sx={{ mr: 0.5 }} />
-              Get Free Version
+              Other Membership Plans
             </Link>
           </Stack>
-
-          <Button
-            color="inherit"
-            size="large"
-            variant="outlined"
-            startIcon={<Iconify icon="eva:external-link-fill" width={24} />}
-            target="_blank"
-            rel="noopener"
-            href={paths.figma}
-            sx={{ borderColor: 'text.primary' }}
-          >
-            Design Preview
-          </Button>
         </Stack>
       </m.div>
 
-      <Stack spacing={3} sx={{ textAlign: 'center' }}>
-        <m.div variants={varFade().in}>
-          <Typography variant="overline" sx={{ opacity: 0.4 }}>
-            Available For
-          </Typography>
-        </m.div>
-
-        <Stack spacing={2} direction="row" justifyContent="center">
-          {['figma', 'js', 'ts', 'nextjs', 'vite'].map((platform) => (
-            <m.div key={platform} variants={varFade().in}>
-              <Box
-                component="img"
-                src={`/assets/icons/platforms/ic_${platform}.svg`}
-                sx={{ width: 24, height: 24 }}
-              />
-            </m.div>
-          ))}
-        </Stack>
-      </Stack>
     </Stack>
   );
 

@@ -1,161 +1,183 @@
 import { m } from 'framer-motion';
 // @mui
+import { alpha, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
+import Grid from '@mui/material/Unstable_Grid2';
 import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
+import Checkbox from '@mui/material/Checkbox';
+import MenuItem from '@mui/material/MenuItem';
+import TextField from '@mui/material/TextField';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-import CardActionArea from '@mui/material/CardActionArea';
+import FormControlLabel from '@mui/material/FormControlLabel';
+// hooks
+import { useResponsive } from 'src/hooks/use-responsive';
 // components
-import { primaryPresets } from 'src/theme/options/presets';
-// components
-import Image from 'src/components/image';
 import Iconify from 'src/components/iconify';
-import { useSettingsContext } from 'src/components/settings';
 import { MotionViewport, varFade } from 'src/components/animate';
 
 // ----------------------------------------------------------------------
 
-export default function HomeColorPresets() {
-  const settings = useSettingsContext();
+const BENEFITS = [
+  {
+    icon: 'solar:dumbbell-large-bold-duotone',
+    text: 'Premium equipment and dynamic group fitness classes.',
+  },
+  {
+    icon: 'solar:heart-pulse-bold-duotone',
+    text: 'Complimentary health and fitness assessment.',
+  },
+  {
+    icon: 'solar:star-bold-duotone',
+    text: 'Certified StarMakers to ignite your motivation.',
+  },
+  {
+    icon: 'solar:users-group-rounded-bold-duotone',
+    text: 'Vibrant, uplifting fitness community who have your back.',
+  },
+  {
+    icon: 'solar:city-bold-duotone',
+    text: 'Workout in 25 clubs nationwide and over 70 clubs across SE Asia.',
+  },
+];
 
-  const options = primaryPresets.map((color) => ({
-    name: color.name,
-    value: color.main,
-  }));
+export default function HomeFreeTrial() {
+  const theme = useTheme();
+  const mdUp = useResponsive('up', 'md');
 
-  const renderDescription = (
-    <Stack spacing={3} sx={{ textAlign: 'center' }}>
-      <m.div variants={varFade().inDown}>
-        <Typography component="div" variant="overline" sx={{ color: 'text.disabled' }}>
-          choose your style
-        </Typography>
-      </m.div>
+  const renderForm = (
+    <Box
+      sx={{
+        p: { xs: 3, md: 5 },
+        borderRadius: 2,
+        bgcolor: alpha(theme.palette.grey[900], 0.8), // Semi-transparent dark bg
+        backdropFilter: 'blur(20px)', // Glassmorphism effect
+        border: `1px solid ${alpha(theme.palette.common.white, 0.1)}`,
+        boxShadow: `-24px 24px 72px -8px ${alpha(theme.palette.common.black, 0.4)}`,
+      }}
+    >
+      <Stack spacing={3}>
+        <Box>
+          <Typography variant="h4" sx={{ color: 'common.white', mb: 1 }}>
+            SIGN UP FOR A <br />
+            <Box component="span" sx={{ color: 'primary.main' }}>FREE TRIAL</Box>
+          </Typography>
+          <Typography variant="body2" sx={{ color: 'text.primary' }}>
+            We'll get in touch within 48 hours.
+          </Typography>
+        </Box>
 
-      <m.div variants={varFade().inDown}>
-        <Typography variant="h2"> Color Presets </Typography>
-      </m.div>
+        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+          <TextField fullWidth label="First Name" placeholder="Enter First Name" />
+          <TextField fullWidth label="Last Name" placeholder="Enter Last Name" />
+        </Stack>
 
-      <m.div variants={varFade().inDown}>
-        <Typography sx={{ color: 'text.secondary' }}>
-          Express your own style with just one click
-        </Typography>
-      </m.div>
-    </Stack>
-  );
+        <TextField fullWidth label="Email Address" placeholder="example@mail.com" />
+        <TextField fullWidth label="Phone Number" placeholder="+62 812..." />
 
-  const renderContent = (
-    <Box sx={{ position: 'relative' }}>
-      <Image disabledEffect alt="grid" src="/assets/images/home/presets/grid.webp" />
+        <TextField select fullWidth label="Preferred Club" defaultValue="">
+          <MenuItem value="jakarta">Jakarta - Central Park</MenuItem>
+          <MenuItem value="tangerang">Tangerang - AEON BSD</MenuItem>
+          <MenuItem value="surabaya">Surabaya - Galaxy Mall</MenuItem>
+        </TextField>
 
-      <Box sx={{ position: 'absolute', top: 0 }}>
-        <m.div variants={varFade().inUp}>
-          <Image
-            disabledEffect
-            alt="screen"
-            src={`/assets/images/home/presets/screen_${settings.themeColorPresets}.webp`}
-          />
-        </m.div>
-      </Box>
+        <FormControlLabel
+          control={<Checkbox defaultChecked sx={{ color: 'primary.main', '&.Mui-checked': { color: 'primary.main' } }} />}
+          label={
+            <Typography variant="caption" sx={{ color: 'text.primary' }}>
+              I've read and agree to the <span style={{ textDecoration: 'underline' }}>Terms</span> and Data Privacy policy.
+            </Typography>
+          }
+        />
 
-      <Box sx={{ position: 'absolute', top: 0 }}>
-        <m.div variants={varFade().inDown}>
-          <m.div animate={{ y: [0, -15, 0] }} transition={{ duration: 8, repeat: Infinity }}>
-            <Image
-              disabledEffect
-              alt="sidebar"
-              src={`/assets/images/home/presets/block_${settings.themeColorPresets}.webp`}
-            />
-          </m.div>
-        </m.div>
-      </Box>
-
-      <Box sx={{ position: 'absolute', top: 0 }}>
-        <m.div variants={varFade().inDown}>
-          <m.div animate={{ y: [-5, 10, -5] }} transition={{ duration: 8, repeat: Infinity }}>
-            <Image
-              disabledEffect
-              alt="chart"
-              src={`/assets/images/home/presets/chart_${settings.themeColorPresets}.webp`}
-            />
-          </m.div>
-        </m.div>
-      </Box>
-
-      <Box sx={{ position: 'absolute', top: 0 }}>
-        <m.div variants={varFade().inDown}>
-          <m.div animate={{ y: [-25, 5, -25] }} transition={{ duration: 10, repeat: Infinity }}>
-            <Image
-              disabledEffect
-              alt="sidebar"
-              src={`/assets/images/home/presets/sidebar_${settings.themeColorPresets}.webp`}
-            />
-          </m.div>
-        </m.div>
-      </Box>
+        <Button
+          size="large"
+          variant="contained"
+          color="primary"
+          sx={{
+            py: 1.5,
+            fontSize: 16,
+            fontWeight: 'bold',
+            boxShadow: `0 8px 16px 0 ${alpha(theme.palette.primary.main, 0.24)}`,
+          }}
+        >
+          SUBMIT
+        </Button>
+      </Stack>
     </Box>
   );
 
-  const renderOptions = (
-    <m.div variants={varFade().inDown}>
-      <Stack
-        alignItems="center"
-        justifyContent="center"
-        sx={{
-          my: 5,
-          width: 100,
-          height: 88,
-          mx: 'auto',
-          position: 'relative',
-        }}
-      >
-        {options.map((color, index) => {
-          const { name, value } = color;
+  const renderContent = (
+    <Stack spacing={5} sx={{ maxWidth: 480, mx: { xs: 'auto', md: 'unset' } }}>
+      <m.div variants={varFade().inRight}>
+        <Typography variant="h2" sx={{ fontWeight: 900, textTransform: 'uppercase' }}>
+          CHECK US OUT
+        </Typography>
+        <Typography sx={{ color: 'text.primary', mt: 2 }}>
+          We're not about just fitness. Walk out looking, feeling like a star.
+          Sign up. Try us. Tour our clubs, meet our StarMakers. Get on the A-list today!
+        </Typography>
+      </m.div>
 
-          const selected = settings.themeColorPresets === name;
-
-          return (
-            <CardActionArea
-              key={name}
-              onClick={() => settings.onUpdate('themeColorPresets', name)}
-              sx={{
-                width: 24,
-                height: 24,
-                bgcolor: value,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                borderRadius: '50%',
-                position: 'absolute',
-                color: 'common.white',
-                ...(index === 0 && { bottom: 0 }),
-                ...(index === 1 && { left: 19 }),
-                ...(index === 2 && { right: 19 }),
-                ...(index === 3 && { top: 0, left: 0 }),
-                ...(index === 4 && { top: 0 }),
-                ...(index === 5 && { top: 0, right: 0 }),
-              }}
-            >
-              {selected && <Iconify icon="eva:color-picker-fill" width={16} />}
-            </CardActionArea>
-          );
-        })}
+      <Stack spacing={3}>
+        {BENEFITS.map((item, index) => (
+          <m.div key={index} variants={varFade({ distance: 20 }).inRight}>
+            <Stack direction="row" spacing={2} alignItems="center">
+              <Iconify
+                icon={item.icon}
+                width={32}
+                sx={{
+                  color: 'primary.main',
+                  filter: `drop-shadow(0 0 8px ${alpha(theme.palette.primary.main, 0.4)})`,
+                }}
+              />
+              <Typography variant="body1" sx={{ fontWeight: 500 }}>
+                {item.text}
+              </Typography>
+            </Stack>
+          </m.div>
+        ))}
       </Stack>
-    </m.div>
+    </Stack>
   );
 
   return (
-    <Container
-      component={MotionViewport}
+    <Box
       sx={{
-        position: 'relative',
         py: { xs: 10, md: 15 },
+        position: 'relative',
+        overflow: 'hidden',
+        background: `linear-gradient(135deg, #2e0c45 0%, #111 100%)`, // Background Ungu Gelap ala Celebrity Fitness
       }}
     >
-      {renderDescription}
+      {/* Decorative Blur */}
+      <Box
+        sx={{
+          position: 'absolute',
+          top: -100,
+          left: -100,
+          width: 600,
+          height: 600,
+          borderRadius: '50%',
+          background: alpha(theme.palette.primary.main, 0.15),
+          filter: 'blur(100px)',
+        }}
+      />
 
-      {renderOptions}
+      <Container component={MotionViewport}>
+        <Grid container spacing={{ xs: 5, md: 8 }} alignItems="center">
+          <Grid xs={12} md={5}>
+            <m.div variants={varFade().inLeft}>
+              {renderForm}
+            </m.div>
+          </Grid>
 
-      {renderContent}
-    </Container>
+          <Grid xs={12} md={7}>
+            {renderContent}
+          </Grid>
+        </Grid>
+      </Container>
+    </Box>
   );
 }
