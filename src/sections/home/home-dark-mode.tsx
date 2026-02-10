@@ -25,7 +25,7 @@ const TESTIMONIALS = [
     role: 'Member since 2018',
     quote: 'SMASH YOUR WAY TO THE TOP',
     review: 'I realized that if I did not make a lifestyle change immediately, I might never do it and get worse. I gave myself one year to find that person inside me who was screaming to get out. That was when I met Amirul. I told him I wanted my sexy back! And that was the start of my journey.',
-    avatar: '/assets/images/home/member_1.jpg', // Pastikan kamu punya gambar dummy atau ganti url ini
+    avatar: '/assets/images/pexels-gustavo-fring-8769166.jpg', // Pastikan kamu punya gambar dummy atau ganti url ini
   },
   {
     id: 2,
@@ -33,7 +33,7 @@ const TESTIMONIALS = [
     role: 'Member since 2020',
     quote: 'ADDICTED TO THE ENERGY',
     review: 'The vibe here is unmatched. I used to dread going to the gym, but now I look forward to the BodyCombat classes every single week. The instructors push you to your limits in the best way possible!',
-    avatar: '/assets/images/home/member_2.jpg',
+    avatar: '/assets/images/pexels-gustavo-fring-8769166.jpg',
   },
   {
     id: 3,
@@ -41,7 +41,7 @@ const TESTIMONIALS = [
     role: 'Member since 2022',
     quote: 'STRONGER THAN YESTERDAY',
     review: 'Joining the personal training program was the best investment I ever made. My trainer understands my goals perfectly and helps me crush them one rep at a time.',
-    avatar: '/assets/images/home/member_3.jpg',
+    avatar: '/assets/images/pexels-gustavo-fring-8769166.jpg',
   },
 ];
 

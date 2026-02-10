@@ -27,7 +27,7 @@ import { MotionContainer, varFade } from 'src/components/animate';
 
 const StyledRoot = styled('div')(({ theme }) => ({
   ...bgGradient({
-    color: alpha(theme.palette.background.default, theme.palette.mode === 'light' ? 0.9 : 0.94),
+    color: alpha(theme.palette.background.default, theme.palette.mode === 'light' ? 0.9 : 0.6),
     imgUrl: '/assets/background/bg.jpg',
   }),
   width: '100%',
@@ -55,15 +55,16 @@ const StyledTextGradient = styled(m.h1)(({ theme }) => ({
   ),
   padding: 0,
   marginTop: 8,
-  lineHeight: 1.2, // Sedikit lebih longgar agar tidak menempel
+  lineHeight: 1.2, 
   marginBottom: 24,
-  letterSpacing: 2, // Dikurangi dari 8 agar lebih rapi
+  letterSpacing: 2, 
   textAlign: 'center',
   backgroundSize: '400%',
-  fontSize: `${40 / 16}rem`, // Diperkecil dari 64px ke 40px
-  fontFamily: "'Barlow', sans-serif",
+  fontSize: `${40 / 16}rem`,
+  fontWeight: 900, 
+  fontFamily: "'Poppins', sans-serif", // Diubah dari Barlow ke Poppins
   [theme.breakpoints.up('md')]: {
-    fontSize: `${56 / 16}rem`, // Diperkecil dari 96px ke 56px
+    fontSize: `${56 / 16}rem`, 
   },
 }));
 

@@ -40,9 +40,9 @@ export const mainRoutes = [
       </MainLayout>
     ),
     children: [
-      { path: 'about-us', element: <AboutPage /> },
-      { path: 'contact-us', element: <ContactPage /> },
-      { path: 'faqs', element: <FaqsPage /> },
+      { path: 'membership', element: <AboutPage /> },
+      { path: 'classes', element: <ContactPage /> },
+      { path: 'personal-training', element: <FaqsPage /> },
       {
         path: 'product',
         children: [
