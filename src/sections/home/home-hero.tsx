@@ -28,7 +28,7 @@ import { MotionContainer, varFade } from 'src/components/animate';
 const StyledRoot = styled('div')(({ theme }) => ({
   ...bgGradient({
     color: alpha(theme.palette.background.default, theme.palette.mode === 'light' ? 0.9 : 0.94),
-    imgUrl: '/assets/background/overlay_3.jpg',
+    imgUrl: '/assets/background/bg.jpg',
   }),
   width: '100%',
   height: '100vh',
@@ -280,7 +280,7 @@ export default function HomeHero() {
           src={
             isLight
               ? `/assets/images/home/hero/light_1.webp`
-              : `/assets/images/home/hero/dark_1.webp`
+              : `/assets/images/home/hero/1.png`
           }
           sx={{ position: 'absolute', mt: -5 }}
         />
@@ -292,7 +292,7 @@ export default function HomeHero() {
           src={
             isLight
               ? `/assets/images/home/hero/light_1.webp`
-              : `/assets/images/home/hero/dark_1.webp`
+              : `/assets/images/home/hero/1.png`
           }
           sx={{ position: 'absolute' }}
         />
@@ -311,7 +311,7 @@ export default function HomeHero() {
           src={
             isLight
               ? `/assets/images/home/hero/light_2.webp`
-              : `/assets/images/home/hero/dark_2.webp`
+              : `/assets/images/home/hero/2.png`
           }
           sx={{ position: 'absolute', mt: -5 }}
         />
@@ -323,7 +323,7 @@ export default function HomeHero() {
           src={
             isLight
               ? `/assets/images/home/hero/light_2.webp`
-              : `/assets/images/home/hero/dark_2.webp`
+              : `/assets/images/home/hero/2.png`
           }
           sx={{ position: 'absolute' }}
         />
