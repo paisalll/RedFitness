@@ -14,6 +14,7 @@ import { useResponsive } from 'src/hooks/use-responsive';
 import Image from 'src/components/image';
 import Iconify from 'src/components/iconify';
 import { MotionViewport, varFade } from 'src/components/animate';
+import { COLORS } from '../about/about-team';
 
 // ----------------------------------------------------------------------
 
@@ -180,7 +181,7 @@ export default function HomeClubNearby() {
   );
 
   return (
-    <Box sx={{ bgcolor: '#190a2e', py: { xs: 10, md: 15 }, overflow: 'hidden' }}>
+    <Box sx={{ bgcolor: `${COLORS.black}`, py: { xs: 10, md: 15 }, overflow: 'hidden' }}>
       <Container component={MotionViewport}>
         {renderHeader}
 

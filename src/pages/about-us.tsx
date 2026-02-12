@@ -8,7 +8,7 @@ export default function AboutPage() {
   return (
     <>
       <Helmet>
-        <title> About us</title>
+        <title> Red Fitness: Membership</title>
       </Helmet>
 
       <AboutView />

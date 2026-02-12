@@ -22,6 +22,7 @@ import { HEADER } from 'src/layouts/config-layout';
 import Iconify from 'src/components/iconify';
 import { RouterLink } from 'src/routes/components';
 import { MotionContainer, varFade } from 'src/components/animate';
+import { COLORS } from '../about/about-team';
 
 // ----------------------------------------------------------------------
 
@@ -51,7 +52,7 @@ const StyledWrapper = styled('div')(({ theme }) => ({
 
 const StyledTextGradient = styled(m.h1)(({ theme }) => ({
   ...textGradient(
-    `300deg, ${theme.palette.primary.main} 0%, ${theme.palette.warning.main} 25%, ${theme.palette.primary.main} 50%, ${theme.palette.warning.main} 75%, ${theme.palette.primary.main} 100%`
+    `300deg, ${theme.palette.primary.main} 0%, ${theme.palette.warning.main} 25%, ${COLORS.redDark} 50%, ${COLORS.black} 75%, ${theme.palette.primary.main} 100%`
   ),
   padding: 0,
   marginTop: 8,
@@ -221,10 +222,14 @@ export default function HomeHero() {
             <Button
               component={RouterLink}
               href={paths.dashboard.root}
-              color="inherit"
               size="large"
               variant="contained"
               startIcon={<Iconify icon="eva:flash-fill" width={24} />}
+              sx={{
+                bgcolor: COLORS.red,
+                color: COLORS.white,
+                '&:hover': { bgcolor: COLORS.redDark }
+              }}
             >
               Get Offer Now
             </Button>

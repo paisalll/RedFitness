@@ -16,6 +16,7 @@ import { useResponsive } from 'src/hooks/use-responsive';
 // components
 import Iconify from 'src/components/iconify';
 import { MotionViewport, varFade } from 'src/components/animate';
+import { COLORS } from '../about/about-team';
 
 // ----------------------------------------------------------------------
 
@@ -51,10 +52,10 @@ export default function HomeFreeTrial() {
       sx={{
         p: { xs: 3, md: 5 },
         borderRadius: 2,
-        bgcolor: alpha(theme.palette.grey[900], 0.8), // Semi-transparent dark bg
         backdropFilter: 'blur(20px)', // Glassmorphism effect
-        border: `1px solid ${alpha(theme.palette.common.white, 0.1)}`,
-        boxShadow: `-24px 24px 72px -8px ${alpha(theme.palette.common.black, 0.4)}`,
+        bgcolor: alpha(COLORS.black, 0.9), // Background Hitam pekat
+        border: `1px solid ${alpha(COLORS.red, 0.3)}`, // Border aksen Merah
+        boxShadow: `-24px 24px 72px -8px ${alpha(COLORS.black, 0.5)}`,
       }}
     >
       <Stack spacing={3}>
@@ -148,7 +149,7 @@ export default function HomeFreeTrial() {
         py: { xs: 10, md: 15 },
         position: 'relative',
         overflow: 'hidden',
-        background: `linear-gradient(135deg, #2e0c45 0%, #111 100%)`, // Background Ungu Gelap ala Celebrity Fitness
+        background: `linear-gradient(135deg, ${COLORS.redDark} 0%, ${COLORS.black} 100%)`, // Background Ungu Gelap ala Celebrity Fitness
       }}
     >
       {/* Decorative Blur */}

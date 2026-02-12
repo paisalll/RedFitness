@@ -41,8 +41,8 @@ export const mainRoutes = [
     ),
     children: [
       { path: 'membership', element: <AboutPage /> },
-      { path: 'classes', element: <ContactPage /> },
-      { path: 'personal-training', element: <FaqsPage /> },
+      { path: 'classes', element: <FaqsPage/> },
+      { path: 'personal-training', element: <ContactPage />  },
       {
         path: 'product',
         children: [

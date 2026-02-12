@@ -1,173 +1,203 @@
+import { m } from 'framer-motion';
 // @mui
 import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
+import Checkbox from '@mui/material/Checkbox';
+import TextField from '@mui/material/TextField';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Unstable_Grid2';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
+import FormControlLabel from '@mui/material/FormControlLabel';
 // routes
 import { paths } from 'src/routes/paths';
-import { usePathname } from 'src/routes/hooks';
 import { RouterLink } from 'src/routes/components';
 // _mock
 import { _socials } from 'src/_mock';
 // components
 import Logo from 'src/components/logo';
 import Iconify from 'src/components/iconify';
+import { MotionViewport, varFade } from 'src/components/animate';
 
 // ----------------------------------------------------------------------
 
-const LINKS = [
+const COLORS = {
+  red: '#D40000',
+  redDark: '#8a0000',
+  black: '#000000',
+  white: '#FFFFFF',
+};
+
+const NAV_LINKS = [
   {
-    headline: 'Minimal',
+    headline: 'MEMBERSHIP',
     children: [
-      { name: 'About us', href: paths.about },
-      { name: 'Contact us', href: paths.contact },
-      { name: 'FAQs', href: paths.faqs },
+      { name: 'Membership', href: '#' },
+      { name: 'Join Online', href: '#' },
+      { name: 'Corporate', href: '#' },
+      { name: 'Membership Privileges', href: '#' },
     ],
   },
   {
-    headline: 'Legal',
+    headline: 'CLUBS & CLASSES',
     children: [
-      { name: 'Terms and Condition', href: '#' },
-      { name: 'Privacy Policy', href: '#' },
+      { name: 'Classes', href: '#' },
+      { name: 'Club Finder', href: '#' },
+      { name: 'Timetable', href: '#' },
+      { name: 'Mobile App', href: '#' },
     ],
   },
   {
-    headline: 'Contact',
-    children: [{ name: 'support@minimals.cc', href: '#' }],
+    headline: 'OUR COMPANY',
+    children: [
+      { name: 'Why Red Fitness', href: paths.about },
+      { name: 'Blog', href: '#' },
+      { name: 'Highlights', href: '#' },
+      { name: 'FAQ', href: paths.faqs },
+    ],
+  },
+  {
+    headline: 'GET IN TOUCH',
+    children: [
+      { name: 'Contact Us', href: paths.contact },
+      { name: 'Careers', href: '#' },
+    ],
   },
 ];
 
 // ----------------------------------------------------------------------
 
 export default function Footer() {
-  const pathname = usePathname();
-
-  const isHome = pathname === '/';
-
-  const simpleFooter = (
-    <Box
-      component="footer"
-      sx={{
-        py: 5,
-        textAlign: 'center',
-        position: 'relative',
-        bgcolor: 'background.default',
-      }}
-    >
-      <Container>
-        <Logo sx={{ mb: 1, mx: 'auto' }} />
-
-        <Typography variant="caption" component="div">
-          © All rights reserved
-          <br /> made by
-          <Link href="https://minimals.cc/"> redfitness.co.id </Link>
-        </Typography>
-      </Container>
-    </Box>
-  );
-
-  const mainFooter = (
+  return (
     <Box
       component="footer"
       sx={{
         position: 'relative',
-        bgcolor: 'background.default',
+        bgcolor: COLORS.black,
+        color: COLORS.white,
+        pt: 10,
+        pb: 5,
+        borderTop: `1px solid ${alpha(COLORS.white, 0.1)}`,
       }}
     >
-      <Divider />
+      <Container component={MotionViewport}>
+        <Grid container spacing={5} justifyContent="space-between">
+          
+          {/* BAGIAN KIRI: NEWSLETTER / SUBSCRIBE */}
+          <Grid xs={12} md={4}>
+            <m.div variants={varFade().inUp}>
+              <Logo sx={{ mb: 3 }} />
+              
+              <Typography variant="overline" sx={{ color: COLORS.red, fontWeight: 'bold', mb: 1, display: 'block' }}>
+                GET THE LATEST UPDATES
+              </Typography>
+              
+              <Typography variant="body2" sx={{ opacity: 0.6, mb: 3 }}>
+                Stay tuned for some exciting updates coming straight to you!
+              </Typography>
 
-      <Container
-        sx={{
-          pt: 10,
-          pb: 5,
-          textAlign: { xs: 'center', md: 'unset' },
-        }}
-      >
-        <Logo sx={{ mb: 3 }} />
-
-        <Grid
-          container
-          justifyContent={{
-            xs: 'center',
-            md: 'space-between',
-          }}
-        >
-          <Grid xs={8} md={3}>
-            <Typography
-              variant="body2"
-              sx={{
-                maxWidth: 270,
-                mx: { xs: 'auto', md: 'unset' },
-              }}
-            >
-              The starting point for your next project with Minimal UI Kit, built on the newest
-              version of Material-UI ©, ready to be customized to your style.
-            </Typography>
-
-            <Stack
-              direction="row"
-              justifyContent={{ xs: 'center', md: 'flex-start' }}
-              sx={{
-                mt: 3,
-                mb: { xs: 5, md: 0 },
-              }}
-            >
-              {_socials.map((social) => (
-                <IconButton
-                  key={social.name}
+              <Stack spacing={2}>
+                <TextField
+                  fullWidth
+                  hiddenLabel
+                  placeholder="EMAIL ADDRESS"
+                  variant="filled"
                   sx={{
-                    '&:hover': {
-                      bgcolor: alpha(social.color, 0.08),
-                    },
+                    bgcolor: alpha(COLORS.white, 0.05),
+                    borderRadius: 1,
+                    '& .MuiFilledInput-root': { color: COLORS.white },
+                  }}
+                />
+                
+                <FormControlLabel
+                  control={<Checkbox size="small" sx={{ color: COLORS.red, '&.Mui-checked': { color: COLORS.red } }} />}
+                  label={<Typography variant="caption" sx={{ opacity: 0.7 }}>Are you an existing customer?</Typography>}
+                />
+
+                <Button
+                  variant="contained"
+                  sx={{
+                    bgcolor: `${COLORS.red}`, // Mengikuti warna hijau tosca CTA di gambar asli
+                    color: COLORS.black,
+                    fontWeight: 'bold',
+                    borderRadius: 50,
+                    px: 4,
+                    '&:hover': { bgcolor: alpha(`${COLORS.redDark}`, 0.8) },
                   }}
                 >
-                  <Iconify color={social.color} icon={social.icon} />
-                </IconButton>
-              ))}
-            </Stack>
+                  SUBSCRIBE NOW
+                </Button>
+              </Stack>
+            </m.div>
           </Grid>
 
-          <Grid xs={12} md={6}>
-            <Stack spacing={5} direction={{ xs: 'column', md: 'row' }}>
-              {LINKS.map((list) => (
-                <Stack
-                  key={list.headline}
-                  spacing={2}
-                  alignItems={{ xs: 'center', md: 'flex-start' }}
-                  sx={{ width: 1 }}
-                >
-                  <Typography component="div" variant="overline">
-                    {list.headline}
-                  </Typography>
+          {/* BAGIAN KANAN: NAVIGATION LINKS */}
+          <Grid xs={12} md={7}>
+            <m.div variants={varFade().inUp}>
+              <Stack direction={{ xs: 'column', sm: 'row' }} spacing={5} justifyContent="space-between">
+                {NAV_LINKS.map((list) => (
+                  <Stack key={list.headline} spacing={2}>
+                    <Typography variant="overline" sx={{ fontWeight: 900, letterSpacing: 1 }}>
+                      {list.headline}
+                    </Typography>
 
-                  {list.children.map((link) => (
-                    <Link
-                      key={link.name}
-                      component={RouterLink}
-                      href={link.href}
-                      color="inherit"
-                      variant="body2"
-                    >
-                      {link.name}
-                    </Link>
-                  ))}
-                </Stack>
-              ))}
-            </Stack>
+                    {list.children.map((link) => (
+                      <Link
+                        key={link.name}
+                        component={RouterLink}
+                        href={link.href}
+                        color="inherit"
+                        variant="body2"
+                        sx={{ 
+                          opacity: 0.6, 
+                          textDecoration: 'none',
+                          '&:hover': { opacity: 1, color: COLORS.red } 
+                        }}
+                      >
+                        {link.name}
+                      </Link>
+                    ))}
+                  </Stack>
+                ))}
+              </Stack>
+            </m.div>
           </Grid>
         </Grid>
 
-        <Typography variant="body2" sx={{ mt: 10 }}>
-          © 2021. All rights reserved
-        </Typography>
+        <Divider sx={{ my: 8, borderColor: alpha(COLORS.white, 0.1) }} />
+
+        {/* BOTTOM FOOTER: SOCIALS & COPYRIGHT */}
+        <Stack
+          direction={{ xs: 'column', md: 'row' }}
+          justifyContent="space-between"
+          alignItems="center"
+          spacing={3}
+        >
+          <Typography variant="caption" sx={{ opacity: 0.4 }}>
+            Copyright © 2026 Red Fitness | Award Winning Fitness Chain in South East Asia. All rights reserved.
+          </Typography>
+
+          <Stack direction="row" spacing={1}>
+            <Link href="#" color="inherit" variant="caption" sx={{ opacity: 0.4 }}>Terms & Conditions</Link>
+            <Typography variant="caption" sx={{ opacity: 0.4 }}>|</Typography>
+            <Link href="#" color="inherit" variant="caption" sx={{ opacity: 0.4 }}>Club Rules</Link>
+            <Typography variant="caption" sx={{ opacity: 0.4 }}>|</Typography>
+            <Link href="#" color="inherit" variant="caption" sx={{ opacity: 0.4 }}>Privacy Policy</Link>
+          </Stack>
+
+          <Stack direction="row" spacing={1}>
+            {['eva:facebook-fill', 'ant-design:instagram-filled', 'ant-design:youtube-filled'].map((icon) => (
+              <IconButton key={icon} sx={{ color: COLORS.white, '&:hover': { color: COLORS.red } }}>
+                <Iconify icon={icon} />
+              </IconButton>
+            ))}
+          </Stack>
+        </Stack>
       </Container>
     </Box>
   );
-
-  return isHome ? simpleFooter : mainFooter;
 }

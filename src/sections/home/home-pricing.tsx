@@ -179,7 +179,7 @@ export default function HomeAppAndSocial() {
   );
 
   return (
-    <Box sx={{ bgcolor: '#140822', py: { xs: 10, md: 15 }, overflow: 'hidden', color: 'common.white' }}>
+    <Box sx={{ bgcolor: '#000000', py: { xs: 10, md: 15 }, overflow: 'hidden', color: 'common.white' }}>
       <Container component={MotionViewport}>
         {renderAppSection}
       </Container>

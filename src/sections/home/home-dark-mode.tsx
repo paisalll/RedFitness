@@ -140,7 +140,7 @@ export default function HomeTestimonials() {
             <Typography
               variant="h3"
               sx={{
-                color: 'secondary.main', // Warna Cyan/Teal sesuai gambar
+                color: 'primary.main', // Warna Cyan/Teal sesuai gambar
                 mb: 3,
                 fontStyle: 'italic',
                 fontWeight: 800,

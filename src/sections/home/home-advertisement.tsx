@@ -1,6 +1,6 @@
 import { m } from 'framer-motion';
 // @mui
-import { useTheme } from '@mui/material/styles';
+import { useTheme, alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
@@ -12,6 +12,7 @@ import { paths } from 'src/routes/paths';
 // components
 import Iconify from 'src/components/iconify';
 import { MotionViewport, varFade } from 'src/components/animate';
+import { COLORS } from '../about/about-team';
 
 // ----------------------------------------------------------------------
 
@@ -37,9 +38,13 @@ export default function HomeAdvertisement() {
       </Box>
 
       <Stack
+        alignItems="center"
         direction={{ xs: 'column', md: 'row' }}
-        justifyContent={{ xs: 'center', md: 'flex-start' }}
-        spacing={2}
+        sx={{
+          background: `linear-gradient(135deg, ${COLORS.red} 0%, ${COLORS.black} 100%)`, // Refactor warna
+          borderRadius: 2,
+          pb: { xs: 5, md: 0 },
+        }}
       >
         <m.div variants={varFade().inRight}>
           <Button
@@ -50,8 +55,9 @@ export default function HomeAdvertisement() {
             rel="noopener"
             href={paths.minimalUI}
             sx={{
-              color: 'grey.800',
-              bgcolor: 'common.white',
+                color: COLORS.black,
+                bgcolor: COLORS.white,
+                '&:hover': { bgcolor: alpha(COLORS.white, 0.8) }
             }}
           >
             Explore Membership Plans
