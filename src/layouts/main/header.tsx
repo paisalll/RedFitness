@@ -18,6 +18,9 @@ import { navConfig } from './config-navigation';
 import NavMobile from './nav/mobile';
 import NavDesktop from './nav/desktop';
 import { Typography } from '@mui/material';
+import path from 'path';
+import { paths } from 'src/routes/paths';
+import { useRouter } from 'src/routes/hooks';
 
 // ----------------------------------------------------------------------
 
@@ -32,6 +35,7 @@ export default function Header() {
   const theme = useTheme();
   const mdUp = useResponsive('up', 'md');
   const offsetTop = useOffSetTop(HEADER.H_DESKTOP);
+  const router = useRouter();
 
   return (
     <AppBar
@@ -100,6 +104,7 @@ export default function Header() {
                     bgcolor: alpha(COLORS.red, 0.08),
                   },
                 }}
+                onClick={() => router.push(paths.join.select)}
               >
                 Join Online
               </Button>
@@ -107,8 +112,8 @@ export default function Header() {
 
             {/* Icons Group (Calendar, Location, Profile) */}
             <Stack direction="row" spacing={1.5} sx={{ color: COLORS.white }}>
-              <Iconify icon="solar:calendar-minimalistic-bold" width={24} sx={{ cursor: 'pointer', '&:hover': { color: COLORS.red } }} />
-              <Iconify icon="solar:map-point-bold" width={24} sx={{ cursor: 'pointer', '&:hover': { color: COLORS.red } }} />
+              <Iconify icon="solar:calendar-minimalistic-bold" width={24} sx={{ cursor: 'pointer', '&:hover': { color: COLORS.red } }} onClick={() => router.push(paths.timetable)} />
+              <Iconify icon="solar:map-point-bold" width={24} sx={{ cursor: 'pointer', '&:hover': { color: COLORS.red } }} onClick={() => router.push(paths.clubs)} />
               <Iconify icon="solar:user-circle-bold" width={24} sx={{ cursor: 'pointer', '&:hover': { color: COLORS.red } }} />
               
               {/* Language Selector Dummy */}

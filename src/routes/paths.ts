@@ -12,6 +12,7 @@ const ROOTS = {
   AUTH: '/auth',
   AUTH_DEMO: '/auth-demo',
   DASHBOARD: '/dashboard',
+  JOIN: '/join',
 };
 
 // ----------------------------------------------------------------------
@@ -23,7 +24,18 @@ export const paths = {
   payment: '/payment',
   about: '/membership',
   contact: '/personal-training',
-  faqs: '/clasess',
+  classes: '/classes',
+  career: '/career',
+  highligth: '/highligth',
+  timetable: '/timetable',
+  clubs: '/clubs',
+  join: {
+    select: `${ROOTS.JOIN}/select-club`,
+    plan: `${ROOTS.JOIN}/select-plan`,
+    details: `${ROOTS.JOIN}/details`,
+    payment: `${ROOTS.JOIN}/payment`,
+  },
+  login: 'login',
   page403: '/403',
   page404: '/404',
   page500: '/500',

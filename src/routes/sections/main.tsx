@@ -6,6 +6,7 @@ import SimpleLayout from 'src/layouts/simple';
 import CompactLayout from 'src/layouts/compact';
 // components
 import { SplashScreen } from 'src/components/loading-screen';
+import BookingLayout from 'src/layouts/booking';
 
 // ----------------------------------------------------------------------
 
@@ -13,20 +14,21 @@ export const HomePage = lazy(() => import('src/pages/home'));
 const Page500 = lazy(() => import('src/pages/500'));
 const Page403 = lazy(() => import('src/pages/403'));
 const Page404 = lazy(() => import('src/pages/404'));
-const FaqsPage = lazy(() => import('src/pages/faqs'));
+// const FaqsPage = lazy(() => import('src/pages/faqs'));
 const AboutPage = lazy(() => import('src/pages/about-us'));
 const ContactPage = lazy(() => import('src/pages/contact-us'));
-const PricingPage = lazy(() => import('src/pages/pricing'));
-const PaymentPage = lazy(() => import('src/pages/payment'));
+const ClasessPage = lazy(() => import('src/pages/classes'));
+const CareerPage = lazy(() => import('src/pages/career'));
+const TimetablePage = lazy(() => import('src/pages/timetable'));
+const ClubsPage = lazy(() => import('src/pages/clubs'));
+const HighligthPage = lazy(() => import('src/pages/hightligth'));
 const ComingSoonPage = lazy(() => import('src/pages/coming-soon'));
 const MaintenancePage = lazy(() => import('src/pages/maintenance'));
-// PRODUCT
-const ProductListPage = lazy(() => import('src/pages/product/list'));
-const ProductDetailsPage = lazy(() => import('src/pages/product/details'));
-const ProductCheckoutPage = lazy(() => import('src/pages/product/checkout'));
-// BLOG
-const PostListPage = lazy(() => import('src/pages/post/list'));
-const PostDetailsPage = lazy(() => import('src/pages/post/details'));
+const SelectClubPage = lazy(() => import('src/pages/select-club'));
+const SelectPlanPage = lazy(() => import('src/pages/select-plan'));
+const YourDetailsPage = lazy(() => import('src/pages/your-details'));
+const PaymentPage = lazy(() => import('src/pages/payment'));
+const LoginPage = lazy(() => import('src/pages/login'));
 
 // ----------------------------------------------------------------------
 
@@ -41,40 +43,56 @@ export const mainRoutes = [
     ),
     children: [
       { path: 'membership', element: <AboutPage /> },
-      { path: 'classes', element: <FaqsPage/> },
+      { path: 'classes', element: <ClasessPage/> },
       { path: 'personal-training', element: <ContactPage />  },
-      {
-        path: 'product',
-        children: [
-          { element: <ProductListPage />, index: true },
-          { path: 'list', element: <ProductListPage /> },
-          { path: ':id', element: <ProductDetailsPage /> },
-          { path: 'checkout', element: <ProductCheckoutPage /> },
-        ],
-      },
-      {
-        path: 'post',
-        children: [
-          { element: <PostListPage />, index: true },
-          { path: 'list', element: <PostListPage /> },
-          { path: ':title', element: <PostDetailsPage /> },
-        ],
-      },
+      { path: 'highligth', element: <HighligthPage />  },
+      { path: 'career', element: <CareerPage />  },
+      { path: 'timetable', element: <TimetablePage />  },
+      { path: 'clubs', element: <ClubsPage />  },
     ],
   },
   {
+    path: 'join', // URL-nya nanti jadi /join/select-club
     element: (
-      <SimpleLayout>
+      <BookingLayout>
         <Suspense fallback={<SplashScreen />}>
           <Outlet />
         </Suspense>
-      </SimpleLayout>
+      </BookingLayout>
     ),
     children: [
-      { path: 'pricing', element: <PricingPage /> },
+      { path: 'select-club', element: <SelectClubPage /> },
+      { path: 'select-plan', element: <SelectPlanPage /> },
+      { path: 'details', element: <YourDetailsPage /> },
       { path: 'payment', element: <PaymentPage /> },
     ],
   },
+  {
+    path: 'join', // URL-nya nanti jadi /join/select-club
+    element: (
+      <BookingLayout>
+        <Suspense fallback={<SplashScreen />}>
+          <Outlet />
+        </Suspense>
+      </BookingLayout>
+    ),
+    children: [
+      { path: 'select-club', element: <SelectClubPage /> },
+      { path: 'select-plan', element: <SelectPlanPage /> },
+      { path: 'details', element: <YourDetailsPage /> },
+      { path: 'payment', element: <PaymentPage /> },
+    ],
+  },
+  {
+  path: 'login',
+  element: (
+    <BookingLayout> {/* Menggunakan Header Minimalis */}
+      <Suspense fallback={<SplashScreen />}>
+        <LoginPage />
+      </Suspense>
+    </BookingLayout>
+  ),
+},
   {
     element: (
       <CompactLayout>

@@ -8,16 +8,16 @@ import Iconify from 'src/components/iconify';
 // ----------------------------------------------------------------------
 
 export const navConfig = [
-  {
-    title: 'Home',
-    icon: <Iconify icon="solar:home-2-bold-duotone" />,
-    path: '/',
-  },
+  // {
+  //   title: 'Home',
+  //   icon: <Iconify icon="solar:home-2-bold-duotone" />,
+  //   path: '/',
+  // },
   { title: 'Membership', path: paths.about },
   { title: 'Personal Training', path: paths.contact },
-  { title: 'Classes', path: paths.faqs },
-  { title: 'Highlights', path: paths.pricing },
-  { title: 'Careers', path: paths.pricing },
+  { title: 'Classes', path: paths.classes },
+  { title: 'Highlights', path: paths.highligth },
+  { title: 'Careers', path: paths.career },
   // { title: 'Payment', path: paths.payment },
   // { title: 'Maintenance', path: paths.maintenance },
   // { title: 'Coming Soon', path: paths.comingSoon },
