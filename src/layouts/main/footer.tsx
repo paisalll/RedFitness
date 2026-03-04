@@ -57,7 +57,7 @@ const NAV_LINKS = [
       { name: 'Why Red Fitness', href: paths.about },
       { name: 'Blog', href: '#' },
       { name: 'Highlights', href: '#' },
-      { name: 'FAQ', href: paths.faqs },
+      { name: 'FAQ', href: '#' },
     ],
   },
   {
