@@ -21,21 +21,21 @@ import { COLORS } from '../about/about-team';
 const CLUBS = [
   {
     id: 1,
-    name: 'ARTHA GADING - JAKARTA',
-    address: 'Jl. Artha Gading Selatan No. 01, Jakarta Utara',
-    image: '/assets/images/home/club_1.jpg', // Ganti dengan path gambar kamu
+    name: 'Kebon Jeruk - JAKARTA Barat',
+    address: 'Jl. Kebon Jeruk',
+    image: '/assets/background/CLUB/26.png', // Ganti dengan path gambar kamu
   },
   {
     id: 2,
     name: 'GANDARIA CITY - JAKARTA',
     address: 'Jl. Sultan Iskandar Muda, Kebayoran Lama, Jakarta Selatan',
-    image: '/assets/images/home/club_2.jpg',
+    image: '/assets/background/CLUB/27.png',
   },
   {
     id: 3,
     name: 'AEON MALL - BSD CITY',
     address: 'Jl. BSD Raya Utama, Pagedangan, Tangerang',
-    image: '/assets/images/home/club_3.jpg',
+    image: '/assets/background/CLUB/28.png',
   },
 ];
 

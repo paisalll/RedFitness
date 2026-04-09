@@ -28,7 +28,7 @@ export default function PersonalTrainingHero() {
     <Box
       sx={{
         minHeight: { md: 560 },
-        py: { xs: 10, md: 0 },
+        py: { xs: 10, md: 0},
         overflow: 'hidden',
         position: 'relative',
         // KEMBALI KE PENGATURAN BACKGROUND IMAGE
@@ -36,7 +36,7 @@ export default function PersonalTrainingHero() {
         backgroundPosition: 'center',
         // Ganti URL ini dengan gambar background abstrak (tanpa orang)
         backgroundImage:
-          'url(/assets/background/overlay_1.svg), url(/assets/images/asian-athletic-man-with-rope-doing-exercise-in-fitness-gym-free-photo.webp)',
+          'url(/assets/background/overlay_1.svg), url(/assets/background/TRAINER/16.png)',
       }}
     >
       {/* Dekorasi Cahaya Merah di Latar Belakang */}

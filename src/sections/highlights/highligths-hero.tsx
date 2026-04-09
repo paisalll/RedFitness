@@ -34,7 +34,7 @@ export default function HightligthHero() {
         {/* 1. BACKGROUND IMAGE */}
         <Image
         alt="classes hero"
-        src="/assets/images/classes/hero_classes.jpg" // Ganti dengan gambar gym/rowing class kamu
+        src="/assets/background/op.png" // Ganti dengan gambar gym/rowing class kamu
         sx={{
             width: 1,
             height: 1,

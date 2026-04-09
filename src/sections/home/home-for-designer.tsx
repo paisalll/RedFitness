@@ -17,10 +17,10 @@ import { MotionViewport, varFade } from 'src/components/animate';
 // ----------------------------------------------------------------------
 
 const CLASSES = [
-  { id: '01', title: 'DNA CORE MOTION', img: '/assets/images/woman-helping-man-gym.jpg' },
-  { id: '02', title: 'BODYPUMP', img: '/assets/images/woman-helping-man-gym.jpg' },
-  { id: '03', title: 'BODYCOMBAT', img: '/assets/images/woman-helping-man-gym.jpg' },
-  { id: '04', title: 'BODYJAM', img: '/assets/images/woman-helping-man-gym.jpg' },
+  { id: '01', title: 'DNA CORE MOTION', img: '/assets/background/home/4.png' },
+  { id: '02', title: 'BODYPUMP', img: '/assets/background/home/5.png' },
+  { id: '03', title: 'BODYCOMBAT', img: '/assets/background/home/6.png' },
+  { id: '04', title: 'BODYJAM', img: '/assets/background/home/7.png' },
 ];
 
 export default function HomeFeaturedClasses() {

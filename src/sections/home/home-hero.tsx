@@ -29,7 +29,7 @@ import { COLORS } from '../about/about-team';
 const StyledRoot = styled('div')(({ theme }) => ({
   ...bgGradient({
     color: alpha(theme.palette.background.default, theme.palette.mode === 'light' ? 0.9 : 0.6),
-    imgUrl: '/assets/background/bg.jpg',
+    imgUrl: '/assets/background/1.png',
   }),
   width: '100%',
   height: '100vh',
@@ -319,7 +319,7 @@ export default function HomeHero() {
               ? `/assets/images/home/hero/light_2.webp`
               : `/assets/images/home/hero/2.png`
           }
-          sx={{ position: 'absolute', mt: -5 }}
+          sx={{ position: 'absolute',}}
         />
         <Box
           component={m.img}

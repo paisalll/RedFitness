@@ -48,7 +48,7 @@ export default function HomeAppAndSocial() {
             {/* Mockup HP */}
             <Image
               alt="mobile app"
-              src="/assets/images/home/mobile_app_mockup.png" // Pastikan ada gambar mockup HP transparan
+              src="public/assets/background/CLUB/29.png" // Pastikan ada gambar mockup HP transparan
               sx={{ maxWidth: 400, zIndex: 2 }}
             />
             {/* Glow Effect di belakang HP */}

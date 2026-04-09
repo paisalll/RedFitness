@@ -34,7 +34,7 @@ export default function CareerHero() {
         {/* 1. BACKGROUND IMAGE */}
         <Image
         alt="classes hero"
-        src="/assets/images/classes/hero_classes.jpg" // Ganti dengan gambar gym/rowing class kamu
+        src="public/assets/background/CAREERS/KEBUTUHAN WEB RF (2).png" // Ganti dengan gambar gym/rowing class kamu
         sx={{
             width: 1,
             height: 1,

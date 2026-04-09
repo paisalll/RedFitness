@@ -29,7 +29,7 @@ export default function AboutHero() {
         backgroundPosition: 'center',
         // Ganti URL ini dengan gambar background abstrak (tanpa orang)
         backgroundImage:
-          'url(/assets/background/overlay_1.svg), url(/assets/images/asian-athletic-man-with-rope-doing-exercise-in-fitness-gym-free-photo.webp)',
+          'url(/assets/background/overlay_1.svg), url(/assets/background/member.png)',
       }}
     >
       <Container component={MotionContainer} sx={{ position: 'relative', zIndex: 1, height: 1, mt: 5 }}>
