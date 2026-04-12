@@ -52,9 +52,9 @@ const ROWS = [
 ];
 
 const STEP_SLIDES = [
-  { id: '01', title: 'ASSESSMENTS', description: "Get assessed with our exclusive tests.", img: '/assets/images/home/assessments.jpg' },
-  { id: '02', title: 'PREP FOR PEP', description: "Your trainer crafts a custom regime.", img: '/assets/images/home/prep_for_pep.jpg' },
-  { id: '03', title: 'TRAIN HARD', description: "Execute your plan with expert guidance.", img: '/assets/images/home/train_hard.jpg' },
+  { id: '01', title: 'ASSESSMENTS', description: "Get assessed with our exclusive tests.", img: '/assets/background/TRAINER/19.png' },
+  { id: '02', title: 'PREP FOR PEP', description: "Your trainer crafts a custom regime.", img: '/assets/background/TRAINER/17.png' },
+  { id: '03', title: 'TRAIN HARD', description: "Execute your plan with expert guidance.", img: '/assets/background/TRAINER/18.png' },
 ];
 
 export default function PersonalTrainingComparison() {

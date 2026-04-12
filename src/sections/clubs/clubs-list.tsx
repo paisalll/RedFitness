@@ -24,14 +24,14 @@ const COLORS = {
 };
 
 const CLUBS = [
-  { name: 'ARTHA GADING - JAKARTA', address: 'Jl. Artha Gading Selatan No. 01, Jakarta', img: '/assets/images/clubs/artha_gading.jpg' },
-  { name: 'BOTANI SQUARE', address: 'Botani Square 2nd Floor, Jl. Pajajaran, 16127 Bogor, West Java', img: '/assets/images/clubs/botani.jpg' },
-  { name: 'CENTRAL PARK MALL', address: 'Central Park Mall 3rd Floor Unit 113, Jl. Letjen S. Parman Kav 28, 11470, Jakarta', img: '/assets/images/clubs/central_park.jpg' },
-  { name: 'FX', address: 'Jl. Jendral Sudirman, Pintu Senayan 1, Jakarta 10270', img: '/assets/images/clubs/fx.jpg' },
-  { name: 'FOOD CENTRUM', address: 'Food Centrum 2nd Floor, Jl. Sunter Kemayoran, Jakarta', img: '/assets/images/clubs/food_centrum.jpg' },
-  { name: 'GALAXY MALL', address: 'Jl. Dharmahusada Indah Timur 35-37, Surabaya', img: '/assets/images/clubs/galaxy_mall.jpg' },
-  { name: 'GANDARIA CITY', address: 'Jl. Sultan Iskandar Muda, Kebayoran Lama, Jakarta', img: '/assets/images/clubs/gandaria_city.jpg' },
-  { name: 'KOTA KASABLANKA', address: 'Jl. Casablanca Raya Kav 88, Jakarta', img: '/assets/images/clubs/kota_kasablanka.jpg' },
+  { name: 'ARTHA GADING - JAKARTA', address: 'Jl. Artha Gading Selatan No. 01, Jakarta', img: 'public/assets/background/CLUB/26.png' },
+  { name: 'BOTANI SQUARE', address: 'Botani Square 2nd Floor, Jl. Pajajaran, 16127 Bogor, West Java', img: 'public/assets/background/CLUB/27.png' },
+  { name: 'CENTRAL PARK MALL', address: 'Central Park Mall 3rd Floor Unit 113, Jl. Letjen S. Parman Kav 28, 11470, Jakarta', img: 'public/assets/background/CLUB/28.png' },
+  { name: 'FX', address: 'Jl. Jendral Sudirman, Pintu Senayan 1, Jakarta 10270', img: 'public/assets/background/CLUB/29.png' },
+  { name: 'FOOD CENTRUM', address: 'Food Centrum 2nd Floor, Jl. Sunter Kemayoran, Jakarta', img: 'public/assets/background/CLUB/30.png' },
+  { name: 'GALAXY MALL', address: 'Jl. Dharmahusada Indah Timur 35-37, Surabaya', img: 'public/assets/background/CLUB/31.png' },
+  { name: 'GANDARIA CITY', address: 'Jl. Sultan Iskandar Muda, Kebayoran Lama, Jakarta', img: 'public/assets/background/CLUB/32.png' },
+  { name: 'KOTA KASABLANKA', address: 'Jl. Casablanca Raya Kav 88, Jakarta', img: 'public/assets/background/CLUB/33.png' },
 ];
 
 export default function ClubsGrid() {

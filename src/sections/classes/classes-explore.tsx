@@ -29,18 +29,16 @@ const COLORS = {
 const CATEGORIES = ['ALL', 'CARDIO', 'CYCLING', 'DANCE', 'HIIT', 'MIND AND BODY', 'STRENGTH'];
 
 const CLASSES = [
-  { title: 'ADVANCED STEP', category: 'Cardio | 60mins', image: '/assets/images/classes/advanced_step.jpg' },
-  { title: 'ANIMAL FLOW', category: 'Strength and Conditioning | 60mins', image: '/assets/images/classes/animal_flow.jpg' },
-  { title: 'ASHTANGA YOGA', category: 'Mind and Body | 90mins', image: '/assets/images/classes/ashtanga_yoga.jpg' },
-  { title: 'BASIC STEP', category: 'Cardio | 60mins', image: '/assets/images/classes/basic_step.jpg' },
-  { title: 'BASIC YOGA', category: 'Mind and Body | 60mins', image: '/assets/images/classes/basic_yoga.jpg' },
-  { title: 'BELLY DANCE', category: 'Dance | 60mins', image: '/assets/images/classes/belly_dance.jpg' },
-  { title: 'BODYBALANCE', category: 'Mind and Body | 60mins', image: '/assets/images/classes/bodybalance.jpg' },
-  { title: 'BODYCOMBAT', category: 'Cardio | 60mins', image: '/assets/images/classes/bodycombat.jpg' },
-  { title: 'BODYJAM', category: 'Dance | 60mins', image: '/assets/images/classes/bodyjam.jpg' },
-  { title: 'BODYPUMP', category: 'Strength and Conditioning | 60mins', image: '/assets/images/classes/bodypump.jpg' },
-  { title: 'BOSU', category: 'Strength and Conditioning | 60mins', image: '/assets/images/classes/bosu.jpg' },
-  { title: 'CELEBRITY SCULPT', category: 'Strength and Conditioning | 60mins', image: '/assets/images/classes/celebrity_sculpt.jpg' },
+  { title: 'ADVANCED STEP', category: 'Cardio | 60mins', image: '/assets/background/CLASSES/22.png' },
+  { title: 'ANIMAL FLOW', category: 'Strength and Conditioning | 60mins', image: '/assets/background/CLASSES/23.png' },
+  { title: 'ASHTANGA YOGA', category: 'Mind and Body | 90mins', image: '/assets/background/CLASSES/24.png' },
+  { title: 'BASIC STEP', category: 'Cardio | 60mins', image: '/assets/background/CLASSES/22.png' },
+  { title: 'BASIC YOGA', category: 'Mind and Body | 60mins', image: '/assets/background/CLASSES/23.png' },
+  { title: 'BELLY DANCE', category: 'Dance | 60mins', image: '/assets/background/CLASSES/24.png' },
+  { title: 'BODYJAM', category: 'Dance | 60mins', image: '/assets/background/CLASSES/22.png' },
+  { title: 'BODYPUMP', category: 'Strength and Conditioning | 60mins', image: '/assets/background/CLASSES/23.png' },
+  { title: 'BOSU', category: 'Strength and Conditioning | 60mins', image: '/assets/background/CLASSES/24.png' },
+  { title: 'CELEBRITY SCULPT', category: 'Strength and Conditioning | 60mins', image: '/assets/background/CLASSES/22.png' },
 ];
 
 export default function ClassesExplore() {

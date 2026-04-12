@@ -33,12 +33,11 @@ const COLORS = {
 
 // Data Mockup Kelas (Ganti src gambar dengan asset kamu)
 const SIGNATURE_CLASSES = [
-    { id: '01', title: 'DNA FLAVOR', image: '/assets/images/classes/class_1.jpg' },
-    { id: '02', title: 'DNA MASK', image: '/assets/images/classes/class_2.jpg' },
-    { id: '03', title: 'DNA INSANITY', image: '/assets/images/classes/class_3.jpg' },
-    { id: '04', title: 'SALTAR', image: '/assets/images/classes/class_4.jpg' },
-    { id: '05', title: 'DNA RAW', image: '/assets/images/classes/class_5.jpg' },
-    { id: '06', title: 'DNA CORE', image: '/assets/images/classes/class_6.jpg' },
+    { id: '01', title: 'DNA FLAVOR', image: '/assets/background/CLASSES/s1.png' },
+    { id: '02', title: 'DNA MASK', image: '/assets/background/CLASSES/s2.png' },
+    { id: '03', title: 'DNA INSANITY', image: '/assets/background/CLASSES/s3.png' },
+    { id: '04', title: 'SALTAR', image: '/assets/background/CLASSES/s4.png' },
+    { id: '06', title: 'DNA CORE', image: '/assets/background/CLASSES/s5.png' },
 ];
 
 export default function ClassesSignature() {

@@ -23,37 +23,17 @@ const COLORS = {
 
 const HIGHLIGHTS = [
   { 
-    title: 'CORPORATE KICKS OFF THE HUSTLE GAMES Q1 AT KUNINGAN CITY', 
-    image: '/assets/images/highlights/highlight_1.jpg' 
+    title: 'FUN RUN COMMUNITY GATHERING SPONSORED BY METROPOLITAN MALL', 
+    image: '/assets/background/HIGHLIGHT/36.png' 
   },
   { 
-    title: 'BOX OF JOY BRINGING CHRISTMAS JOY TO ORPHANAGES', 
-    image: '/assets/images/highlights/highlight_2.jpg' 
+    title: 'RED FITNESS CSR & DONATION AT MIZAN AMANAH KALIDERES', 
+    image: '/assets/background/HIGHLIGHT/35.png' 
   },
   { 
-    title: 'XTRAORDINARY ENERGY AT 2025 FITNESS FEST XPERIENCE', 
-    image: '/assets/images/highlights/highlight_3.jpg' 
-  },
-  { 
-    title: 'HYROX GAME DAY PUSHES DOZENS OF PARTICIPANTS TO THEIR LIMITS', 
-    image: '/assets/images/highlights/highlight_4.jpg' 
-  },
-  { 
-    title: '20TH RED FITNESS INDONESIA ANNIVERSARY', 
-    image: '/assets/images/highlights/highlight_5.jpg' 
-  },
-  { 
-    title: 'BEING AWE20ME - CELEBRATING 20 YEARS OF FITNESS', 
-    image: '/assets/images/highlights/highlight_6.jpg' 
-  },
-  { 
-    title: 'WORLD WELLNESS WEEKEND: YOGA IN THE PARK BANDUNG', 
-    image: '/assets/images/highlights/highlight_7.jpg' 
-  },
-  { 
-    title: 'WEEKEND YOGA IN THE PARK: SURABAYA CELEBRATION', 
-    image: '/assets/images/highlights/highlight_8.jpg' 
-  },
+    title: 'RED FITNESS ZUMBA GLOW UP EVENT AT HOTEL NEO+ AIRPORT JAKARTA', 
+    image: '/assets/background/HIGHLIGHT/34.png' 
+  }
 ];
 
 export default function HighlightsList() {

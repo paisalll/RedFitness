@@ -87,7 +87,7 @@ export default function Header() {
           <Stack direction="row" alignItems="center" spacing={2}>
             
             {/* Tombol Join Online - Gaya Outline Merah/Putih */}
-            {mdUp && (
+            {/* {mdUp && (
               <Button
                 variant="outlined"
                 endIcon={<Iconify icon="solar:arrow-right-up-bold" width={18} />}
@@ -108,7 +108,7 @@ export default function Header() {
               >
                 Join Online
               </Button>
-            )}
+            )} */}
 
             {/* Icons Group (Calendar, Location, Profile) */}
             <Stack direction="row" spacing={1.5} sx={{ color: COLORS.white }}>
