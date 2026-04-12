@@ -119,7 +119,7 @@ export default function CareerHero() {
                 opacity: 0.9,
             }}
             >
-            Join the Celebrity Fitness Squad and help inspire others to get better every day!
+            Join the Red Fitness Squad and help inspire others to get better every day!
             </Typography>
         </m.div>
 

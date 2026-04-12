@@ -19,7 +19,7 @@ import { MotionViewport, varFade } from 'src/components/animate';
 const PROMOS = [
   {
     title: 'WORKOUT ANYTIME ANYWHERE',
-    description: 'Workout at Celebrity Fitness with Fitpass start from Rp107K / Session. Enjoy all facilities.',
+    description: 'Workout at Red Fitness with Fitpass start from Rp107K / Session. Enjoy all facilities.',
     icon: 'solar: smartphone-line-duotone',
     color: '#8E2DE2', // Purple gradient start
   },
