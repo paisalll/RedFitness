@@ -90,7 +90,7 @@ export default function ClassesHero() {
             }}
             >
             7.700 CLASSES <br />
-            <Box component="span" sx={{ color: COLORS.red, textShadow: '0 0 20px rgba(212,0,0,0.5)' }}>
+            <Box component="span" sx={{ color: COLORS.red }}>
                 EVERY MONTH
             </Box>
             </Typography>

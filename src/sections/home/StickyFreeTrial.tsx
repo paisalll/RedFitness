@@ -67,7 +67,7 @@ export default function StickyFreeTrial() {
             letterSpacing: 2,
             fontSize: 14,
             '&:hover': {
-              bgcolor: '#d40045',
+              bgcolor: '#D40000',
             },
           }}
         >
