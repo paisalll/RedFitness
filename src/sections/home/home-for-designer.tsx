@@ -1,4 +1,6 @@
 import { m } from 'framer-motion';
+// router
+import { Link as RouterLink } from 'react-router-dom';
 // @mui
 import { useTheme, alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -16,11 +18,13 @@ import { MotionViewport, varFade } from 'src/components/animate';
 
 // ----------------------------------------------------------------------
 
+// ✅ Featured classes — disesuaikan dengan konten foto yang ada di assets
+// img 4 = kelas dance/zumba | img 5 = yoga/pilates | img 6 = poundfit (drumstick) | img 7 = muaythai/combat
 const CLASSES = [
-  { id: '01', title: 'DNA CORE MOTION', img: '/assets/background/home/4.png' },
-  { id: '02', title: 'BODYPUMP', img: '/assets/background/home/5.png' },
-  { id: '03', title: 'BODYCOMBAT', img: '/assets/background/home/6.png' },
-  { id: '04', title: 'BODYJAM', img: '/assets/background/home/7.png' },
+  { id: '01', title: 'ZUMBA',    img: '/assets/background/home/4.png' }, // Dance — foto kelas Zumba
+  { id: '02', title: 'YOGA',     img: '/assets/background/home/5.png' }, // Mind & Body — foto pose yoga
+  { id: '03', title: 'POUNDFIT', img: '/assets/background/home/6.png' }, // Cardio — foto kelas drumstick
+  { id: '04', title: 'MUAYTHAI', img: '/assets/background/home/7.png' }, // Strength — foto latihan combat
 ];
 
 export default function HomeFeaturedClasses() {
@@ -63,17 +67,24 @@ export default function HomeFeaturedClasses() {
           transition={{ delay: index * 0.1 }}
         >
           <Box
+            component={RouterLink}
+            to="/classes"
             sx={{
+              display: 'block',
+              textDecoration: 'none',
               width: { xs: 280, md: 320 },
               flexShrink: 0,
               borderRadius: 2,
               overflow: 'hidden',
               position: 'relative',
               bgcolor: 'background.neutral',
-              transition: (theme) => theme.transitions.create(['transform']),
+              cursor: 'pointer',
+              transition: (theme) => theme.transitions.create(['transform', 'box-shadow']),
               '&:hover': {
                 transform: 'translateY(-12px)',
+                boxShadow: `0 20px 40px ${alpha(theme.palette.common.black, 0.4)}`,
                 '& .class-img': { transform: 'scale(1.1)' },
+                '& .arrow-icon': { color: 'primary.light' },
               },
             }}
           >
@@ -83,7 +94,10 @@ export default function HomeFeaturedClasses() {
                 src={item.img}
                 className="class-img"
                 sx={{
+                  width: 1,
                   height: 1,
+                  objectFit: 'cover',
+                  objectPosition: 'center top',
                   transition: 'transform 0.5s ease',
                 }}
               />
@@ -107,7 +121,7 @@ export default function HomeFeaturedClasses() {
                 <Typography variant="h5" sx={{ fontWeight: 800 }}>
                   {item.title}
                 </Typography>
-                <Iconify icon="solar:arrow-right-up-bold" sx={{ color: 'primary.main' }} />
+                <Iconify icon="solar:arrow-right-up-bold" className="arrow-icon" sx={{ color: 'primary.main', transition: 'color 0.3s' }} />
               </Stack>
             </Box>
           </Box>
@@ -131,6 +145,8 @@ export default function HomeFeaturedClasses() {
 
         <Stack direction="row" alignItems="center" justifyContent="center" spacing={2} sx={{ mt: 5 }}>
           <Button
+            component={RouterLink}
+            to="/classes"
             variant="contained"
             color="primary"
             size="large"

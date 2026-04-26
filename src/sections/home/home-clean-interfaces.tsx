@@ -21,20 +21,58 @@ import { COLORS } from '../about/about-team';
 const CLUBS = [
   {
     id: 1,
-    name: 'Kebon Jeruk - JAKARTA Barat',
-    address: 'Jl. Kebon Jeruk',
-    image: '/assets/background/CLUB/26.png', // Ganti dengan path gambar kamu
+    name: 'Red Fitness Taman Palem',
+    city: 'Jakarta Barat',
+    address: 'Superindo Building, Jl. Permata Taman Palem, Pegadungan, Kec. Kalideres, Kota Jakarta Barat, DKI Jakarta 11830',
+    image: '/assets/background/CLUB/26.png',
   },
   {
     id: 2,
-    name: 'GANDARIA CITY - JAKARTA',
-    address: 'Jl. Sultan Iskandar Muda, Kebayoran Lama, Jakarta Selatan',
+    name: 'Red Fitness Kramat Jati',
+    city: 'Jakarta Timur',
+    address: 'Lippo Plaza Kramat Jati, Jl. Raya Jakarta-Bogor Km 19, RT.14/RW.6, Kramat Jati, Kec. Kramat Jati, Kota Jakarta Timur, DKI Jakarta 13510',
     image: '/assets/background/CLUB/27.png',
   },
   {
     id: 3,
-    name: 'AEON MALL - BSD CITY',
-    address: 'Jl. BSD Raya Utama, Pagedangan, Tangerang',
+    name: 'Red Fitness Cileungsi',
+    city: 'Kabupaten Bogor',
+    address: 'Metropolitan Mall Cileungsi, Jl. Kota Taman Metropolitan, Cileungsi Kidul, Kec. Cileungsi, Kabupaten Bogor, Jawa Barat 16820',
+    image: '/assets/background/CLUB/28.png',
+  },
+  {
+    id: 4,
+    name: 'Red Fitness Bogor',
+    city: 'Kota Bogor',
+    address: 'Super Indo Pajajaran, Jl. Raya Pajajaran No.7a, RT.04/RW.11, Baranangsiang, Kec. Bogor Timur, Kota Bogor, Jawa Barat 16143',
+    image: '/assets/background/CLUB/26.png',
+  },
+  {
+    id: 5,
+    name: 'Red Fitness Tambun',
+    city: 'Kabupaten Bekasi',
+    address: 'Metland Tambun, Jl. Sultan Hasanudin, Lantai 2 Blk. A, Tambun, Kec. Tambun Selatan, Kabupaten Bekasi, Jawa Barat 17510',
+    image: '/assets/background/CLUB/27.png',
+  },
+  {
+    id: 6,
+    name: 'Red Fitness Graha Raya Bintaro',
+    city: 'Tangerang Selatan',
+    address: 'Transmart Graha Raya, Jl. Boulevard Graha Raya, Paku Jaya, Kec. Serpong Utara, Kota Tangerang Selatan, Banten 15324',
+    image: '/assets/background/CLUB/28.png',
+  },
+  {
+    id: 7,
+    name: 'Red Fitness Green Pramuka',
+    city: 'Jakarta Pusat',
+    address: 'Green Pramuka Square Mall, Jl. Rw. Jaya No.49, Rawasari, Kec. Cempaka Putih, Kota Jakarta Pusat, DKI Jakarta 10570',
+    image: '/assets/background/CLUB/26.png',
+  },
+  {
+    id: 8,
+    name: 'Red Fitness Citra 8',
+    city: 'Jakarta Barat',
+    address: 'Citra Garden 8, Area Aerobliss, Pegadungan, Kec. Kalideres, DKI Jakarta 11830',
     image: '/assets/background/CLUB/28.png',
   },
 ];
@@ -59,15 +97,14 @@ export default function HomeClubNearby() {
     <Stack spacing={2} sx={{ textAlign: 'center', mb: { xs: 5, md: 8 }, color: 'common.white' }}>
       <m.div variants={varFade().inDown}>
         <Typography variant="h2" sx={{ textTransform: 'uppercase', fontWeight: 900 }}>
-          Find Your <br />
-          <Box component="span" sx={{ color: 'primary.main' }}>Fitness Club Nearby</Box>
+          Find the Best <br />
+          <Box component="span" sx={{ color: 'primary.main' }}>Fitness Club Near You</Box>
         </Typography>
       </m.div>
 
       <m.div variants={varFade().inDown}>
         <Typography sx={{ color: 'text.secondary', maxWidth: 600, mx: 'auto' }}>
-          Discover a fitness club conveniently near you, offering state-of-the-art facilities,
-          expert trainers and a motivating environment.
+          Train with top-tier equipment, expert coaches, and an atmosphere that keeps you motivated.
         </Typography>
       </m.div>
     </Stack>
@@ -122,24 +159,35 @@ export default function HomeClubNearby() {
           bottom: { xs: 80, md: 60 },
           left: { xs: 20, md: 60 },
           zIndex: 9,
-          p: 4,
-          maxWidth: 360,
+          p: 3.5,
+          maxWidth: 380,
           borderRadius: 2,
           color: 'common.white',
           background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.info.main} 100%)`,
           boxShadow: `-10px 10px 40px ${alpha(theme.palette.primary.main, 0.4)}`,
         }}
       >
-        <Typography variant="h4" sx={{ mb: 1, fontWeight: 800, textTransform: 'uppercase' }}>
+        <Typography
+          variant="overline"
+          sx={{ opacity: 0.75, letterSpacing: 2, fontSize: '0.65rem', display: 'block', mb: 0.5 }}
+        >
+          {currentClub.city}
+        </Typography>
+        <Typography variant="h5" sx={{ mb: 1, fontWeight: 800, textTransform: 'uppercase', lineHeight: 1.2 }}>
           {currentClub.name}
         </Typography>
-        <Typography variant="body2" sx={{ opacity: 0.9, mb: 3 }}>
+        <Typography variant="caption" sx={{ opacity: 0.8, mb: 2.5, display: 'block', lineHeight: 1.6 }}>
           {currentClub.address}
         </Typography>
-        
-        <Stack direction="row" alignItems="center" spacing={1} sx={{ cursor: 'pointer', '&:hover': { opacity: 0.8 } }}>
-             <Iconify icon="solar:map-arrow-up-bold" width={24} />
-             <Typography variant="subtitle2">VIEW DETAILS</Typography>
+
+        <Stack direction="row" alignItems="center" justifyContent="space-between">
+          <Stack direction="row" alignItems="center" spacing={1} sx={{ cursor: 'pointer', '&:hover': { opacity: 0.8 } }}>
+            <Iconify icon="solar:map-arrow-up-bold" width={20} />
+            <Typography variant="subtitle2" sx={{ fontSize: '0.75rem', letterSpacing: 1 }}>VIEW DETAILS</Typography>
+          </Stack>
+          <Typography variant="caption" sx={{ opacity: 0.6 }}>
+            {currentIndex + 1} / {CLUBS.length}
+          </Typography>
         </Stack>
       </Box>
 

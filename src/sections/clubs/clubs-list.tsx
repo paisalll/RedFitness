@@ -24,14 +24,62 @@ const COLORS = {
 };
 
 const CLUBS = [
-  { name: 'ARTHA GADING - JAKARTA', address: 'Jl. Artha Gading Selatan No. 01, Jakarta', img: 'public/assets/background/CLUB/26.png' },
-  { name: 'BOTANI SQUARE', address: 'Botani Square 2nd Floor, Jl. Pajajaran, 16127 Bogor, West Java', img: 'public/assets/background/CLUB/27.png' },
-  { name: 'CENTRAL PARK MALL', address: 'Central Park Mall 3rd Floor Unit 113, Jl. Letjen S. Parman Kav 28, 11470, Jakarta', img: 'public/assets/background/CLUB/28.png' },
-  { name: 'FX', address: 'Jl. Jendral Sudirman, Pintu Senayan 1, Jakarta 10270', img: 'public/assets/background/CLUB/29.png' },
-  { name: 'FOOD CENTRUM', address: 'Food Centrum 2nd Floor, Jl. Sunter Kemayoran, Jakarta', img: 'public/assets/background/CLUB/30.png' },
-  { name: 'GALAXY MALL', address: 'Jl. Dharmahusada Indah Timur 35-37, Surabaya', img: 'public/assets/background/CLUB/31.png' },
-  { name: 'GANDARIA CITY', address: 'Jl. Sultan Iskandar Muda, Kebayoran Lama, Jakarta', img: 'public/assets/background/CLUB/32.png' },
-  { name: 'KOTA KASABLANKA', address: 'Jl. Casablanca Raya Kav 88, Jakarta', img: 'public/assets/background/CLUB/33.png' },
+  {
+    id: 1,
+    name: 'Red Fitness Taman Palem',
+    city: 'Jakarta Barat',
+    address: 'Superindo Building, Jl. Permata Taman Palem, Pegadungan, Kec. Kalideres, Kota Jakarta Barat, DKI Jakarta 11830',
+    img: '/assets/background/CLUB/26.png',
+  },
+  {
+    id: 2,
+    name: 'Red Fitness Kramat Jati',
+    city: 'Jakarta Timur',
+    address: 'Lippo Plaza Kramat Jati, Jl. Raya Jakarta-Bogor Km 19, RT.14/RW.6, Kramat Jati, Kec. Kramat Jati, Kota Jakarta Timur, DKI Jakarta 13510',
+    img: '/assets/background/CLUB/27.png',
+  },
+  {
+    id: 3,
+    name: 'Red Fitness Cileungsi',
+    city: 'Kabupaten Bogor',
+    address: 'Metropolitan Mall Cileungsi, Jl. Kota Taman Metropolitan, Cileungsi Kidul, Kec. Cileungsi, Kabupaten Bogor, Jawa Barat 16820',
+    img: '/assets/background/CLUB/28.png',
+  },
+  {
+    id: 4,
+    name: 'Red Fitness Bogor',
+    city: 'Kota Bogor',
+    address: 'Super Indo Pajajaran, Jl. Raya Pajajaran No.7a, RT.04/RW.11, Baranangsiang, Kec. Bogor Timur, Kota Bogor, Jawa Barat 16143',
+    img: '/assets/background/CLUB/29.png',
+  },
+  {
+    id: 5,
+    name: 'Red Fitness Tambun',
+    city: 'Kabupaten Bekasi',
+    address: 'Metland Tambun, Jl. Sultan Hasanudin, Lantai 2 Blk. A, Tambun, Kec. Tambun Selatan, Kabupaten Bekasi, Jawa Barat 17510',
+    img: '/assets/background/CLUB/30.png',
+  },
+  {
+    id: 6,
+    name: 'Red Fitness Graha Raya Bintaro',
+    city: 'Tangerang Selatan',
+    address: 'Transmart Graha Raya, Jl. Boulevard Graha Raya, Paku Jaya, Kec. Serpong Utara, Kota Tangerang Selatan, Banten 15324',
+    img: '/assets/background/CLUB/31.png',
+  },
+  {
+    id: 7,
+    name: 'Red Fitness Green Pramuka',
+    city: 'Jakarta Pusat',
+    address: 'Green Pramuka Square Mall, Jl. Rw. Jaya No.49, Rawasari, Kec. Cempaka Putih, Kota Jakarta Pusat, DKI Jakarta 10570',
+    img: '/assets/background/CLUB/32.png',
+  },
+  {
+    id: 8,
+    name: 'Red Fitness Citra 8',
+    city: 'Jakarta Barat',
+    address: 'Citra Garden 8, Area Aerobliss, Pegadungan, Kec. Kalideres, DKI Jakarta 11830',
+    img: '/assets/background/CLUB/33.png',
+  },
 ];
 
 export default function ClubsGrid() {

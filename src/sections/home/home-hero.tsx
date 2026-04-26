@@ -52,20 +52,20 @@ const StyledWrapper = styled('div')(({ theme }) => ({
 
 const StyledTextGradient = styled(m.h1)(({ theme }) => ({
   ...textGradient(
-    `300deg, ${theme.palette.primary.main} 0%, ${theme.palette.warning.main} 25%, ${COLORS.redDark} 50%, ${COLORS.black} 75%, ${theme.palette.primary.main} 100%`
+    `300deg, ${COLORS.red} 0%, #FF4D4D 20%, #ffffff 45%, #FF1A1A 65%, ${COLORS.redDark} 85%, ${COLORS.red} 100%`
   ),
   padding: 0,
   marginTop: 8,
-  lineHeight: 1.2, 
-  marginBottom: 24,
-  letterSpacing: 2, 
+  lineHeight: 1.15,
+  marginBottom: 16,
+  letterSpacing: 1,
   textAlign: 'center',
   backgroundSize: '400%',
   fontSize: `${40 / 16}rem`,
-  fontWeight: 900, 
-  fontFamily: "'Poppins', sans-serif", // Diubah dari Barlow ke Poppins
+  fontWeight: 900,
+  fontFamily: "'Poppins', sans-serif",
   [theme.breakpoints.up('md')]: {
-    fontSize: `${56 / 16}rem`, 
+    fontSize: `${60 / 16}rem`,
   },
 }));
 
@@ -194,8 +194,25 @@ export default function HomeHero() {
             repeat: Infinity,
           }}
         >
-          Duo Membership from Rp499K
+          Train Better. Achieve More.
         </StyledTextGradient>
+      </m.div>
+
+      <m.div variants={varFade().in}>
+        <Typography
+          variant="body1"
+          textAlign="center"
+          sx={{
+            color: 'text.secondary',
+            mb: 2,
+            mx: 'auto',
+            maxWidth: 400,
+            lineHeight: 1.7,
+            fontSize: { xs: '0.9rem', md: '1rem' },
+          }}
+        >
+          A modern fitness experience built to elevate your strength, performance, and lifestyle.
+        </Typography>
       </m.div>
 
       <m.div variants={varFade().in}>
@@ -204,21 +221,31 @@ export default function HomeHero() {
           direction="row"
           alignItems="center"
           justifyContent="center"
-          sx={{ my: 3 }}
+          sx={{ my: 2.5 }}
         >
-          <Rating readOnly value={4.95} precision={0.1} max={5} />
+          <Rating readOnly value={4.9} precision={0.1} max={5} />
           <Typography variant="caption" sx={{ color: 'text.secondary' }}>
             <Box component="strong" sx={{ mr: 0.5, color: 'text.primary' }}>
-              4.96/5
+              4.9/5
             </Box>
-            (99+ reviews)
+            from 1000+ members
           </Typography>
         </Stack>
       </m.div>
 
       <m.div variants={varFade().in}>
         <Stack spacing={1.5} direction={{ xs: 'column-reverse', sm: 'row' }} sx={{ mb: 5 }}>
-          <Stack alignItems="center" spacing={2}>
+          <Stack alignItems="center" spacing={1.5}>
+            <Typography
+              variant="caption"
+              sx={{ color: 'text.secondary', fontWeight: 600, letterSpacing: 1 }}
+            >
+              Starting from{' '}
+              <Box component="span" sx={{ color: 'text.primary', fontWeight: 800, fontSize: '1rem' }}>
+                195k/month
+              </Box>
+            </Typography>
+
             <Button
               component={RouterLink}
               href={paths.dashboard.root}
@@ -228,10 +255,13 @@ export default function HomeHero() {
               sx={{
                 bgcolor: COLORS.red,
                 color: COLORS.white,
-                '&:hover': { bgcolor: COLORS.redDark }
+                px: 4,
+                fontWeight: 700,
+                letterSpacing: 1,
+                '&:hover': { bgcolor: COLORS.redDark },
               }}
             >
-              Get Offer Now
+              Join Now
             </Button>
 
             <Link

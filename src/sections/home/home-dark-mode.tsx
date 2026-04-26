@@ -23,8 +23,8 @@ const TESTIMONIALS = [
     id: 1,
     name: 'Chooi Yin',
     role: 'Member since 2018',
-    quote: 'SMASH YOUR WAY TO THE TOP',
-    review: 'I realized that if I did not make a lifestyle change immediately, I might never do it and get worse. I gave myself one year to find that person inside me who was screaming to get out. That was when I met Amirul. I told him I wanted my sexy back! And that was the start of my journey.',
+    quote: 'I finally found a routine I can stick to.',
+    review: 'Before joining Red Fitness Indonesia, I struggled to stay consistent. With the support from trainers and the right environment, I was able to build a routine, stay motivated, and see real progress. This is more than just a gym—it’s where my journey truly started.',
     avatar: '/assets/background/home_member/8.png', // Pastikan kamu punya gambar dummy atau ganti url ini
   },
   {
@@ -101,8 +101,8 @@ export default function HomeTestimonials() {
     <Stack sx={{ maxWidth: 480, mx: { xs: 'auto', md: 'unset' }, textAlign: { xs: 'center', md: 'left' } }}>
       <m.div variants={varFade().inUp}>
         <Typography variant="h2" sx={{ mb: 1, fontWeight: 900, textTransform: 'uppercase' }}>
-          What Members <br />
-          <Box component="span" sx={{ color: 'primary.main' }}>Think About Us</Box>
+          What Our <br />
+          <Box component="span" sx={{ color: 'primary.main' }}>Members Achieve</Box>
         </Typography>
       </m.div>
 

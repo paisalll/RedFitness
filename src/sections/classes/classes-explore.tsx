@@ -26,23 +26,64 @@ const COLORS = {
   white: '#FFFFFF',
 };
 
-const CATEGORIES = ['ALL', 'CARDIO', 'CYCLING', 'DANCE', 'HIIT', 'MIND AND BODY', 'STRENGTH'];
+const CATEGORIES = ['ALL', 'CARDIO', 'DANCE', 'MIND AND BODY', 'STRENGTH'];
 
+// ✅ DATA LENGKAP — 35 kelas unik dari master Excel (FormatDataRedFitness.xlsx), tanpa duplikasi
+// Kategori disesuaikan dengan getClassCategory di timetable-section
 const CLASSES = [
-  { title: 'ADVANCED STEP', category: 'Cardio | 60mins', image: '/assets/background/CLASSES/22.png' },
-  { title: 'ANIMAL FLOW', category: 'Strength and Conditioning | 60mins', image: '/assets/background/CLASSES/23.png' },
-  { title: 'ASHTANGA YOGA', category: 'Mind and Body | 90mins', image: '/assets/background/CLASSES/24.png' },
-  { title: 'BASIC STEP', category: 'Cardio | 60mins', image: '/assets/background/CLASSES/22.png' },
-  { title: 'BASIC YOGA', category: 'Mind and Body | 60mins', image: '/assets/background/CLASSES/23.png' },
-  { title: 'BELLY DANCE', category: 'Dance | 60mins', image: '/assets/background/CLASSES/24.png' },
-  { title: 'BODYJAM', category: 'Dance | 60mins', image: '/assets/background/CLASSES/22.png' },
-  { title: 'BODYPUMP', category: 'Strength and Conditioning | 60mins', image: '/assets/background/CLASSES/23.png' },
-  { title: 'BOSU', category: 'Strength and Conditioning | 60mins', image: '/assets/background/CLASSES/24.png' },
-  { title: 'CELEBRITY SCULPT', category: 'Strength and Conditioning | 60mins', image: '/assets/background/CLASSES/22.png' },
+  // ── CARDIO & HIIT ──────────────────────────────────────────────────────
+  { title: 'AERO STEP',        category: 'Cardio | 60mins',  filterCat: 'CARDIO',       image: '/assets/background/CLASSES/22.png' },
+  { title: 'AEROBIC',          category: 'Cardio | 60mins',  filterCat: 'CARDIO',       image: '/assets/background/CLASSES/23.png' },
+  { title: 'AEROBOXING',       category: 'Cardio | 60mins',  filterCat: 'CARDIO',       image: '/assets/background/CLASSES/24.png' },
+  { title: 'FIT CAMP',         category: 'Cardio | 60mins',  filterCat: 'CARDIO',       image: '/assets/background/CLASSES/22.png' },
+  { title: 'POUNDFIT',         category: 'Cardio | 60mins',  filterCat: 'CARDIO',       image: '/assets/background/CLASSES/23.png' },
+  { title: 'POWER STEP',       category: 'Cardio | 60mins',  filterCat: 'CARDIO',       image: '/assets/background/CLASSES/24.png' },
+
+  // ── DANCE ──────────────────────────────────────────────────────────────
+  { title: 'BELLY DANCE',      category: 'Dance | 60mins',   filterCat: 'DANCE',        image: '/assets/background/CLASSES/22.png' },
+  { title: 'BOLLY X',          category: 'Dance | 60mins',   filterCat: 'DANCE',        image: '/assets/background/CLASSES/23.png' },
+  { title: 'CARDIO DANCE',     category: 'Dance | 60mins',   filterCat: 'DANCE',        image: '/assets/background/CLASSES/24.png' },
+  { title: 'CARDIO K-POP',     category: 'Dance | 60mins',   filterCat: 'DANCE',        image: '/assets/background/CLASSES/22.png' },
+  { title: 'CID',              category: 'Dance | 60mins',   filterCat: 'DANCE',        image: '/assets/background/CLASSES/23.png' },
+  { title: 'MODERN DANCE',     category: 'Dance | 60mins',   filterCat: 'DANCE',        image: '/assets/background/CLASSES/24.png' },
+  { title: 'STYLE DANCE',      category: 'Dance | 60mins',   filterCat: 'DANCE',        image: '/assets/background/CLASSES/22.png' },
+  { title: 'TWERKOUT',         category: 'Dance | 60mins',   filterCat: 'DANCE',        image: '/assets/background/CLASSES/23.png' },
+  { title: 'URBAN DANCE',      category: 'Dance | 60mins',   filterCat: 'DANCE',        image: '/assets/background/CLASSES/24.png' },
+  { title: 'ZUMBA',            category: 'Dance | 60mins',   filterCat: 'DANCE',        image: '/assets/background/CLASSES/22.png' },
+
+  // ── MIND AND BODY ──────────────────────────────────────────────────────
+  { title: 'BASIC YOGA',       category: 'Mind and Body | 60mins',  filterCat: 'MIND AND BODY', image: '/assets/background/CLASSES/23.png' },
+  { title: 'FLOW YOGA',        category: 'Mind and Body | 60mins',  filterCat: 'MIND AND BODY', image: '/assets/background/CLASSES/24.png' },
+  { title: 'GENTLE YOGA',      category: 'Mind and Body | 60mins',  filterCat: 'MIND AND BODY', image: '/assets/background/CLASSES/22.png' },
+  { title: 'HATHA YOGA',       category: 'Mind and Body | 60mins',  filterCat: 'MIND AND BODY', image: '/assets/background/CLASSES/23.png' },
+  { title: 'MAT PILATES',      category: 'Mind and Body | 60mins',  filterCat: 'MIND AND BODY', image: '/assets/background/CLASSES/24.png' },
+  { title: 'PILATES',          category: 'Mind and Body | 60mins',  filterCat: 'MIND AND BODY', image: '/assets/background/CLASSES/22.png' },
+  { title: 'PILATES ABS & GLUTES', category: 'Mind and Body | 60mins', filterCat: 'MIND AND BODY', image: '/assets/background/CLASSES/23.png' },
+  { title: 'PILATES BASIC',    category: 'Mind and Body | 60mins',  filterCat: 'MIND AND BODY', image: '/assets/background/CLASSES/24.png' },
+  { title: 'PILATES FLOW',     category: 'Mind and Body | 60mins',  filterCat: 'MIND AND BODY', image: '/assets/background/CLASSES/22.png' },
+  { title: 'POWER YOGA',       category: 'Mind and Body | 60mins',  filterCat: 'MIND AND BODY', image: '/assets/background/CLASSES/23.png' },
+  { title: 'VINYASA YOGA',     category: 'Mind and Body | 90mins',  filterCat: 'MIND AND BODY', image: '/assets/background/CLASSES/24.png' },
+  { title: 'YIN YOGA',         category: 'Mind and Body | 60mins',  filterCat: 'MIND AND BODY', image: '/assets/background/CLASSES/22.png' },
+  { title: 'YOGA',             category: 'Mind and Body | 60mins',  filterCat: 'MIND AND BODY', image: '/assets/background/CLASSES/23.png' },
+
+  // ── STRENGTH & MARTIAL ARTS ────────────────────────────────────────────
+  { title: 'BOXING DRILL',     category: 'Strength & Martial Arts | 60mins', filterCat: 'STRENGTH', image: '/assets/background/CLASSES/24.png' },
+  { title: 'BOXING PAD',       category: 'Strength & Martial Arts | 60mins', filterCat: 'STRENGTH', image: '/assets/background/CLASSES/22.png' },
+  { title: 'CORE EXERCISES',   category: 'Strength & Martial Arts | 60mins', filterCat: 'STRENGTH', image: '/assets/background/CLASSES/23.png' },
+  { title: 'MUAYTHAI',         category: 'Strength & Martial Arts | 60mins', filterCat: 'STRENGTH', image: '/assets/background/CLASSES/24.png' },
+  { title: 'PUMP CONDITIONING',category: 'Strength & Martial Arts | 60mins', filterCat: 'STRENGTH', image: '/assets/background/CLASSES/22.png' },
+  { title: 'STRONG NATION',    category: 'Strength & Martial Arts | 60mins', filterCat: 'STRENGTH', image: '/assets/background/CLASSES/23.png' },
 ];
 
 export default function ClassesExplore() {
     const [activeCategory, setActiveCategory] = useState('ALL');
+    const [searchTerm, setSearchTerm] = useState('');
+
+    const filteredClasses = CLASSES.filter((item) => {
+      const matchCat = activeCategory === 'ALL' || item.filterCat === activeCategory;
+      const matchSearch = item.title.toLowerCase().includes(searchTerm.toLowerCase());
+      return matchCat && matchSearch;
+    });
 
     return (
         <Box sx={{ bgcolor: COLORS.black, py: { xs: 10, md: 15 }, color: COLORS.white }}>
@@ -66,6 +107,8 @@ export default function ClassesExplore() {
                 <TextField
                 placeholder="Enter Search Terms"
                 variant="outlined"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
                 sx={{
                     width: { xs: 1, md: 320 },
                     '& .MuiOutlinedInput-root': {
@@ -130,10 +173,14 @@ export default function ClassesExplore() {
             </Stack>
 
             {/* CLASS GRID */}
-            <Grid container spacing={3}>
-            {CLASSES.map((item, index) => (
-                <Grid key={index} xs={12} sm={6} md={3}>
-                <m.div variants={varFade().inUp}>
+            <Grid key={`${activeCategory}-${searchTerm}`} container spacing={3}>
+            {filteredClasses.map((item, index) => (
+                <Grid key={`${item.title}-${index}`} xs={12} sm={6} md={3}>
+                <m.div
+                  initial={{ opacity: 0, y: 24 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: index * 0.04, ease: 'easeOut' }}
+                >
                     <Box 
                     sx={{ 
                         position: 'relative', 

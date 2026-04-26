@@ -49,7 +49,7 @@ export default function StickyFreeTrial() {
           onClick={toggleSidebar}
           sx={{
             cursor: 'pointer',
-            bgcolor: '#ff0055', // Warna Pink kemerahan (sesuai gambar)
+            bgcolor: '#F70000', // Warna Pink kemerahan (sesuai gambar)
             color: 'common.white',
             p: 2,
             borderTopLeftRadius: 8,
