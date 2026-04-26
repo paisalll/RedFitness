@@ -13,8 +13,8 @@ import Iconify from 'src/components/iconify';
 import { supabase } from 'src/utils/supabase';
 
 // --- MOCK CREDENTIALS ---
-const MOCK_USER = 'admin';
-const MOCK_PASS = 'admin123';
+const MOCK_USER = 'rf-admin';
+const MOCK_PASS = 'redfitnesS2026';
 
 export default function AdminDashboard() {
   const [isAuth, setIsAuth] = useState(false);
