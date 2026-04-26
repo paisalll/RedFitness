@@ -14,6 +14,8 @@ import IconButton from '@mui/material/IconButton';
 import Image from 'src/components/image';
 import Iconify from 'src/components/iconify';
 import { MotionViewport, varFade } from 'src/components/animate';
+import { useEffect, useState } from 'react';
+import { supabase } from 'src/utils/supabase';
 
 // ----------------------------------------------------------------------
 
@@ -23,66 +25,27 @@ const COLORS = {
   white: '#FFFFFF',
 };
 
-const CLUBS = [
-  {
-    id: 1,
-    name: 'Red Fitness Taman Palem',
-    city: 'Jakarta Barat',
-    address: 'Superindo Building, Jl. Permata Taman Palem, Pegadungan, Kec. Kalideres, Kota Jakarta Barat, DKI Jakarta 11830',
-    img: '/assets/background/CLUB/26.png',
-  },
-  {
-    id: 2,
-    name: 'Red Fitness Kramat Jati',
-    city: 'Jakarta Timur',
-    address: 'Lippo Plaza Kramat Jati, Jl. Raya Jakarta-Bogor Km 19, RT.14/RW.6, Kramat Jati, Kec. Kramat Jati, Kota Jakarta Timur, DKI Jakarta 13510',
-    img: '/assets/background/CLUB/27.png',
-  },
-  {
-    id: 3,
-    name: 'Red Fitness Cileungsi',
-    city: 'Kabupaten Bogor',
-    address: 'Metropolitan Mall Cileungsi, Jl. Kota Taman Metropolitan, Cileungsi Kidul, Kec. Cileungsi, Kabupaten Bogor, Jawa Barat 16820',
-    img: '/assets/background/CLUB/28.png',
-  },
-  {
-    id: 4,
-    name: 'Red Fitness Bogor',
-    city: 'Kota Bogor',
-    address: 'Super Indo Pajajaran, Jl. Raya Pajajaran No.7a, RT.04/RW.11, Baranangsiang, Kec. Bogor Timur, Kota Bogor, Jawa Barat 16143',
-    img: '/assets/background/CLUB/29.png',
-  },
-  {
-    id: 5,
-    name: 'Red Fitness Tambun',
-    city: 'Kabupaten Bekasi',
-    address: 'Metland Tambun, Jl. Sultan Hasanudin, Lantai 2 Blk. A, Tambun, Kec. Tambun Selatan, Kabupaten Bekasi, Jawa Barat 17510',
-    img: '/assets/background/CLUB/30.png',
-  },
-  {
-    id: 6,
-    name: 'Red Fitness Graha Raya Bintaro',
-    city: 'Tangerang Selatan',
-    address: 'Transmart Graha Raya, Jl. Boulevard Graha Raya, Paku Jaya, Kec. Serpong Utara, Kota Tangerang Selatan, Banten 15324',
-    img: '/assets/background/CLUB/31.png',
-  },
-  {
-    id: 7,
-    name: 'Red Fitness Green Pramuka',
-    city: 'Jakarta Pusat',
-    address: 'Green Pramuka Square Mall, Jl. Rw. Jaya No.49, Rawasari, Kec. Cempaka Putih, Kota Jakarta Pusat, DKI Jakarta 10570',
-    img: '/assets/background/CLUB/32.png',
-  },
-  {
-    id: 8,
-    name: 'Red Fitness Citra 8',
-    city: 'Jakarta Barat',
-    address: 'Citra Garden 8, Area Aerobliss, Pegadungan, Kec. Kalideres, DKI Jakarta 11830',
-    img: '/assets/background/CLUB/33.png',
-  },
-];
-
 export default function ClubsGrid() {
+  const [clubs, setClubs] = useState<any[]>([]);
+  // (Opsional) Tambahkan state loading agar lebih rapi
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchClubs = async () => {
+      setIsLoading(true);
+      const { data, error } = await supabase.from('clubs').select('*');
+      
+      // Pastikan data tidak null sebelum set ke state
+      if (!error && data) {
+        setClubs(data);
+      } else {
+        console.error('Error fetching clubs:', error);
+      }
+      setIsLoading(false);
+    };
+    fetchClubs();
+  }, []);
+
   return (
     <Box sx={{ bgcolor: COLORS.black, py: { xs: 10, md: 15 }, color: COLORS.white }}>
       <Container component={MotionViewport}>
@@ -104,10 +67,10 @@ export default function ClubsGrid() {
                 '& .MuiOutlinedInput-root': {
                   color: COLORS.white,
                   bgcolor: alpha(COLORS.white, 0.05),
-                  borderRadius: 2, // Rounded box seperti referensi
+                  borderRadius: 2,
                   border: `1px solid ${alpha(COLORS.white, 0.2)}`,
                   transition: 'all 0.3s',
-                  '& fieldset': { border: 'none' }, // Hapus default border MUI
+                  '& fieldset': { border: 'none' },
                   '&:hover': { 
                       bgcolor: alpha(COLORS.white, 0.08),
                       borderColor: COLORS.white 
@@ -136,11 +99,24 @@ export default function ClubsGrid() {
           </m.div>
         </Stack>
 
+        {/* LOADING STATE (Opsional) */}
+        {isLoading && (
+          <Typography textAlign="center" sx={{ color: 'text.secondary', mt: 5 }}>
+            Loading clubs data...
+          </Typography>
+        )}
+
         {/* CLUBS GRID */}
         <Grid container spacing={4}>
-          {CLUBS.map((club, index) => (
-            <Grid key={index} xs={12} sm={6} md={3}>
-              <m.div variants={varFade().inUp}>
+          {clubs.map((club, index) => (
+            // Gunakan club.id sebagai key jika ada, jangan index
+            <Grid key={club.id || index} xs={12} sm={6} md={3}>
+              {/* PERBAIKAN DI SINI: Gunakan animasi manual alih-alih varFade dari parent */}
+              <m.div 
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1, ease: 'easeOut' }}
+              >
                 <Card
                   sx={{
                     bgcolor: alpha(COLORS.white, 0.03),
@@ -165,7 +141,7 @@ export default function ClubsGrid() {
                   <Box sx={{ position: 'relative', pt: '65%', overflow: 'hidden' }}>
                     <Image
                       alt={club.name}
-                      src={club.img}
+                      src={club.image_url} // Pastikan field di database bernama image_url (bukan img)
                       className="club-img"
                       sx={{
                         position: 'absolute',

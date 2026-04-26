@@ -29,7 +29,7 @@ const SelectPlanPage = lazy(() => import('src/pages/select-plan'));
 const YourDetailsPage = lazy(() => import('src/pages/your-details'));
 const PaymentPage = lazy(() => import('src/pages/payment'));
 const LoginPage = lazy(() => import('src/pages/login'));
-
+const AdminDashboardPage = lazy(() => import('src/pages/admin-dashboard'));
 // ----------------------------------------------------------------------
 
 export const mainRoutes = [
@@ -108,5 +108,13 @@ export const mainRoutes = [
       { path: '404', element: <Page404 /> },
       { path: '403', element: <Page403 /> },
     ],
+  },  // Tambahkan blok ini di dalam array mainRoutes
+  {
+    path: 'rf-admin',
+    element: (
+      <Suspense fallback={<SplashScreen />}>
+        <AdminDashboardPage />
+      </Suspense>
+    ),
   },
 ];

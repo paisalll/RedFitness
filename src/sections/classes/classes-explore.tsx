@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { m } from 'framer-motion';
 // @mui
-import { alpha, useTheme } from '@mui/material/styles';
+import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Container from '@mui/material/Container';
@@ -13,10 +13,13 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import Pagination from '@mui/material/Pagination';
 import PaginationItem from '@mui/material/PaginationItem';
+import CircularProgress from '@mui/material/CircularProgress';
 // components
 import Image from 'src/components/image';
 import Iconify from 'src/components/iconify';
 import { MotionViewport, varFade } from 'src/components/animate';
+// supabase
+import { supabase } from 'src/utils/supabase';
 
 // ----------------------------------------------------------------------
 
@@ -26,234 +29,254 @@ const COLORS = {
   white: '#FFFFFF',
 };
 
-const CATEGORIES = ['ALL', 'CARDIO', 'DANCE', 'MIND AND BODY', 'STRENGTH'];
-
-// ✅ DATA LENGKAP — 35 kelas unik dari master Excel (FormatDataRedFitness.xlsx), tanpa duplikasi
-// Kategori disesuaikan dengan getClassCategory di timetable-section
-const CLASSES = [
-  // ── CARDIO & HIIT ──────────────────────────────────────────────────────
-  { title: 'AERO STEP',        category: 'Cardio | 60mins',  filterCat: 'CARDIO',       image: '/assets/background/CLASSES/22.png' },
-  { title: 'AEROBIC',          category: 'Cardio | 60mins',  filterCat: 'CARDIO',       image: '/assets/background/CLASSES/23.png' },
-  { title: 'AEROBOXING',       category: 'Cardio | 60mins',  filterCat: 'CARDIO',       image: '/assets/background/CLASSES/24.png' },
-  { title: 'FIT CAMP',         category: 'Cardio | 60mins',  filterCat: 'CARDIO',       image: '/assets/background/CLASSES/22.png' },
-  { title: 'POUNDFIT',         category: 'Cardio | 60mins',  filterCat: 'CARDIO',       image: '/assets/background/CLASSES/23.png' },
-  { title: 'POWER STEP',       category: 'Cardio | 60mins',  filterCat: 'CARDIO',       image: '/assets/background/CLASSES/24.png' },
-
-  // ── DANCE ──────────────────────────────────────────────────────────────
-  { title: 'BELLY DANCE',      category: 'Dance | 60mins',   filterCat: 'DANCE',        image: '/assets/background/CLASSES/22.png' },
-  { title: 'BOLLY X',          category: 'Dance | 60mins',   filterCat: 'DANCE',        image: '/assets/background/CLASSES/23.png' },
-  { title: 'CARDIO DANCE',     category: 'Dance | 60mins',   filterCat: 'DANCE',        image: '/assets/background/CLASSES/24.png' },
-  { title: 'CARDIO K-POP',     category: 'Dance | 60mins',   filterCat: 'DANCE',        image: '/assets/background/CLASSES/22.png' },
-  { title: 'CID',              category: 'Dance | 60mins',   filterCat: 'DANCE',        image: '/assets/background/CLASSES/23.png' },
-  { title: 'MODERN DANCE',     category: 'Dance | 60mins',   filterCat: 'DANCE',        image: '/assets/background/CLASSES/24.png' },
-  { title: 'STYLE DANCE',      category: 'Dance | 60mins',   filterCat: 'DANCE',        image: '/assets/background/CLASSES/22.png' },
-  { title: 'TWERKOUT',         category: 'Dance | 60mins',   filterCat: 'DANCE',        image: '/assets/background/CLASSES/23.png' },
-  { title: 'URBAN DANCE',      category: 'Dance | 60mins',   filterCat: 'DANCE',        image: '/assets/background/CLASSES/24.png' },
-  { title: 'ZUMBA',            category: 'Dance | 60mins',   filterCat: 'DANCE',        image: '/assets/background/CLASSES/22.png' },
-
-  // ── MIND AND BODY ──────────────────────────────────────────────────────
-  { title: 'BASIC YOGA',       category: 'Mind and Body | 60mins',  filterCat: 'MIND AND BODY', image: '/assets/background/CLASSES/23.png' },
-  { title: 'FLOW YOGA',        category: 'Mind and Body | 60mins',  filterCat: 'MIND AND BODY', image: '/assets/background/CLASSES/24.png' },
-  { title: 'GENTLE YOGA',      category: 'Mind and Body | 60mins',  filterCat: 'MIND AND BODY', image: '/assets/background/CLASSES/22.png' },
-  { title: 'HATHA YOGA',       category: 'Mind and Body | 60mins',  filterCat: 'MIND AND BODY', image: '/assets/background/CLASSES/23.png' },
-  { title: 'MAT PILATES',      category: 'Mind and Body | 60mins',  filterCat: 'MIND AND BODY', image: '/assets/background/CLASSES/24.png' },
-  { title: 'PILATES',          category: 'Mind and Body | 60mins',  filterCat: 'MIND AND BODY', image: '/assets/background/CLASSES/22.png' },
-  { title: 'PILATES ABS & GLUTES', category: 'Mind and Body | 60mins', filterCat: 'MIND AND BODY', image: '/assets/background/CLASSES/23.png' },
-  { title: 'PILATES BASIC',    category: 'Mind and Body | 60mins',  filterCat: 'MIND AND BODY', image: '/assets/background/CLASSES/24.png' },
-  { title: 'PILATES FLOW',     category: 'Mind and Body | 60mins',  filterCat: 'MIND AND BODY', image: '/assets/background/CLASSES/22.png' },
-  { title: 'POWER YOGA',       category: 'Mind and Body | 60mins',  filterCat: 'MIND AND BODY', image: '/assets/background/CLASSES/23.png' },
-  { title: 'VINYASA YOGA',     category: 'Mind and Body | 90mins',  filterCat: 'MIND AND BODY', image: '/assets/background/CLASSES/24.png' },
-  { title: 'YIN YOGA',         category: 'Mind and Body | 60mins',  filterCat: 'MIND AND BODY', image: '/assets/background/CLASSES/22.png' },
-  { title: 'YOGA',             category: 'Mind and Body | 60mins',  filterCat: 'MIND AND BODY', image: '/assets/background/CLASSES/23.png' },
-
-  // ── STRENGTH & MARTIAL ARTS ────────────────────────────────────────────
-  { title: 'BOXING DRILL',     category: 'Strength & Martial Arts | 60mins', filterCat: 'STRENGTH', image: '/assets/background/CLASSES/24.png' },
-  { title: 'BOXING PAD',       category: 'Strength & Martial Arts | 60mins', filterCat: 'STRENGTH', image: '/assets/background/CLASSES/22.png' },
-  { title: 'CORE EXERCISES',   category: 'Strength & Martial Arts | 60mins', filterCat: 'STRENGTH', image: '/assets/background/CLASSES/23.png' },
-  { title: 'MUAYTHAI',         category: 'Strength & Martial Arts | 60mins', filterCat: 'STRENGTH', image: '/assets/background/CLASSES/24.png' },
-  { title: 'PUMP CONDITIONING',category: 'Strength & Martial Arts | 60mins', filterCat: 'STRENGTH', image: '/assets/background/CLASSES/22.png' },
-  { title: 'STRONG NATION',    category: 'Strength & Martial Arts | 60mins', filterCat: 'STRENGTH', image: '/assets/background/CLASSES/23.png' },
-];
+const ITEMS_PER_PAGE = 8; // Jumlah kelas yang tampil per halaman
 
 export default function ClassesExplore() {
-    const [activeCategory, setActiveCategory] = useState('ALL');
-    const [searchTerm, setSearchTerm] = useState('');
+  // --- STATE ---
+  const [classesData, setClassesData] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  
+  // Filter & Pagination State
+  const [activeCategory, setActiveCategory] = useState('ALL');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [page, setPage] = useState(1);
 
-    const filteredClasses = CLASSES.filter((item) => {
-      const matchCat = activeCategory === 'ALL' || item.filterCat === activeCategory;
-      const matchSearch = item.title.toLowerCase().includes(searchTerm.toLowerCase());
-      return matchCat && matchSearch;
+  // --- FETCH DATA ---
+  useEffect(() => {
+    const fetchClasses = async () => {
+      setIsLoading(true);
+      const { data, error } = await supabase
+        .from('classes')
+        .select('*')
+        .order('title', { ascending: true }); // Urutkan berdasarkan abjad
+      
+      if (!error && data) {
+        setClassesData(data);
+      } else {
+        console.error('Error fetching classes:', error);
+      }
+      setIsLoading(false);
+    };
+
+    fetchClasses();
+  }, []);
+
+  // --- DYNAMIC CATEGORIES ---
+  // Membuat daftar kategori secara otomatis berdasarkan data yang ada di database
+  const CATEGORIES = useMemo(() => {
+    const uniqueCategories = Array.from(new Set(classesData.map(item => item.category_filter)));
+    return ['ALL', ...uniqueCategories].filter(Boolean); // Filter Boolean mencegah ada kategori null/undefined
+  }, [classesData]);
+
+  // --- FILTERING & SEARCHING LOGIC ---
+  const filteredClasses = useMemo(() => {
+    return classesData.filter((item) => {
+      // 1. Cek Kategori
+      const matchCategory = activeCategory === 'ALL' || item.category_filter === activeCategory;
+      // 2. Cek Search Query
+      const matchSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase());
+      
+      return matchCategory && matchSearch;
     });
+  }, [classesData, activeCategory, searchQuery]);
 
-    return (
-        <Box sx={{ bgcolor: COLORS.black, py: { xs: 10, md: 15 }, color: COLORS.white }}>
-        <Container component={MotionViewport}>
-            
-            {/* HEADER: TITLE & SEARCH */}
-            <Stack spacing={5} sx={{ mb: 8 }}>
-            <m.div variants={varFade().inDown}>
-                <Typography variant="h2" sx={{ textAlign: 'center', fontWeight: 900, textTransform: 'uppercase' }}>
-                EXPLORE <Box component="span" sx={{ color: COLORS.red }}>ALL CLASSES</Box>
-                </Typography>
-            </m.div>
+  // --- PAGINATION LOGIC ---
+  const pageCount = Math.ceil(filteredClasses.length / ITEMS_PER_PAGE);
+  const paginatedClasses = filteredClasses.slice(
+    (page - 1) * ITEMS_PER_PAGE,
+    page * ITEMS_PER_PAGE
+  );
 
-            <Stack 
-                direction={{ xs: 'column', md: 'row' }} 
-                alignItems="center" 
-                justifyContent="space-between" 
-                spacing={3}
-            >
-                {/* Search Bar */}
-                <TextField
-                placeholder="Enter Search Terms"
-                variant="outlined"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                sx={{
-                    width: { xs: 1, md: 320 },
-                    '& .MuiOutlinedInput-root': {
-                    color: COLORS.white,
-                    bgcolor: alpha(COLORS.white, 0.05),
-                    borderRadius: 50,
-                    '& fieldset': { borderColor: alpha(COLORS.white, 0.2) },
-                    '&:hover fieldset': { borderColor: COLORS.white },
-                    '&.Mui-focused fieldset': { borderColor: COLORS.red },
-                    },
-                }}
-                InputProps={{
-                    startAdornment: (
-                    <InputAdornment position="start">
-                        <Iconify icon="solar:settings-bold-duotone" sx={{ color: COLORS.white }} />
-                    </InputAdornment>
-                    ),
-                    endAdornment: (
-                    <InputAdornment position="end">
-                        <IconButton size="small">
-                        <Iconify icon="eva:search-fill" sx={{ color: COLORS.red }} />
-                        </IconButton>
-                    </InputAdornment>
-                    )
-                }}
-                />
+  // Reset page ke 1 jika user mengganti kategori atau mengetik di pencarian
+  useEffect(() => {
+    setPage(1);
+  }, [activeCategory, searchQuery]);
 
-                {/* Filter Categories */}
-                <Stack direction="row" spacing={1} sx={{ overflowX: 'auto', pb: 1, maxWidth: 1 }}>
-                <IconButton size="small" sx={{ color: COLORS.white }}>
-                    <Iconify icon="eva:arrow-ios-back-fill" />
-                </IconButton>
-                
-                {CATEGORIES.map((cat) => (
-                    <Button
-                    key={cat}
-                    onClick={() => setActiveCategory(cat)}
-                    sx={{
-                        borderRadius: 0,
-                        minWidth: 'auto',
-                        px: 2,
-                        py: 0.5,
-                        color: activeCategory === cat ? COLORS.black : COLORS.white,
-                        bgcolor: activeCategory === cat ? '#00FFCC' : 'transparent', // Hijau Tosca aktif
-                        border: `1px solid ${activeCategory === cat ? '#00FFCC' : alpha(COLORS.white, 0.2)}`,
-                        fontWeight: 'bold',
-                        fontSize: '0.75rem',
-                        '&:hover': {
-                        bgcolor: activeCategory === cat ? '#00FFCC' : alpha(COLORS.white, 0.1)
-                        }
-                    }}
-                    >
-                    {cat}
-                    </Button>
-                ))}
+  return (
+    <Box sx={{ bgcolor: COLORS.black, py: { xs: 10, md: 15 }, color: COLORS.white, minHeight: '100vh' }}>
+      <Container component={MotionViewport}>
+        
+        {/* HEADER: TITLE & SEARCH */}
+        <Stack spacing={5} sx={{ mb: 8 }}>
+          <m.div variants={varFade().inDown}>
+            <Typography variant="h2" sx={{ textAlign: 'center', fontWeight: 900, textTransform: 'uppercase' }}>
+              EXPLORE <Box component="span" sx={{ color: COLORS.red }}>ALL CLASSES</Box>
+            </Typography>
+          </m.div>
 
-                <IconButton size="small" sx={{ color: COLORS.white }}>
-                    <Iconify icon="eva:arrow-ios-forward-fill" />
-                </IconButton>
-                </Stack>
-            </Stack>
-            </Stack>
+          <Stack 
+            direction={{ xs: 'column', md: 'row' }} 
+            alignItems="center" 
+            justifyContent="space-between" 
+            spacing={3}
+          >
+            {/* Search Bar */}
+            <TextField
+              placeholder="Enter Search Terms"
+              variant="outlined"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              sx={{
+                width: { xs: 1, md: 320 },
+                '& .MuiOutlinedInput-root': {
+                  color: COLORS.white,
+                  bgcolor: alpha(COLORS.white, 0.05),
+                  borderRadius: 50,
+                  '& fieldset': { borderColor: alpha(COLORS.white, 0.2) },
+                  '&:hover fieldset': { borderColor: COLORS.white },
+                  '&.Mui-focused fieldset': { borderColor: COLORS.red },
+                },
+              }}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Iconify icon="solar:settings-bold-duotone" sx={{ color: COLORS.white }} />
+                  </InputAdornment>
+                ),
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton size="small">
+                      <Iconify icon="eva:search-fill" sx={{ color: COLORS.red }} />
+                    </IconButton>
+                  </InputAdornment>
+                )
+              }}
+            />
 
-            {/* CLASS GRID */}
-            <Grid key={`${activeCategory}-${searchTerm}`} container spacing={3}>
-            {filteredClasses.map((item, index) => (
-                <Grid key={`${item.title}-${index}`} xs={12} sm={6} md={3}>
-                <m.div
-                  initial={{ opacity: 0, y: 24 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: index * 0.04, ease: 'easeOut' }}
+            {/* Filter Categories */}
+            <Stack direction="row" spacing={1} sx={{ overflowX: 'auto', pb: 1, maxWidth: 1 }}>
+              <IconButton size="small" sx={{ color: COLORS.white }}>
+                <Iconify icon="eva:arrow-ios-back-fill" />
+              </IconButton>
+              
+              {CATEGORIES.map((cat) => (
+                <Button
+                  key={cat}
+                  onClick={() => setActiveCategory(cat)}
+                  sx={{
+                    borderRadius: 0,
+                    minWidth: 'auto',
+                    px: 2,
+                    py: 0.5,
+                    color: activeCategory === cat ? COLORS.black : COLORS.white,
+                    bgcolor: activeCategory === cat ? '#00FFCC' : 'transparent',
+                    border: `1px solid ${activeCategory === cat ? '#00FFCC' : alpha(COLORS.white, 0.2)}`,
+                    fontWeight: 'bold',
+                    fontSize: '0.75rem',
+                    flexShrink: 0,
+                    '&:hover': {
+                      bgcolor: activeCategory === cat ? '#00FFCC' : alpha(COLORS.white, 0.1)
+                    }
+                  }}
                 >
-                    <Box 
+                  {cat}
+                </Button>
+              ))}
+
+              <IconButton size="small" sx={{ color: COLORS.white }}>
+                <Iconify icon="eva:arrow-ios-forward-fill" />
+              </IconButton>
+            </Stack>
+          </Stack>
+        </Stack>
+
+        {/* LOADING & CLASS GRID */}
+        {isLoading ? (
+          <Box sx={{ display: 'flex', justifyContent: 'center', py: 10 }}>
+            <CircularProgress color="error" />
+          </Box>
+        ) : filteredClasses.length === 0 ? (
+          <Box sx={{ textAlign: 'center', py: 10 }}>
+            <Typography variant="h6" sx={{ color: 'text.secondary' }}>
+              Tidak ada kelas yang ditemukan.
+            </Typography>
+          </Box>
+        ) : (
+          <Grid container spacing={3}>
+            {paginatedClasses.map((item, index) => (
+              <Grid key={item.id || index} xs={12} sm={6} md={3}>
+                {/* Gunakan animasi manual dengan delay agar transisi mulus saat data masuk */}
+                <m.div 
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.05, ease: 'easeOut' }}
+                >
+                  <Box 
                     sx={{ 
-                        position: 'relative', 
-                        borderRadius: 1, 
-                        overflow: 'hidden', 
-                        bgcolor: '#1a1a1a',
-                        cursor: 'pointer',
-                        '&:hover .class-img': { transform: 'scale(1.1)' },
-                        '&:hover .arrow-icon': { color: COLORS.red }
+                      position: 'relative', 
+                      borderRadius: 1, 
+                      overflow: 'hidden', 
+                      bgcolor: '#1a1a1a',
+                      cursor: 'pointer',
+                      '&:hover .class-img': { transform: 'scale(1.1)' },
+                      '&:hover .arrow-icon': { color: COLORS.red }
                     }}
-                    >
+                  >
                     {/* Image */}
                     <Box sx={{ overflow: 'hidden', position: 'relative', pt: '65%' }}>
-                        <Image
-                        src={item.image}
+                      <Image
+                        src={item.image_url} // Diubah dari item.image menjadi item.image_url
                         alt={item.title}
                         className="class-img"
                         sx={{
-                            position: 'absolute',
-                            top: 0,
-                            left: 0,
-                            width: 1,
-                            height: 1,
-                            transition: 'transform 0.5s ease',
+                          position: 'absolute',
+                          top: 0,
+                          left: 0,
+                          width: 1,
+                          height: 1,
+                          transition: 'transform 0.5s ease',
                         }}
-                        />
+                      />
                     </Box>
 
                     {/* Content */}
                     <Box sx={{ p: 2 }}>
-                        <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 0.5 }}>
+                      <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 0.5 }}>
                         <Typography variant="subtitle1" sx={{ fontWeight: 800 }}>
-                            {item.title}
+                          {item.title}
                         </Typography>
                         <Iconify icon="solar:arrow-right-up-bold" className="arrow-icon" sx={{ color: '#00FFCC', transition: 'color 0.3s' }} />
-                        </Stack>
-                        
-                        <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block' }}>
-                        {item.category}
-                        </Typography>
+                      </Stack>
+                      
+                      <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block' }}>
+                        {item.category_full} {/* Diubah dari item.category menjadi item.category_full */}
+                      </Typography>
                     </Box>
-                    </Box>
+                  </Box>
                 </m.div>
-                </Grid>
+              </Grid>
             ))}
-            </Grid>
+          </Grid>
+        )}
 
-            {/* PAGINATION */}
-            <Stack alignItems="center" sx={{ mt: 10 }}>
+        {/* PAGINATION */}
+        {!isLoading && pageCount > 1 && (
+          <Stack alignItems="center" sx={{ mt: 10 }}>
             <Pagination
-                count={4}
-                renderItem={(item) => (
+              count={pageCount}
+              page={page}
+              onChange={(event, value) => setPage(value)}
+              renderItem={(item) => (
                 <PaginationItem
-                    {...item}
-                    // --- FIX: Override variant dan color secara eksplisit ---
-                    variant="text" 
-                    color="standard"
-                    // -------------------------------------------------------
-                    sx={{
+                  {...item}
+                  variant="text" 
+                  color="standard"
+                  sx={{
                     color: COLORS.white,
                     '&.Mui-selected': {
-                        bgcolor: '#00FFCC',
-                        color: COLORS.black,
-                        fontWeight: 'bold',
-                        '&:hover': { bgcolor: '#00FFCC' }
+                      bgcolor: '#00FFCC',
+                      color: COLORS.black,
+                      fontWeight: 'bold',
+                      '&:hover': { bgcolor: '#00FFCC' }
                     },
-                    }}
+                  }}
                 />
-                )}
+              )}
             />
-            </Stack>
+          </Stack>
+        )}
 
-        </Container>
-        </Box>
-    );
+      </Container>
+    </Box>
+  );
 }
