@@ -29,7 +29,7 @@ const StyledPolygon = styled('div')<StyledPolygonProps>(({ anchor = 'top', theme
   width: '100%',
   position: 'absolute',
   clipPath: 'polygon(0% 0%, 100% 100%, 0% 100%)',
-  backgroundColor: theme.palette.background.default,
+  backgroundColor: '#DF2026',
   display: 'block',
   lineHeight: 0,
   ...(anchor === 'top' && {
@@ -38,7 +38,7 @@ const StyledPolygon = styled('div')<StyledPolygonProps>(({ anchor = 'top', theme
   }),
   ...(anchor === 'bottom' && {
     bottom: -1,
-    backgroundColor: theme.palette.grey[900],
+    backgroundColor: '#DF2026',
   }),
 }));
 
@@ -76,8 +76,11 @@ export default function HomeView() {
 
         <HomeCleanInterfaces />
 
-        <HomePricing />
-
+        <Box sx={{ position: 'relative' }}>
+          <StyledPolygon anchor="bottom" />
+          <HomePricing />
+          <StyledPolygon />
+        </Box>
         <HomeAdvertisement />
       </Box>
     </>

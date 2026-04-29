@@ -17,7 +17,12 @@ import { useResponsive } from 'src/hooks/use-responsive';
 // components
 import Iconify from 'src/components/iconify';
 import { MotionViewport, varFade } from 'src/components/animate';
-import { COLORS } from '../about/about-team';
+
+// ----------------------------------------------------------------------
+
+const RED = '#DF2026';
+const RED_DARK = '#A8171C';
+const BLACK = '#060606';
 
 // ----------------------------------------------------------------------
 
@@ -27,7 +32,7 @@ const BENEFITS = [
     node: (
       <>
         World-class equipment, high-performance classes, and{' '}
-        <Box component="span" sx={{ fontWeight: 700, color: 'common.white' }}>
+        <Box component="span" sx={{ fontWeight: 800, color: 'common.white', fontFamily: "'Poppins', sans-serif" }}>
           Premium Reformer Pilates
         </Box>{' '}
         built for those who expect more.
@@ -50,7 +55,7 @@ const BENEFITS = [
     icon: 'solar:hand-stars-bold-duotone',
     node: (
       <>
-        <Box component="span" sx={{ fontWeight: 700, color: 'common.white' }}>
+        <Box component="span" sx={{ fontWeight: 800, color: 'common.white', fontFamily: "'Poppins', sans-serif" }}>
           The first chain gym to include complimentary Japanese Seitai Therapy by Red Seitai seamlessly included in your membership. 
         </Box>{' '}
       </>
@@ -66,13 +71,14 @@ const BENEFITS = [
 
 const inputSx = {
   '& .MuiOutlinedInput-root': {
+    borderRadius: 0, // Input form dibuat tajam ujungnya
     color: 'common.white',
     '& fieldset': { borderColor: 'rgba(255,255,255,0.12)' },
     '&:hover fieldset': { borderColor: 'rgba(255,255,255,0.25)' },
-    '&.Mui-focused fieldset': { borderColor: 'primary.main' },
+    '&.Mui-focused fieldset': { borderColor: RED },
   },
   '& .MuiInputLabel-root': { color: 'rgba(255,255,255,0.4)' },
-  '& .MuiInputLabel-root.Mui-focused': { color: 'primary.main' },
+  '& .MuiInputLabel-root.Mui-focused': { color: RED },
   '& .MuiSelect-icon': { color: 'rgba(255,255,255,0.4)' },
 };
 
@@ -86,31 +92,55 @@ export default function HomeFreeTrial() {
     <Box
       sx={{
         p: { xs: 3, md: 4.5 },
-        borderRadius: 3,
+        borderRadius: 0, // Kotak form dibuat tajam
         backdropFilter: 'blur(20px)',
-        bgcolor: alpha(COLORS.black, 0.88),
-        border: `1px solid ${alpha(COLORS.red, 0.25)}`,
-        boxShadow: `-20px 20px 60px -8px ${alpha(COLORS.black, 0.6)}`,
+        bgcolor: alpha(BLACK, 0.88),
+        border: `1px solid ${alpha(RED, 0.25)}`,
+        boxShadow: `-20px 20px 60px -8px ${alpha(BLACK, 0.6)}`,
       }}
     >
-      <Stack spacing={2.5}>
+      <Stack spacing={3}>
         <Box>
-          <Typography
-            variant="overline"
-            sx={{ color: 'primary.main', letterSpacing: 3, fontWeight: 700, mb: 1, display: 'block' }}
+          {/* Overline Form */}
+          <Stack direction="row" alignItems="center" spacing={1.5} sx={{ mb: 2 }}>
+            <Box sx={{ width: 28, height: 2, bgcolor: RED, flexShrink: 0 }} />
+            <Typography
+              sx={{
+                fontSize: '0.65rem',
+                fontWeight: 800,
+                letterSpacing: 4,
+                textTransform: 'uppercase',
+                color: RED,
+                fontFamily: 'monospace',
+              }}
+            >
+              Limited Offer
+            </Typography>
+          </Stack>
+
+          <Typography 
+            variant="h4" 
+            sx={{ 
+              color: 'common.white', 
+              mb: 1.5, 
+              lineHeight: 1.1, 
+              fontWeight: 800, 
+              fontFamily: "'Poppins', sans-serif",
+              textTransform: 'uppercase',
+              letterSpacing: -1,
+            }}
           >
-            Limited Offer
-          </Typography>
-          <Typography variant="h4" sx={{ color: 'common.white', mb: 1, lineHeight: 1.25, fontWeight: 800 }}>
             Claim Your 1-Week{' '}
-            <Box component="span" sx={{ color: 'primary.main' }}>Free Membership</Box>
+            <Box component="span" sx={{ color: RED, display: 'block', fontStyle: 'italic' }}>
+              Free Membership
+            </Box>
           </Typography>
           <Typography variant="body2" sx={{ color: alpha('#fff', 0.5), lineHeight: 1.7 }}>
             Experience full access to our facilities, classes, and premium services — on us.
           </Typography>
         </Box>
 
-        <Divider sx={{ borderColor: alpha(COLORS.red, 0.15) }} />
+        <Divider sx={{ borderColor: alpha(RED, 0.15) }} />
 
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1.5}>
           <TextField fullWidth label="First Name" placeholder="Enter First Name" size="small" sx={inputSx} />
@@ -131,13 +161,13 @@ export default function HomeFreeTrial() {
             <Checkbox
               defaultChecked
               size="small"
-              sx={{ color: alpha('#fff', 0.3), '&.Mui-checked': { color: 'primary.main' } }}
+              sx={{ color: alpha('#fff', 0.3), '&.Mui-checked': { color: RED } }}
             />
           }
           label={
             <Typography variant="caption" sx={{ color: alpha('#fff', 0.45) }}>
               I agree to the{' '}
-              <Box component="span" sx={{ color: 'primary.main', textDecoration: 'underline', cursor: 'pointer' }}>
+              <Box component="span" sx={{ color: RED, textDecoration: 'underline', cursor: 'pointer' }}>
                 Terms
               </Box>{' '}
               and Data Privacy policy.
@@ -148,17 +178,22 @@ export default function HomeFreeTrial() {
         <Button
           size="large"
           variant="contained"
-          color="primary"
-          endIcon={<Iconify icon="solar:arrow-right-bold" width={18} />}
+          endIcon={<Iconify icon="solar:arrow-right-up-bold" width={18} />}
           sx={{
-            py: 1.4,
-            fontSize: 15,
-            fontWeight: 700,
-            letterSpacing: 0.5,
-            borderRadius: 1.5,
-            boxShadow: `0 8px 20px 0 ${alpha(theme.palette.primary.main, 0.35)}`,
+            py: 1.75,
+            px: 5,
+            fontSize: '0.72rem',
+            fontWeight: 800,
+            letterSpacing: 2.5,
+            textTransform: 'uppercase',
+            fontFamily: 'monospace',
+            borderRadius: 0, // Button tajam
+            bgcolor: RED,
+            color: '#fff',
+            boxShadow: 'none',
             '&:hover': {
-              boxShadow: `0 10px 28px 0 ${alpha(theme.palette.primary.main, 0.5)}`,
+              bgcolor: RED_DARK,
+              boxShadow: 'none',
             },
           }}
         >
@@ -171,56 +206,82 @@ export default function HomeFreeTrial() {
   const renderContent = (
     <Stack spacing={4} sx={{ maxWidth: 500, mx: { xs: 'auto', md: 'unset' } }}>
       <m.div variants={varFade().inRight}>
-        <Typography
-          variant="overline"
-          sx={{ color: 'primary.main', letterSpacing: 3, fontWeight: 700, mb: 1.5, display: 'block' }}
-        >
-          Why Choose Us
-        </Typography>
+        {/* Overline Content */}
+        <Stack direction="row" alignItems="center" spacing={1.5} sx={{ mb: 2 }}>
+            <Box sx={{ width: 28, height: 2, bgcolor: RED, flexShrink: 0 }} />
+            <Typography
+              sx={{
+                fontSize: '0.65rem',
+                fontWeight: 800,
+                letterSpacing: 4,
+                textTransform: 'uppercase',
+                color: RED,
+                fontFamily: 'monospace',
+              }}
+            >
+              Why Choose Us
+            </Typography>
+        </Stack>
+
         <Typography
           variant="h2"
           sx={{
-            fontWeight: 900,
+            fontWeight: 800,
             textTransform: 'uppercase',
-            lineHeight: 1.1,
-            mb: 2,
+            lineHeight: 0.95,
+            letterSpacing: -2,
+            mb: 3,
             color: 'common.white',
-            fontSize: { xs: '2rem', md: '2.75rem' },
+            fontFamily: "'Poppins', sans-serif",
+            fontSize: { xs: '2.5rem', md: '4.5rem' },
           }}
         >
-          Check Us Out
+          Check Us <br/>
+          <Box component="span" sx={{ color: RED, fontStyle: 'italic' }}>
+            Out.
+          </Box>
         </Typography>
-        <Typography sx={{ color: alpha('#fff', 0.55), lineHeight: 1.85, fontSize: '0.92rem' }}>
+        <Typography sx={{ color: alpha('#fff', 0.55), lineHeight: 1.85, fontSize: '0.88rem' }}>
           This isn&apos;t just fitness. This is a standard — a place where discipline meets lifestyle,
           and results become identity. Train with intent. Move with purpose. Become your strongest self.
         </Typography>
       </m.div>
 
-      <Stack spacing={2}>
+      <Stack spacing={0}>
         {BENEFITS.map((item, index) => (
           <m.div key={index} variants={varFade({ distance: 20 }).inRight}>
-            <Stack direction="row" spacing={2} alignItems="flex-start">
+            <Stack 
+              direction="row" 
+              spacing={2.5} 
+              alignItems="flex-start" 
+              sx={{ 
+                py: 2.5, 
+                borderBottom: `1px solid ${alpha('#fff', 0.06)}`,
+                transition: 'background 0.3s',
+                '&:hover': { bgcolor: alpha(RED, 0.025) },
+              }}
+            >
               <Box
                 sx={{
                   mt: 0.2,
-                  minWidth: 40,
-                  height: 40,
-                  borderRadius: 1.5,
-                  bgcolor: alpha(theme.palette.primary.main, 0.1),
-                  border: `1px solid ${alpha(theme.palette.primary.main, 0.2)}`,
+                  minWidth: 42,
+                  height: 42,
+                  borderRadius: 0, // Icon box tajam
+                  bgcolor: 'transparent',
+                  border: `1px solid ${alpha(RED, 0.2)}`,
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   flexShrink: 0,
                   transition: 'background 0.2s',
-                  '&:hover': { bgcolor: alpha(theme.palette.primary.main, 0.2) },
+                  '&:hover': { bgcolor: alpha(RED, 0.1) },
                 }}
               >
-                <Iconify icon={item.icon} width={22} sx={{ color: 'primary.main' }} />
+                <Iconify icon={item.icon} width={22} sx={{ color: RED }} />
               </Box>
               <Typography
                 variant="body2"
-                sx={{ color: alpha('#fff', 0.72), fontWeight: 500, lineHeight: 1.75, pt: 0.7 }}
+                sx={{ color: alpha('#fff', 0.72), fontWeight: 500, lineHeight: 1.75, pt: 0.7, fontSize: '0.82rem' }}
               >
                 {item.node}
               </Typography>
@@ -237,7 +298,7 @@ export default function HomeFreeTrial() {
         py: { xs: 10, md: 15 },
         position: 'relative',
         overflow: 'hidden',
-        background: `linear-gradient(145deg, ${COLORS.redDark} 0%, ${COLORS.black} 55%, #0a0a0a 100%)`,
+        background: `linear-gradient(145deg, ${RED_DARK} 0%, ${BLACK} 55%, #0a0a0a 100%)`, // Gradien menggunakan merah gelap ke hitam
       }}
     >
       {/* Decorative glow — top left */}
@@ -249,7 +310,7 @@ export default function HomeFreeTrial() {
           width: 560,
           height: 560,
           borderRadius: '50%',
-          background: alpha(theme.palette.primary.main, 0.12),
+          background: alpha(RED, 0.12),
           filter: 'blur(110px)',
           pointerEvents: 'none',
         }}
@@ -263,14 +324,14 @@ export default function HomeFreeTrial() {
           width: 400,
           height: 400,
           borderRadius: '50%',
-          background: alpha(theme.palette.primary.main, 0.06),
+          background: alpha(RED, 0.06),
           filter: 'blur(90px)',
           pointerEvents: 'none',
         }}
       />
 
       <Container component={MotionViewport}>
-        <Grid container spacing={{ xs: 5, md: 8 }} alignItems="center">
+        <Grid container spacing={{ xs: 8, md: 10 }} alignItems="center">
           <Grid xs={12} md={5}>
             <m.div variants={varFade().inLeft}>
               {renderForm}

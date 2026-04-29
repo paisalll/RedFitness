@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { m, AnimatePresence } from 'framer-motion';
 // @mui
-import { alpha, useTheme } from '@mui/material/styles';
+import { alpha, useTheme, styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Container from '@mui/material/Container';
@@ -18,6 +18,10 @@ import { MotionViewport, varFade } from 'src/components/animate';
 
 // ----------------------------------------------------------------------
 
+const RED = '#DF2026';
+const RED_DARK = '#A8171C';
+const BLACK = '#060606';
+
 const TESTIMONIALS = [
   {
     id: 1,
@@ -25,7 +29,7 @@ const TESTIMONIALS = [
     role: 'Member since 2018',
     quote: 'I finally found a routine I can stick to.',
     review: 'Before joining Red Fitness Indonesia, I struggled to stay consistent. With the support from trainers and the right environment, I was able to build a routine, stay motivated, and see real progress. This is more than just a gym—it’s where my journey truly started.',
-    avatar: '/assets/background/home_member/8.png', // Pastikan kamu punya gambar dummy atau ganti url ini
+    avatar: '/assets/background/home_member/8.png',
   },
   {
     id: 2,
@@ -44,6 +48,14 @@ const TESTIMONIALS = [
     avatar: '/assets/background/home_member/10.png',
   },
 ];
+
+// ── Shared accent rule (Diambil dari elemen header) ──────────────
+const AccentRule = styled('div')({
+  width: '100%',
+  height: 1,
+  background: `linear-gradient(90deg, transparent 0%, ${RED} 40%, ${RED} 60%, transparent 100%)`,
+  opacity: 0.22,
+});
 
 export default function HomeTestimonials() {
   const theme = useTheme();
@@ -64,12 +76,13 @@ export default function HomeTestimonials() {
   const activeTestimonial = TESTIMONIALS[activeStep];
 
   const renderControls = (
-    <Stack direction="row" spacing={2} sx={{ mt: 5 }}>
+    <Stack direction="row" spacing={2} sx={{ mt: 5, justifyContent: { xs: 'center', md: 'flex-start' } }}>
       <IconButton
         onClick={handleBack}
         sx={{
           p: 2,
-          border: `1px solid ${alpha(theme.palette.common.white, 0.3)}`,
+          borderRadius: 0, // Kotak tajam seperti tombol Join Us Now
+          border: `1px solid ${alpha(theme.palette.common.white, 0.2)}`,
           color: 'common.white',
           '&:hover': {
             bgcolor: alpha(theme.palette.common.white, 0.08),
@@ -84,11 +97,12 @@ export default function HomeTestimonials() {
         onClick={handleNext}
         sx={{
           p: 2,
-          bgcolor: 'primary.main',
+          borderRadius: 0, // Kotak tajam
+          bgcolor: RED,
           color: 'common.white',
-          boxShadow: `0 8px 16px 0 ${alpha(theme.palette.primary.main, 0.24)}`,
+          boxShadow: 'none',
           '&:hover': {
-            bgcolor: 'primary.dark',
+            bgcolor: RED_DARK,
           },
         }}
       >
@@ -99,33 +113,51 @@ export default function HomeTestimonials() {
 
   const renderContent = (
     <Stack sx={{ maxWidth: 480, mx: { xs: 'auto', md: 'unset' }, textAlign: { xs: 'center', md: 'left' } }}>
-      <m.div variants={varFade().inUp}>
-        <Typography variant="h2" sx={{ mb: 1, fontWeight: 900, textTransform: 'uppercase' }}>
-          What Our <br />
-          <Box component="span" sx={{ color: 'primary.main' }}>Members Achieve</Box>
-        </Typography>
+      
+      {/* Overline row mirip dengan "Why Red Fitness" */}
+      <m.div variants={varFade().inLeft}>
+        <Stack 
+          direction="row" 
+          alignItems="center" 
+          justifyContent={{ xs: 'center', md: 'flex-start' }}
+          spacing={1.5} 
+          sx={{ mb: 3 }}
+        >
+          <Box sx={{ width: 28, height: 2, bgcolor: RED, flexShrink: 0 }} />
+          <Typography
+            sx={{
+              fontSize: '0.65rem',
+              fontWeight: 800,
+              letterSpacing: 4,
+              textTransform: 'uppercase',
+              color: RED,
+              fontFamily: 'monospace',
+            }}
+          >
+            Real Stories
+          </Typography>
+        </Stack>
       </m.div>
 
       <m.div variants={varFade().inUp}>
-        <Stack
-          direction="row"
-          alignItems="center"
-          justifyContent={{ xs: 'center', md: 'flex-start' }}
-          spacing={2}
-          sx={{ mb: 5, mt: 2 }}
+        <Typography 
+          variant="h2" 
+          sx={{ 
+            fontWeight: 800,
+            lineHeight: 0.95,
+            letterSpacing: -2,
+            color: 'common.white',
+            textTransform: 'uppercase',
+            fontFamily: "'Poppins', sans-serif",
+            fontSize: { xs: '2.5rem', md: '4rem' },
+            mb: 4
+          }}
         >
-          <Avatar
-            src={activeTestimonial.avatar}
-            alt={activeTestimonial.name}
-            sx={{ width: 48, height: 48 }}
-          />
-          <Box sx={{ textAlign: 'left' }}>
-            <Typography variant="subtitle1">{activeTestimonial.name}</Typography>
-            <Typography variant="caption" sx={{ color: 'text.disabled' }}>
-              {activeTestimonial.role}
-            </Typography>
+          What Our <br />
+          <Box component="span" display="block" sx={{ color: RED, fontStyle: 'italic' }}>
+            Members Achieve.
           </Box>
-        </Stack>
+        </Typography>
       </m.div>
 
       <Box sx={{ minHeight: 240, position: 'relative' }}>
@@ -140,18 +172,55 @@ export default function HomeTestimonials() {
             <Typography
               variant="h3"
               sx={{
-                color: 'primary.main', // Warna Cyan/Teal sesuai gambar
+                color: 'common.white', 
                 mb: 3,
-                fontStyle: 'italic',
+                fontFamily: "'Poppins', sans-serif",
+                textTransform: 'uppercase',
                 fontWeight: 800,
+                letterSpacing: -0.5,
               }}
             >
               "{activeTestimonial.quote}"
             </Typography>
 
-            <Typography variant="body1" sx={{ color: 'text.secondary', lineHeight: 1.8 }}>
+            <Typography 
+              variant="body1" 
+              sx={{ 
+                color: alpha('#fff', 0.4), // Menyamai deskripsi header
+                lineHeight: 1.85,
+                fontSize: '0.88rem',
+                mb: 4
+              }}
+            >
               {activeTestimonial.review}
             </Typography>
+
+            {/* Profil Member */}
+            <Stack
+              direction="row"
+              alignItems="center"
+              justifyContent={{ xs: 'center', md: 'flex-start' }}
+              spacing={2}
+            >
+              <Avatar
+                src={activeTestimonial.avatar}
+                alt={activeTestimonial.name}
+                sx={{ 
+                  width: 48, 
+                  height: 48,
+                  border: `1px solid ${alpha(RED, 0.4)}` // Border merah tipis pada avatar
+                }}
+              />
+              <Box sx={{ textAlign: 'left' }}>
+                <Typography sx={{ fontWeight: 800, fontSize: '0.9rem', color: 'common.white', fontFamily: "'Poppins', sans-serif", textTransform: 'uppercase' }}>
+                  {activeTestimonial.name}
+                </Typography>
+                <Typography sx={{ color: RED, fontSize: '0.7rem', fontWeight: 700, fontFamily: 'monospace', letterSpacing: 1 }}>
+                  {activeTestimonial.role}
+                </Typography>
+              </Box>
+            </Stack>
+
           </m.div>
         </AnimatePresence>
       </Box>
@@ -165,25 +234,25 @@ export default function HomeTestimonials() {
       <AnimatePresence mode="wait">
         <m.div
             key={activeTestimonial.id}
-            initial={{ opacity: 0, scale: 0.9 }}
+            initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 1.1 }}
+            exit={{ opacity: 0, scale: 1.05 }}
             transition={{ duration: 0.6, ease: 'easeOut' }}
             style={{ width: '100%', height: '100%' }}
         >
             <Image
                 disabledEffect
                 alt={activeTestimonial.name}
-                src={activeTestimonial.avatar} // Menggunakan gambar avatar sebagai foto besar juga
+                src={activeTestimonial.avatar}
                 sx={{
                     width: 1,
                     height: 1,
                     objectFit: 'cover',
-                    borderRadius: 2,
-                    boxShadow: (theme) => `-40px 40px 80px ${alpha(theme.palette.common.black, 0.4)}`,
+                    borderRadius: 0, // Dibuat tajam sesuai tema
+                    border: `1px solid ${alpha('#fff', 0.06)}`,
                 }}
             />
-            {/* Overlay Gradient Style */}
+            {/* Overlay Gradient Hitam di bawah gambar */}
             <Box
                 sx={{
                     position: 'absolute',
@@ -191,14 +260,13 @@ export default function HomeTestimonials() {
                     left: 0,
                     width: 1,
                     height: '50%',
-                    borderRadius: '0 0 16px 16px',
-                    background: `linear-gradient(to top, ${theme.palette.grey[900]} 0%, transparent 100%)`,
+                    background: `linear-gradient(to top, ${BLACK} 0%, transparent 100%)`,
                 }}
             />
         </m.div>
       </AnimatePresence>
       
-      {/* Decorative Element */}
+      {/* Decorative Red Blur Element */}
       <Box
         component={m.div}
         animate={{ y: [0, -15, 0] }}
@@ -211,7 +279,7 @@ export default function HomeTestimonials() {
             width: 160,
             height: 160,
             borderRadius: '50%',
-            background: `linear-gradient(135deg, ${alpha(theme.palette.primary.main, 0.4)} 0%, transparent 100%)`,
+            background: `linear-gradient(135deg, ${alpha(RED, 0.4)} 0%, transparent 100%)`,
             filter: 'blur(40px)',
         }}
       />
@@ -221,20 +289,26 @@ export default function HomeTestimonials() {
   return (
     <Box
       sx={{
-        bgcolor: 'grey.900',
+        bgcolor: BLACK, // Background utama diset ke BLACK
         color: 'common.white',
         py: { xs: 10, md: 15 },
+        position: 'relative',
         overflow: 'hidden',
       }}
     >
+      {/* Garis atas pembatas */}
+      <Box sx={{ position: 'absolute', top: 0, left: 0, right: 0 }}>
+        <AccentRule />
+      </Box>
+
       <Container component={MotionViewport}>
-        <Grid container spacing={{ xs: 5, md: 8 }} alignItems="center" direction={{ xs: 'column-reverse', md: 'row' }}>
+        <Grid container spacing={{ xs: 8, md: 10 }} alignItems="center" direction={{ xs: 'column-reverse', md: 'row' }}>
           <Grid xs={12} md={6}>
             {renderContent}
           </Grid>
 
           <Grid xs={12} md={6}>
-             {renderImg}
+            {renderImg}
           </Grid>
         </Grid>
       </Container>

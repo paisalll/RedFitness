@@ -24,7 +24,7 @@ const Logo = forwardRef<HTMLDivElement, LogoProps>(
         alt="Red Fitness Logo"
         sx={{ 
           width: 'auto', // Gunakan auto agar aspek rasio terjaga
-          height: 15,    // Sesuaikan tinggi dengan kebutuhan Navbar
+          height: 20,    // Sesuaikan tinggi dengan kebutuhan Navbar
           cursor: 'pointer', 
           ...sx 
         }}

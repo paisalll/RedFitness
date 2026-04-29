@@ -15,14 +15,18 @@ import { paths } from 'src/routes/paths';
 // hooks
 import { useResponsive } from 'src/hooks/use-responsive';
 // theme
-import { textGradient, bgGradient, bgBlur } from 'src/theme/css';
+import { bgGradient, bgBlur } from 'src/theme/css';
 // layouts
 import { HEADER } from 'src/layouts/config-layout';
 // components
 import Iconify from 'src/components/iconify';
 import { RouterLink } from 'src/routes/components';
 import { MotionContainer, varFade } from 'src/components/animate';
-import { COLORS } from '../about/about-team';
+
+// ----------------------------------------------------------------------
+
+const RED = '#DF2026';
+const RED_DARK = '#A8171C';
 
 // ----------------------------------------------------------------------
 
@@ -50,48 +54,16 @@ const StyledWrapper = styled('div')(({ theme }) => ({
   },
 }));
 
-const StyledTextGradient = styled(m.h1)(({ theme }) => ({
-  ...textGradient(
-    `300deg, ${COLORS.red} 0%, #FF4D4D 20%, #ffffff 45%, #FF1A1A 65%, ${COLORS.redDark} 85%, ${COLORS.red} 100%`
-  ),
-  padding: 0,
-  marginTop: 8,
-  lineHeight: 1.15,
-  marginBottom: 16,
-  letterSpacing: 1,
-  textAlign: 'center',
-  backgroundSize: '400%',
-  fontSize: `${40 / 16}rem`,
-  fontWeight: 900,
-  fontFamily: "'Poppins', sans-serif",
-  [theme.breakpoints.up('md')]: {
-    fontSize: `${60 / 16}rem`,
-  },
-}));
-
-const StyledEllipseTop = styled('div')(({ theme }) => ({
-  top: -80,
-  width: 480,
-  right: -80,
-  height: 480,
-  borderRadius: '50%',
+// Thin red accent line — replaces glow blur
+const StyledAccentLine = styled('div')({
   position: 'absolute',
-  filter: 'blur(100px)',
-  WebkitFilter: 'blur(100px)',
-  backgroundColor: alpha(theme.palette.primary.darker, 0.12),
-}));
-
-const StyledEllipseBottom = styled('div')(({ theme }) => ({
-  height: 400,
-  bottom: -200,
-  left: '10%',
-  right: '10%',
-  borderRadius: '50%',
-  position: 'absolute',
-  filter: 'blur(100px)',
-  WebkitFilter: 'blur(100px)',
-  backgroundColor: alpha(theme.palette.primary.darker, 0.12),
-}));
+  top: 0,
+  left: 0,
+  width: '100%',
+  height: 3,
+  background: `linear-gradient(90deg, transparent 0%, ${RED} 40%, ${RED} 60%, transparent 100%)`,
+  opacity: 0.7,
+});
 
 type StyledPolygonProps = {
   opacity?: number;
@@ -102,7 +74,7 @@ const StyledPolygon = styled('div')<StyledPolygonProps>(
   ({ opacity = 1, anchor = 'left', theme }) => ({
     ...bgBlur({
       opacity,
-      color: theme.palette.background.default,
+      color: '#DF2026',
     }),
     zIndex: 9,
     bottom: 0,
@@ -130,27 +102,18 @@ const StyledPolygon = styled('div')<StyledPolygonProps>(
 
 export default function HomeHero() {
   const mdUp = useResponsive('up', 'md');
-
   const theme = useTheme();
-
   const heroRef = useRef<HTMLDivElement | null>(null);
-
   const { scrollY } = useScroll();
-
   const [percent, setPercent] = useState(0);
-
-  const isLight = theme.palette.mode === 'light';
 
   const getScroll = useCallback(() => {
     let heroHeight = 0;
-
     if (heroRef.current) {
       heroHeight = heroRef.current.offsetHeight;
     }
-
     scrollY.on('change', (scrollHeight) => {
       const scrollPercent = (scrollHeight * 100) / heroHeight;
-
       setPercent(Math.floor(scrollPercent));
     });
   }, [scrollY]);
@@ -159,15 +122,7 @@ export default function HomeHero() {
     getScroll();
   }, [getScroll]);
 
-  const transition = {
-    repeatType: 'loop',
-    ease: 'linear',
-    duration: 60 * 4,
-    repeat: Infinity,
-  } as const;
-
   const opacity = 1 - percent / 100;
-
   const hide = percent > 120;
 
   const renderDescription = (
@@ -177,25 +132,51 @@ export default function HomeHero() {
       sx={{
         height: 1,
         mx: 'auto',
-        maxWidth: 480,
+        maxWidth: 520,
         opacity: opacity > 0 ? opacity : 0,
         mt: {
           md: `-${HEADER.H_DESKTOP + percent * 2.5}px`,
         },
       }}
     >
-      <m.div variants={varFade().in}>
-        <StyledTextGradient
-          animate={{ backgroundPosition: '200% center' }}
-          transition={{
-            repeatType: 'reverse',
-            ease: 'linear',
-            duration: 20,
-            repeat: Infinity,
+      {/* Small overline label */}
+      <m.div variants={varFade().inDown}>
+        <Box
+          sx={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 1,
+            mb: 3,
+            px: 2,
+            py: 0.75,
+            border: `1px solid ${alpha(RED, 0.4)}`,
+            borderRadius: 0.5,
           }}
         >
-          Train Better. Achieve More.
-        </StyledTextGradient>
+        </Box>
+      </m.div>
+
+      {/* Main heading */}
+      <m.div variants={varFade().in}>
+        <Typography
+          component="h1"
+          sx={{
+            textAlign: 'center',
+            fontWeight: 900,
+            lineHeight: 1.1,
+            letterSpacing: -1,
+            fontSize: { xs: '2.8rem', md: '4rem' },
+            color: 'common.white',
+            mb: 2,
+            fontFamily: "'Poppins', sans-serif",
+            textTransform: 'uppercase',
+          }}
+        >
+          Train Better.{' '}
+          <Box component="span" sx={{ color: RED }}>
+            Achieve More.
+          </Box>
+        </Typography>
       </m.div>
 
       <m.div variants={varFade().in}>
@@ -203,7 +184,7 @@ export default function HomeHero() {
           variant="body1"
           textAlign="center"
           sx={{
-            color: 'text.secondary',
+            color: alpha('#fff', 0.5),
             mb: 2,
             mx: 'auto',
             maxWidth: 400,
@@ -223,9 +204,15 @@ export default function HomeHero() {
           justifyContent="center"
           sx={{ my: 2.5 }}
         >
-          <Rating readOnly value={4.9} precision={0.1} max={5} />
-          <Typography variant="caption" sx={{ color: 'text.secondary' }}>
-            <Box component="strong" sx={{ mr: 0.5, color: 'text.primary' }}>
+          <Rating
+            readOnly
+            value={4.9}
+            precision={0.1}
+            max={5}
+            sx={{ '& .MuiRating-iconFilled': { color: RED } }}
+          />
+          <Typography variant="caption" sx={{ color: alpha('#fff', 0.45) }}>
+            <Box component="strong" sx={{ mr: 0.5, color: 'common.white' }}>
               4.9/5
             </Box>
             from 1000+ members
@@ -238,10 +225,10 @@ export default function HomeHero() {
           <Stack alignItems="center" spacing={1.5}>
             <Typography
               variant="caption"
-              sx={{ color: 'text.secondary', fontWeight: 600, letterSpacing: 1 }}
+              sx={{ color: alpha('#fff', 0.45), fontWeight: 600, letterSpacing: 1 }}
             >
               Starting from{' '}
-              <Box component="span" sx={{ color: 'text.primary', fontWeight: 800, fontSize: '1rem' }}>
+              <Box component="span" sx={{ color: 'common.white', fontWeight: 800, fontSize: '1rem' }}>
                 195k/month
               </Box>
             </Typography>
@@ -253,12 +240,17 @@ export default function HomeHero() {
               variant="contained"
               startIcon={<Iconify icon="eva:flash-fill" width={24} />}
               sx={{
-                bgcolor: COLORS.red,
-                color: COLORS.white,
+                bgcolor: RED,
+                color: '#fff',
                 px: 4,
                 fontWeight: 700,
                 letterSpacing: 1,
-                '&:hover': { bgcolor: COLORS.redDark },
+                borderRadius: 0.5,
+                boxShadow: 'none',
+                '&:hover': {
+                  bgcolor: RED_DARK,
+                  boxShadow: 'none',
+                },
               }}
             >
               Join Now
@@ -271,9 +263,11 @@ export default function HomeHero() {
               rel="noopener"
               href={paths.freeUI}
               sx={{
+                color: alpha('#fff', 0.4),
                 textDecoration: 'underline',
                 display: 'inline-flex',
                 alignItems: 'center',
+                '&:hover': { color: RED },
               }}
             >
               <Iconify icon="eva:external-link-fill" width={16} sx={{ mr: 0.5 }} />
@@ -282,90 +276,8 @@ export default function HomeHero() {
           </Stack>
         </Stack>
       </m.div>
-
     </Stack>
   );
-
-  // const renderSlides = (
-  //   <Stack
-  //     direction="row"
-  //     alignItems="flex-start"
-  //     sx={{
-  //       height: '150%',
-  //       position: 'absolute',
-  //       opacity: opacity > 0 ? opacity : 0,
-  //       transform: `skew(${-16 - percent / 24}deg, ${4 - percent / 16}deg)`,
-  //       ...(theme.direction === 'rtl' && {
-  //         transform: `skew(${16 + percent / 24}deg, ${4 + percent / 16}deg)`,
-  //       }),
-  //     }}
-  //   >
-  //     <Stack
-  //       component={m.div}
-  //       variants={varFade().in}
-  //       sx={{
-  //         width: 344,
-  //         position: 'relative',
-  //       }}
-  //     >
-  //       <Box
-  //         component={m.img}
-  //         animate={{ y: ['0%', '100%'] }}
-  //         transition={transition}
-  //         alt={isLight ? 'light_1' : 'dark_1'}
-  //         src={
-  //           isLight
-  //             ? `/assets/images/home/hero/light_1.webp`
-  //             : `/assets/images/home/hero/1.png`
-  //         }
-  //         sx={{ position: 'absolute', mt: -5 }}
-  //       />
-  //       <Box
-  //         component={m.img}
-  //         animate={{ y: ['-100%', '0%'] }}
-  //         transition={transition}
-  //         alt={isLight ? 'light_1' : 'dark_1'}
-  //         src={
-  //           isLight
-  //             ? `/assets/images/home/hero/light_1.webp`
-  //             : `/assets/images/home/hero/1.png`
-  //         }
-  //         sx={{ position: 'absolute' }}
-  //       />
-  //     </Stack>
-
-  //     <Stack
-  //       component={m.div}
-  //       variants={varFade().in}
-  //       sx={{ width: 720, position: 'relative', ml: -5 }}
-  //     >
-  //       <Box
-  //         component={m.img}
-  //         animate={{ y: ['100%', '0%'] }}
-  //         transition={transition}
-  //         alt={isLight ? 'light_2' : 'dark_2'}
-  //         src={
-  //           isLight
-  //             ? `/assets/images/home/hero/light_2.webp`
-  //             : `/assets/images/home/hero/2.png`
-  //         }
-  //         sx={{ position: 'absolute',}}
-  //       />
-  //       <Box
-  //         component={m.img}
-  //         animate={{ y: ['0%', '-100%'] }}
-  //         transition={transition}
-  //         alt={isLight ? 'light_2' : 'dark_2'}
-  //         src={
-  //           isLight
-  //             ? `/assets/images/home/hero/light_2.webp`
-  //             : `/assets/images/home/hero/2.png`
-  //         }
-  //         sx={{ position: 'absolute' }}
-  //       />
-  //     </Stack>
-  //   </Stack>
-  // );
 
   const renderPolygons = (
     <>
@@ -376,35 +288,23 @@ export default function HomeHero() {
     </>
   );
 
-  const renderEllipses = (
-    <>
-      {mdUp && <StyledEllipseTop />}
-      <StyledEllipseBottom />
-    </>
-  );
-
   return (
     <>
       <StyledRoot
         ref={heroRef}
         sx={{
-          ...(hide && {
-            opacity: 0,
-          }),
+          ...(hide && { opacity: 0 }),
         }}
       >
+        <StyledAccentLine />
         <StyledWrapper>
           <Container component={MotionContainer} sx={{ height: 1 }}>
             <Grid container columnSpacing={{ md: 10 }} sx={{ height: 1 }}>
               <Grid xs={12} md={6}>
                 {renderDescription}
               </Grid>
-{/* 
-              {mdUp && <Grid md={6}>{renderSlides}</Grid>} */}
             </Grid>
           </Container>
-
-          {renderEllipses}
         </StyledWrapper>
       </StyledRoot>
 
