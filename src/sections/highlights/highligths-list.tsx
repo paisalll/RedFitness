@@ -8,6 +8,7 @@ import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
+import IconButton from '@mui/material/IconButton';
 // components
 import Image from 'src/components/image';
 import Iconify from 'src/components/iconify';
@@ -15,58 +16,66 @@ import { MotionViewport, varFade } from 'src/components/animate';
 
 // ----------------------------------------------------------------------
 
-const COLORS = {
-  red: '#D40000',
-  black: '#000000',
-  white: '#FFFFFF',
-};
+const RED = '#DF2026';
+const BLACK = '#060606';
 
 const HIGHLIGHTS = [
-  { 
-    title: 'FUN RUN COMMUNITY GATHERING SPONSORED BY METROPOLITAN MALL', 
-    image: '/assets/background/HIGHLIGHT/36.png' 
-  },
-  { 
-    title: 'RED FITNESS CSR & DONATION AT MIZAN AMANAH KALIDERES', 
-    image: '/assets/background/HIGHLIGHT/35.png' 
-  },
-  { 
-    title: 'RED FITNESS ZUMBA GLOW UP EVENT AT HOTEL NEO+ AIRPORT JAKARTA', 
-    image: '/assets/background/HIGHLIGHT/34.png' 
-  }
+    { 
+        title: 'FUN RUN COMMUNITY GATHERING SPONSORED BY METROPOLITAN MALL', 
+        image: '/assets/background/HIGHLIGHT/36.png' 
+    },
+    { 
+        title: 'RED FITNESS CSR & DONATION AT MIZAN AMANAH KALIDERES', 
+        image: '/assets/background/HIGHLIGHT/35.png' 
+    },
+    { 
+        title: 'RED FITNESS ZUMBA GLOW UP EVENT AT HOTEL NEO+ AIRPORT JAKARTA', 
+        image: '/assets/background/HIGHLIGHT/34.png' 
+    }
 ];
 
 export default function HighlightsList() {
     return (
-        <Box sx={{ bgcolor: COLORS.black, py: { xs: 10, md: 15 }, color: COLORS.white }}>
+        <Box sx={{ bgcolor: BLACK, py: { xs: 10, md: 15 }, color: '#fff', borderTop: `1px solid ${alpha(RED, 0.15)}` }}>
         <Container component={MotionViewport}>
             
             {/* HEADER */}
-            <Box sx={{ textAlign: 'center', mb: 8 }}>
+            <Stack spacing={5} sx={{ mb: 8 }} alignItems="center">
             <m.div variants={varFade().inDown}>
+                <Stack direction="row" alignItems="center" justifyContent="center" spacing={1.5} sx={{ mb: 2 }}>
+                    <Box sx={{ width: 28, height: 2, bgcolor: RED }} />
+                    <Typography sx={{ fontSize: '0.65rem', fontWeight: 800, letterSpacing: 4, textTransform: 'uppercase', color: RED, fontFamily: 'monospace' }}>
+                        Events & News
+                    </Typography>
+                    <Box sx={{ width: 28, height: 2, bgcolor: RED }} />
+                </Stack>
                 <Typography 
                 variant="h2" 
                 sx={{ 
-                    fontWeight: 900, 
+                    fontWeight: 800, 
                     textTransform: 'uppercase', 
-                    letterSpacing: 1
+                    letterSpacing: -2,
+                    lineHeight: 0.9,
+                    fontFamily: "'Poppins', sans-serif",
+                    textAlign: 'center'
                 }}
                 >
-                CHECK OUT OUR <Box component="span" sx={{ color: COLORS.red }}>HIGHLIGHTS</Box>
+                Check Out Our <br/> <Box component="span" sx={{ color: RED, fontStyle: 'italic' }}>Highlights.</Box>
                 </Typography>
             </m.div>
-            </Box>
+            </Stack>
 
             {/* HIGHLIGHTS GRID */}
-            <Grid container spacing={4}>
+            <Grid container spacing={3}>
             {HIGHLIGHTS.map((item, index) => (
-                <Grid key={index} xs={12} sm={6} md={3}>
-                <m.div variants={varFade().inUp}>
+                <Grid key={index} xs={12} sm={6} md={4}>
+                <m.div variants={varFade().inUp} style={{ height: '100%' }}>
                     <Card
                     sx={{
-                        bgcolor: alpha(COLORS.white, 0.05),
-                        borderRadius: 2,
-                        border: `1px solid ${alpha(COLORS.white, 0.05)}`,
+                        bgcolor: '#080808',
+                        borderRadius: 0, // Sharp
+                        border: `1px solid ${alpha(RED, 0.15)}`,
+                        borderLeft: `3px solid ${RED}`,
                         boxShadow: 'none',
                         height: '100%',
                         display: 'flex',
@@ -75,12 +84,14 @@ export default function HighlightsList() {
                         cursor: 'pointer',
                         '&:hover': {
                         transform: 'translateY(-8px)',
-                        bgcolor: alpha(COLORS.white, 0.08),
-                        borderColor: alpha(COLORS.red, 0.3),
+                        bgcolor: '#0c0c0c',
+                        borderColor: alpha(RED, 0.5),
                         '& .arrow-box': {
-                            bgcolor: COLORS.red,
-                            color: COLORS.white,
-                        }
+                            bgcolor: RED,
+                            color: '#fff',
+                            borderColor: RED
+                        },
+                        '& .highlight-img': { transform: 'scale(1.05)' },
                         }
                     }}
                     >
@@ -89,6 +100,7 @@ export default function HighlightsList() {
                         <Image
                         alt={item.title}
                         src={item.image}
+                        className="highlight-img"
                         sx={{
                             position: 'absolute',
                             top: 0,
@@ -96,9 +108,10 @@ export default function HighlightsList() {
                             width: 1,
                             height: 1,
                             transition: 'transform 0.5s ease',
-                            '&:hover': { transform: 'scale(1.1)' }
                         }}
                         />
+                        {/* Overlay Gradien pada gambar agar menyatu dengan background */}
+                        <Box sx={{ position: 'absolute', top: 0, left: 0, width: 1, height: 1, background: `linear-gradient(to bottom, transparent 40%, ${BLACK} 100%)` }} />
                     </Box>
 
                     {/* Content Area */}
@@ -108,39 +121,46 @@ export default function HighlightsList() {
                         display: 'flex', 
                         flexDirection: 'column', 
                         justifyContent: 'space-between',
+                        bgcolor: '#080808',
                         p: 3 
                         }}
                     >
-                        <Typography 
-                        variant="subtitle2" 
-                        sx={{ 
-                            fontWeight: 800, 
-                            textTransform: 'uppercase', 
-                            lineHeight: 1.5,
-                            mb: 3,
-                            color: COLORS.white
-                        }}
-                        >
-                        {item.title}
-                        </Typography>
-
-                        <Stack direction="row" justifyContent="flex-end">
-                        <Box
-                            className="arrow-box"
-                            sx={{
-                            width: 36,
-                            height: 36,
-                            borderRadius: 1,
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            bgcolor: alpha(COLORS.white, 0.1),
-                            color: COLORS.red,
-                            transition: 'all 0.3s ease',
+                        <Box>
+                            <Typography variant="overline" sx={{ color: RED, fontFamily: 'monospace', mb: 0.5, display: 'block', letterSpacing: 2 }}>
+                                EVENT
+                            </Typography>
+                            <Typography 
+                            variant="h6" 
+                            sx={{ 
+                                fontWeight: 800, 
+                                textTransform: 'uppercase', 
+                                lineHeight: 1.2,
+                                mb: 3,
+                                color: '#fff',
+                                fontFamily: "'Poppins', sans-serif"
                             }}
-                        >
-                            <Iconify icon="solar:arrow-right-up-bold" width={20} />
+                            >
+                            {item.title}
+                            </Typography>
                         </Box>
+
+                        <Stack direction="row" justifyContent="space-between" alignItems="center">
+                            <Typography sx={{ fontSize: '0.65rem', fontWeight: 800, letterSpacing: 1.5, fontFamily: 'monospace', color: RED, textTransform: 'uppercase' }}>
+                                Read More
+                            </Typography>
+                            <IconButton
+                                className="arrow-box"
+                                size="small"
+                                sx={{
+                                borderRadius: 0, // Sharp
+                                bgcolor: BLACK,
+                                color: alpha('#fff', 0.5),
+                                transition: 'all 0.3s ease',
+                                border: `1px solid ${alpha('#fff', 0.1)}`,
+                                }}
+                            >
+                                <Iconify icon="solar:arrow-right-up-bold" width={18} />
+                            </IconButton>
                         </Stack>
                     </CardContent>
                     </Card>

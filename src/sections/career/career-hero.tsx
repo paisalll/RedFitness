@@ -14,8 +14,8 @@ import { MotionContainer, varFade } from 'src/components/animate';
 // ----------------------------------------------------------------------
 
 const COLORS = {
-    red: '#D40000',
-    redDark: '#8a0000',
+    red: '#DF2026',
+    redDark: '#A8171C',
     black: '#000000',
     white: '#FFFFFF',
 };
@@ -131,20 +131,20 @@ export default function CareerHero() {
             sx={{
                 bgcolor: COLORS.red,
                 color: COLORS.white,
-                borderRadius: 50,
+                borderRadius: 0.5,
                 px: 5,
                 py: 1.5,
                 fontSize: '1.1rem',
-                fontWeight: 'bold',
-                boxShadow: `0 8px 24px ${alpha(COLORS.red, 0.4)}`,
+                fontWeight: 700,
+                letterSpacing: 1,
+                boxShadow: 'none',
                 '&:hover': {
                 bgcolor: COLORS.redDark,
-                transform: 'translateY(-2px)',
+                boxShadow: 'none',
                 },
-                transition: 'all 0.3s ease',
             }}
             >
-            Follow Us On Intagram
+            Follow Us On Instagram
             </Button>
         </m.div>
         </Container>

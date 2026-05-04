@@ -23,32 +23,27 @@ import { supabase } from 'src/utils/supabase';
 
 // ----------------------------------------------------------------------
 
-const COLORS = {
-  red: '#D40000',
-  black: '#000000',
-  white: '#FFFFFF',
-};
+const RED = '#DF2026';
+const BLACK = '#060606';
+const RED_DARK = '#A8171C';
 
-const ITEMS_PER_PAGE = 8; // Jumlah kelas yang tampil per halaman
+const ITEMS_PER_PAGE = 8;
 
 export default function ClassesExplore() {
-  // --- STATE ---
   const [classesData, setClassesData] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   
-  // Filter & Pagination State
   const [activeCategory, setActiveCategory] = useState('ALL');
   const [searchQuery, setSearchQuery] = useState('');
   const [page, setPage] = useState(1);
 
-  // --- FETCH DATA ---
   useEffect(() => {
     const fetchClasses = async () => {
       setIsLoading(true);
       const { data, error } = await supabase
         .from('classes')
         .select('*')
-        .order('title', { ascending: true }); // Urutkan berdasarkan abjad
+        .order('title', { ascending: true });
       
       if (!error && data) {
         setClassesData(data);
@@ -61,82 +56,79 @@ export default function ClassesExplore() {
     fetchClasses();
   }, []);
 
-  // --- DYNAMIC CATEGORIES ---
-  // Membuat daftar kategori secara otomatis berdasarkan data yang ada di database
   const CATEGORIES = useMemo(() => {
     const uniqueCategories = Array.from(new Set(classesData.map(item => item.category_filter)));
-    return ['ALL', ...uniqueCategories].filter(Boolean); // Filter Boolean mencegah ada kategori null/undefined
+    return ['ALL', ...uniqueCategories].filter(Boolean);
   }, [classesData]);
 
-  // --- FILTERING & SEARCHING LOGIC ---
   const filteredClasses = useMemo(() => {
     return classesData.filter((item) => {
-      // 1. Cek Kategori
       const matchCategory = activeCategory === 'ALL' || item.category_filter === activeCategory;
-      // 2. Cek Search Query
       const matchSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase());
-      
       return matchCategory && matchSearch;
     });
   }, [classesData, activeCategory, searchQuery]);
 
-  // --- PAGINATION LOGIC ---
   const pageCount = Math.ceil(filteredClasses.length / ITEMS_PER_PAGE);
   const paginatedClasses = filteredClasses.slice(
     (page - 1) * ITEMS_PER_PAGE,
     page * ITEMS_PER_PAGE
   );
 
-  // Reset page ke 1 jika user mengganti kategori atau mengetik di pencarian
   useEffect(() => {
     setPage(1);
   }, [activeCategory, searchQuery]);
 
   return (
-    <Box sx={{ bgcolor: COLORS.black, py: { xs: 10, md: 15 }, color: COLORS.white, minHeight: '100vh' }}>
+    <Box sx={{ bgcolor: BLACK, py: { xs: 10, md: 15 }, color: '#fff', minHeight: '100vh', borderTop: `1px solid ${alpha(RED, 0.15)}` }}>
       <Container component={MotionViewport}>
         
         {/* HEADER: TITLE & SEARCH */}
         <Stack spacing={5} sx={{ mb: 8 }}>
           <m.div variants={varFade().inDown}>
-            <Typography variant="h2" sx={{ textAlign: 'center', fontWeight: 900, textTransform: 'uppercase' }}>
-              EXPLORE <Box component="span" sx={{ color: COLORS.red }}>ALL CLASSES</Box>
+             <Stack direction="row" alignItems="center" justifyContent="center" spacing={1.5} sx={{ mb: 2 }}>
+              <Box sx={{ width: 28, height: 2, bgcolor: RED }} />
+              <Typography sx={{ fontSize: '0.65rem', fontWeight: 800, letterSpacing: 4, textTransform: 'uppercase', color: RED, fontFamily: 'monospace' }}>
+                Discover
+              </Typography>
+              <Box sx={{ width: 28, height: 2, bgcolor: RED }} />
+            </Stack>
+            <Typography variant="h2" sx={{ textAlign: 'center', fontWeight: 800, textTransform: 'uppercase', fontFamily: "'Poppins', sans-serif", letterSpacing: -2, lineHeight: 0.9 }}>
+              Explore <br /> <Box component="span" sx={{ color: RED, fontStyle: 'italic' }}>All Classes.</Box>
             </Typography>
           </m.div>
 
-          <Stack 
-            direction={{ xs: 'column', md: 'row' }} 
-            alignItems="center" 
-            justifyContent="space-between" 
-            spacing={3}
-          >
+          <Stack direction={{ xs: 'column', md: 'row' }} alignItems="center" justifyContent="space-between" spacing={3}>
             {/* Search Bar */}
             <TextField
-              placeholder="Enter Search Terms"
+              placeholder="ENTER SEARCH TERMS"
               variant="outlined"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               sx={{
                 width: { xs: 1, md: 320 },
                 '& .MuiOutlinedInput-root': {
-                  color: COLORS.white,
-                  bgcolor: alpha(COLORS.white, 0.05),
-                  borderRadius: 50,
-                  '& fieldset': { borderColor: alpha(COLORS.white, 0.2) },
-                  '&:hover fieldset': { borderColor: COLORS.white },
-                  '&.Mui-focused fieldset': { borderColor: COLORS.red },
+                  color: '#fff',
+                  bgcolor: '#080808',
+                  borderRadius: 0, // Sharp
+                  fontFamily: 'monospace',
+                  fontSize: '0.8rem',
+                  border: `1px solid ${alpha('#fff', 0.1)}`,
+                  '& fieldset': { border: 'none' },
+                  '&:hover': { borderColor: alpha('#fff', 0.3) },
+                  '&.Mui-focused': { borderColor: RED, boxShadow: `0 0 0 1px ${RED}` },
                 },
               }}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
-                    <Iconify icon="solar:settings-bold-duotone" sx={{ color: COLORS.white }} />
+                    <Iconify icon="solar:settings-bold-duotone" sx={{ color: alpha('#fff', 0.4) }} />
                   </InputAdornment>
                 ),
                 endAdornment: (
                   <InputAdornment position="end">
-                    <IconButton size="small">
-                      <Iconify icon="eva:search-fill" sx={{ color: COLORS.red }} />
+                    <IconButton size="small" sx={{ borderRadius: 0, '&:hover': { bgcolor: alpha(RED, 0.1) } }}>
+                      <Iconify icon="eva:search-fill" sx={{ color: RED }} />
                     </IconButton>
                   </InputAdornment>
                 )
@@ -145,7 +137,7 @@ export default function ClassesExplore() {
 
             {/* Filter Categories */}
             <Stack direction="row" spacing={1} sx={{ overflowX: 'auto', pb: 1, maxWidth: 1 }}>
-              <IconButton size="small" sx={{ color: COLORS.white }}>
+              <IconButton size="small" sx={{ color: '#fff', borderRadius: 0 }}>
                 <Iconify icon="eva:arrow-ios-back-fill" />
               </IconButton>
               
@@ -154,26 +146,30 @@ export default function ClassesExplore() {
                   key={cat}
                   onClick={() => setActiveCategory(cat)}
                   sx={{
-                    borderRadius: 0,
+                    borderRadius: 0, // Sharp
                     minWidth: 'auto',
-                    px: 2,
-                    py: 0.5,
-                    color: activeCategory === cat ? COLORS.black : COLORS.white,
-                    bgcolor: activeCategory === cat ? '#00FFCC' : 'transparent',
-                    border: `1px solid ${activeCategory === cat ? '#00FFCC' : alpha(COLORS.white, 0.2)}`,
-                    fontWeight: 'bold',
-                    fontSize: '0.75rem',
+                    px: 3,
+                    py: 1,
+                    color: activeCategory === cat ? '#fff' : alpha('#fff', 0.5),
+                    bgcolor: activeCategory === cat ? RED : 'transparent',
+                    border: `1px solid ${activeCategory === cat ? RED : alpha('#fff', 0.1)}`,
+                    fontWeight: 800,
+                    fontSize: '0.7rem',
+                    fontFamily: 'monospace',
+                    letterSpacing: 1,
                     flexShrink: 0,
                     '&:hover': {
-                      bgcolor: activeCategory === cat ? '#00FFCC' : alpha(COLORS.white, 0.1)
+                      bgcolor: activeCategory === cat ? RED : alpha(RED, 0.1),
+                      color: '#fff',
+                      borderColor: RED
                     }
                   }}
                 >
-                  {cat}
+                  {cat.toUpperCase()}
                 </Button>
               ))}
 
-              <IconButton size="small" sx={{ color: COLORS.white }}>
+              <IconButton size="small" sx={{ color: '#fff', borderRadius: 0 }}>
                 <Iconify icon="eva:arrow-ios-forward-fill" />
               </IconButton>
             </Stack>
@@ -183,39 +179,50 @@ export default function ClassesExplore() {
         {/* LOADING & CLASS GRID */}
         {isLoading ? (
           <Box sx={{ display: 'flex', justifyContent: 'center', py: 10 }}>
-            <CircularProgress color="error" />
+            <CircularProgress sx={{ color: RED }} />
           </Box>
         ) : filteredClasses.length === 0 ? (
           <Box sx={{ textAlign: 'center', py: 10 }}>
-            <Typography variant="h6" sx={{ color: 'text.secondary' }}>
-              Tidak ada kelas yang ditemukan.
+            <Typography variant="h6" sx={{ color: alpha('#fff', 0.4), fontFamily: 'monospace' }}>
+              NO CLASSES FOUND.
             </Typography>
           </Box>
         ) : (
           <Grid container spacing={3}>
             {paginatedClasses.map((item, index) => (
               <Grid key={item.id || index} xs={12} sm={6} md={3}>
-                {/* Gunakan animasi manual dengan delay agar transisi mulus saat data masuk */}
                 <m.div 
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.05, ease: 'easeOut' }}
+                  style={{ height: '100%' }}
                 >
                   <Box 
                     sx={{ 
                       position: 'relative', 
-                      borderRadius: 1, 
+                      borderRadius: 0, // Sharp
                       overflow: 'hidden', 
-                      bgcolor: '#1a1a1a',
+                      bgcolor: '#080808',
+                      border: `1px solid ${alpha(RED, 0.15)}`,
+                      borderLeft: `3px solid ${RED}`,
+                      height: '100%',
+                      display: 'flex',
+                      flexDirection: 'column',
                       cursor: 'pointer',
-                      '&:hover .class-img': { transform: 'scale(1.1)' },
-                      '&:hover .arrow-icon': { color: COLORS.red }
+                      transition: 'all 0.3s ease',
+                      '&:hover': { 
+                          transform: 'translateY(-8px)',
+                          borderColor: alpha(RED, 0.5),
+                          bgcolor: '#0c0c0c'
+                      },
+                      '&:hover .class-img': { transform: 'scale(1.05)' },
+                      '&:hover .arrow-icon': { bgcolor: RED, color: '#fff', borderColor: RED }
                     }}
                   >
                     {/* Image */}
                     <Box sx={{ overflow: 'hidden', position: 'relative', pt: '65%' }}>
                       <Image
-                        src={item.image_url} // Diubah dari item.image menjadi item.image_url
+                        src={item.image_url} 
                         alt={item.title}
                         className="class-img"
                         sx={{
@@ -227,20 +234,38 @@ export default function ClassesExplore() {
                           transition: 'transform 0.5s ease',
                         }}
                       />
+                      <Box sx={{ position: 'absolute', top: 0, left: 0, width: 1, height: 1, background: `linear-gradient(to bottom, transparent 40%, ${BLACK} 100%)` }} />
                     </Box>
 
                     {/* Content */}
-                    <Box sx={{ p: 2 }}>
-                      <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 0.5 }}>
-                        <Typography variant="subtitle1" sx={{ fontWeight: 800 }}>
+                    <Box sx={{ p: 3, flexGrow: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                      <Box>
+                        <Typography variant="overline" sx={{ color: RED, fontFamily: 'monospace', mb: 0.5, display: 'block', letterSpacing: 2 }}>
+                            {item.category_full || item.category_filter}
+                        </Typography>
+                        <Typography variant="h5" sx={{ fontWeight: 800, textTransform: 'uppercase', mb: 3, lineHeight: 1.1, fontFamily: "'Poppins', sans-serif" }}>
                           {item.title}
                         </Typography>
-                        <Iconify icon="solar:arrow-right-up-bold" className="arrow-icon" sx={{ color: '#00FFCC', transition: 'color 0.3s' }} />
-                      </Stack>
+                      </Box>
                       
-                      <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block' }}>
-                        {item.category_full} {/* Diubah dari item.category menjadi item.category_full */}
-                      </Typography>
+                      <Stack direction="row" justifyContent="space-between" alignItems="center">
+                         <Typography sx={{ fontSize: '0.65rem', fontWeight: 800, letterSpacing: 1.5, fontFamily: 'monospace', color: RED, textTransform: 'uppercase' }}>
+                            View Detail
+                         </Typography>
+                         <IconButton
+                            className="arrow-icon"
+                            size="small"
+                            sx={{
+                                borderRadius: 0,
+                                bgcolor: BLACK,
+                                color: alpha('#fff', 0.5),
+                                transition: 'all 0.3s ease',
+                                border: `1px solid ${alpha('#fff', 0.1)}`,
+                            }}
+                         >
+                            <Iconify icon="solar:arrow-right-up-bold" width={18} />
+                         </IconButton>
+                      </Stack>
                     </Box>
                   </Box>
                 </m.div>
@@ -262,13 +287,17 @@ export default function ClassesExplore() {
                   variant="text" 
                   color="standard"
                   sx={{
-                    color: COLORS.white,
+                    color: '#fff',
+                    borderRadius: 0, // Sharp
+                    fontFamily: 'monospace',
+                    fontWeight: 800,
+                    margin: '0 4px',
                     '&.Mui-selected': {
-                      bgcolor: '#00FFCC',
-                      color: COLORS.black,
-                      fontWeight: 'bold',
-                      '&:hover': { bgcolor: '#00FFCC' }
+                      bgcolor: RED,
+                      color: '#fff',
+                      '&:hover': { bgcolor: RED_DARK }
                     },
+                    '&:hover': { bgcolor: alpha(RED, 0.2) }
                   }}
                 />
               )}

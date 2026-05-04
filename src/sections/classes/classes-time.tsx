@@ -1,6 +1,6 @@
 import { m } from 'framer-motion';
 // @mui
-import { alpha, useTheme } from '@mui/material/styles';
+import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
@@ -12,18 +12,13 @@ import { MotionViewport, varFade } from 'src/components/animate';
 
 // ----------------------------------------------------------------------
 
-const COLORS = {
-    red: '#D40000',
-    redDark: '#8a0000',
-    black: '#000000',
-    white: '#FFFFFF',
-};
+const RED = '#DF2026';
+const RED_DARK = '#A8171C';
+const BLACK = '#060606';
 
 export default function ClassesTimetableCTA() {
-    const theme = useTheme();
-
     return (
-        <Box sx={{ bgcolor: COLORS.black, overflow: 'hidden' }}>
+        <Box sx={{ bgcolor: BLACK, overflow: 'hidden' }}>
         
         {/* SECTION 1: CLASS TIMES OF THE WEEK */}
         <Box 
@@ -31,16 +26,25 @@ export default function ClassesTimetableCTA() {
             py: { xs: 10, md: 15 }, 
             textAlign: 'center',
             position: 'relative',
-            borderBottom: `1px solid ${alpha(COLORS.white, 0.1)}`
+            borderTop: `1px solid ${alpha(RED, 0.15)}`,
+            borderBottom: `1px solid ${alpha(RED, 0.15)}`
             }}
         >
             <Container component={MotionViewport}>
             <m.div variants={varFade().inUp}>
-                <Typography variant="h2" sx={{ color: COLORS.white, fontWeight: 900, textTransform: 'uppercase', mb: 2 }}>
-                CLASS TIMES OF <Box component="span" sx={{ color: COLORS.red }}>THE WEEK</Box>
+                <Stack direction="row" alignItems="center" justifyContent="center" spacing={1.5} sx={{ mb: 2 }}>
+                    <Box sx={{ width: 28, height: 2, bgcolor: RED }} />
+                    <Typography sx={{ fontSize: '0.65rem', fontWeight: 800, letterSpacing: 4, textTransform: 'uppercase', color: RED, fontFamily: 'monospace' }}>
+                        Schedule
+                    </Typography>
+                    <Box sx={{ width: 28, height: 2, bgcolor: RED }} />
+                </Stack>
+
+                <Typography variant="h2" sx={{ color: '#fff', fontWeight: 800, textTransform: 'uppercase', mb: 3, fontFamily: "'Poppins', sans-serif", letterSpacing: -2, lineHeight: 0.9 }}>
+                Class Times Of <br/> <Box component="span" sx={{ color: RED, fontStyle: 'italic' }}>The Week.</Box>
                 </Typography>
                 
-                <Typography sx={{ color: 'text.secondary', mb: 5 }}>
+                <Typography sx={{ color: alpha('#fff', 0.6), mb: 5, fontSize: '0.9rem' }}>
                 Book our classes up to 6 days before they started.
                 </Typography>
 
@@ -49,54 +53,60 @@ export default function ClassesTimetableCTA() {
                 size="large"
                 endIcon={<Iconify icon="solar:arrow-right-up-bold" />}
                 sx={{
-                    bgcolor: COLORS.red, // Tombol Merah
-                    color: COLORS.white,
-                    borderRadius: 50,
+                    bgcolor: RED,
+                    color: '#fff',
+                    borderRadius: 0, // Sharp
                     px: 5,
-                    py: 1.5,
-                    fontWeight: 'bold',
-                    fontSize: '1rem',
-                    boxShadow: `0 8px 16px 0 ${alpha(COLORS.red, 0.4)}`,
-                    transition: 'all 0.3s ease',
+                    py: 1.75,
+                    fontWeight: 800,
+                    fontSize: '0.72rem',
+                    fontFamily: 'monospace',
+                    textTransform: 'uppercase',
+                    letterSpacing: 2,
+                    boxShadow: 'none',
                     '&:hover': {
-                    bgcolor: COLORS.redDark,
-                    transform: 'translateY(-3px)',
-                    boxShadow: `0 12px 24px 0 ${alpha(COLORS.red, 0.5)}`,
+                        bgcolor: RED_DARK,
+                        boxShadow: 'none',
                     }
                 }}
                 >
-                VIEW TIMETABLE
+                View Timetable
                 </Button>
             </m.div>
             </Container>
         </Box>
 
-        {/* SECTION 2: DUAL CTA BANNER (TRY US FOR FREE & CORPORATE DEAL) */}
+        {/* SECTION 2: DUAL CTA BANNER */}
         <Stack direction={{ xs: 'column', md: 'row' }} sx={{ width: 1 }}>
             
             {/* KIRI: TRY US FOR FREE */}
             <Box
             sx={{
                 flex: 1,
-                py: { xs: 8, md: 12 },
-                px: { xs: 3, md: 5 },
+                py: { xs: 10, md: 15 },
+                px: { xs: 3, md: 8 },
                 textAlign: 'center',
-                // Gradient Hitam ke Merah Gelap
-                background: `linear-gradient(135deg, ${COLORS.black} 0%, ${COLORS.redDark} 100%)`,
+                background: `linear-gradient(135deg, ${BLACK} 0%, ${RED_DARK} 100%)`,
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
                 position: 'relative',
-                borderRight: { md: `1px solid ${alpha(COLORS.white, 0.1)}` },
-                borderBottom: { xs: `1px solid ${alpha(COLORS.white, 0.1)}`, md: 'none' }
+                borderRight: { md: `1px solid ${alpha('#fff', 0.1)}` },
+                borderBottom: { xs: `1px solid ${alpha('#fff', 0.1)}`, md: 'none' }
             }}
             >
             <m.div variants={varFade().inLeft}>
-                <Typography variant="h3" sx={{ color: COLORS.white, fontWeight: 900, textTransform: 'uppercase', mb: 2 }}>
-                TRY US FOR FREE
+                <Stack direction="row" alignItems="center" justifyContent="center" spacing={1.5} sx={{ mb: 2 }}>
+                    <Box sx={{ width: 20, height: 2, bgcolor: RED }} />
+                    <Typography sx={{ fontSize: '0.65rem', fontWeight: 800, letterSpacing: 4, textTransform: 'uppercase', color: RED, fontFamily: 'monospace' }}>
+                        Trial Access
+                    </Typography>
+                </Stack>
+                <Typography variant="h2" sx={{ color: '#fff', mb: 2, fontWeight: 800, textTransform: 'uppercase', fontFamily: "'Poppins', sans-serif", letterSpacing: -2, lineHeight: 0.95 }}>
+                Try Us <br /> For <Box component="span" sx={{ fontStyle: 'italic', color: RED }}>Free.</Box>
                 </Typography>
-                <Typography sx={{ color: alpha(COLORS.white, 0.7), mb: 4, maxWidth: 400 }}>
+                <Typography sx={{ color: alpha('#fff', 0.6), mb: 5, maxWidth: 320, fontSize: '0.9rem', mx: 'auto' }}>
                 Get an exclusive FREE TRIAL experience. No strings attached.
                 </Typography>
                 
@@ -105,15 +115,20 @@ export default function ClassesTimetableCTA() {
                 size="large"
                 endIcon={<Iconify icon="solar:arrow-right-up-bold" />}
                 sx={{
-                    bgcolor: COLORS.white, // Tombol Putih Kontras
-                    color: COLORS.black,
-                    borderRadius: 50,
+                    bgcolor: '#fff',
+                    color: BLACK,
+                    borderRadius: 0, // Sharp
                     px: 5,
-                    fontWeight: 'bold',
-                    '&:hover': { bgcolor: alpha(COLORS.white, 0.9) }
+                    py: 1.75,
+                    fontWeight: 800,
+                    fontFamily: 'monospace',
+                    letterSpacing: 2,
+                    textTransform: 'uppercase',
+                    boxShadow: 'none',
+                    '&:hover': { bgcolor: alpha('#fff', 0.9), boxShadow: 'none' }
                 }}
                 >
-                TRY NOW
+                Try Now
                 </Button>
             </m.div>
             </Box>
@@ -122,11 +137,10 @@ export default function ClassesTimetableCTA() {
             <Box
             sx={{
                 flex: 1,
-                py: { xs: 8, md: 12 },
-                px: { xs: 3, md: 5 },
+                py: { xs: 10, md: 15 },
+                px: { xs: 3, md: 8 },
                 textAlign: 'center',
-                // Gradient Merah Terang ke Merah Gelap
-                background: `linear-gradient(135deg, ${COLORS.red} 0%, ${COLORS.redDark} 100%)`,
+                bgcolor: '#080808',
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
@@ -134,11 +148,17 @@ export default function ClassesTimetableCTA() {
             }}
             >
             <m.div variants={varFade().inRight}>
-                <Typography variant="h3" sx={{ color: COLORS.white, fontWeight: 900, textTransform: 'uppercase', mb: 2 }}>
-                LOOKING FOR A <br /> CORPORATE DEAL?
+                <Stack direction="row" alignItems="center" justifyContent="center" spacing={1.5} sx={{ mb: 2 }}>
+                    <Typography sx={{ fontSize: '0.65rem', fontWeight: 800, letterSpacing: 4, textTransform: 'uppercase', color: RED, fontFamily: 'monospace' }}>
+                        B2B Solutions
+                    </Typography>
+                    <Box sx={{ width: 20, height: 2, bgcolor: RED }} />
+                </Stack>
+                <Typography variant="h2" sx={{ color: '#fff', mb: 2, fontWeight: 800, textTransform: 'uppercase', fontFamily: "'Poppins', sans-serif", letterSpacing: -2, lineHeight: 0.95 }}>
+                Corporate <br /> <Box component="span" sx={{ fontStyle: 'italic', color: RED }}>Deal.</Box>
                 </Typography>
-                <Typography sx={{ color: alpha(COLORS.white, 0.8), mb: 4, maxWidth: 400 }}>
-                Get an exclusive FREE TRIAL experience. No strings attached.
+                <Typography sx={{ color: alpha('#fff', 0.6), mb: 5, maxWidth: 320, fontSize: '0.9rem', mx: 'auto' }}>
+                Elevate your team's performance with our tailored corporate memberships.
                 </Typography>
                 
                 <Button
@@ -146,15 +166,20 @@ export default function ClassesTimetableCTA() {
                 size="large"
                 endIcon={<Iconify icon="solar:arrow-right-up-bold" />}
                 sx={{
-                    bgcolor: COLORS.black, // Tombol Hitam Kontras di atas Merah
-                    color: COLORS.white,
-                    borderRadius: 50,
+                    bgcolor: RED,
+                    color: '#fff',
+                    borderRadius: 0, // Sharp
                     px: 5,
-                    fontWeight: 'bold',
-                    '&:hover': { bgcolor: alpha(COLORS.black, 0.8) }
+                    py: 1.75,
+                    fontWeight: 800,
+                    fontFamily: 'monospace',
+                    letterSpacing: 2,
+                    textTransform: 'uppercase',
+                    boxShadow: 'none',
+                    '&:hover': { bgcolor: RED_DARK, boxShadow: 'none' }
                 }}
                 >
-                CHECK OUT NOW
+                Check Out Now
                 </Button>
             </m.div>
             </Box>

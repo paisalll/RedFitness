@@ -11,8 +11,9 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
-import Card from '@mui/material/Card';
 import CircularProgress from '@mui/material/CircularProgress'; // Tambahan untuk loading state
+// hooks
+import { useResponsive } from 'src/hooks/use-responsive'; // Pastikan path ini benar sesuai strukturmu
 // components
 import Iconify from 'src/components/iconify';
 import { MotionViewport, varFade } from 'src/components/animate';
@@ -21,17 +22,18 @@ import { supabase } from 'src/utils/supabase';
 
 // ----------------------------------------------------------------------
 
+const RED = '#DF2026';
+const BLACK = '#060606';
+
+// Category Colors (Menggunakan warna dari codebase awal)
 const COLORS = {
-  red: '#D40000',
-  black: '#000000',
+  mindBody: '#A020F0',
+  strength: '#00FF00',
+  hiit: '#CCFF00',
+  cycling: '#0000FF',
+  cardio: '#D40000',
+  dance: '#00FFFF',
   white: '#FFFFFF',
-  // Category Colors
-  mindBody: '#A020F0', // Purple
-  strength: '#00FF00', // Green
-  hiit: '#CCFF00',     // Lime
-  cycling: '#0000FF',  // Blue
-  cardio: '#D40000',   // Red
-  dance: '#00FFFF',    // Cyan
 };
 
 const CATEGORIES = {
@@ -56,7 +58,24 @@ const getClassCategory = (className: string = '') => {
   return CATEGORIES.GENERAL;
 };
 
+const inputSx = {
+  '& .MuiOutlinedInput-root': {
+    borderRadius: 0, // Sharp edges
+    color: 'common.white',
+    fontFamily: 'monospace',
+    bgcolor: alpha('#fff', 0.03),
+    '& fieldset': { borderColor: alpha('#fff', 0.12) },
+    '&:hover fieldset': { borderColor: alpha('#fff', 0.25) },
+    '&.Mui-focused fieldset': { borderColor: RED },
+  },
+  '& .MuiInputLabel-root': { color: alpha('#fff', 0.4), fontFamily: 'monospace', fontSize: '0.75rem' },
+  '& .MuiInputLabel-root.Mui-focused': { color: RED },
+  '& .MuiSelect-icon': { color: alpha('#fff', 0.4) },
+};
+
 export default function TimetableSection() {
+  const mdUp = useResponsive('up', 'md');
+  
   // --- STATE ---
   const [clubs, setClubs] = useState<any[]>([]);
   const [schedules, setSchedules] = useState<any[]>([]);
@@ -70,7 +89,6 @@ export default function TimetableSection() {
     const fetchTimetableData = async () => {
       setIsLoading(true);
       
-      // Fetch Club dan Jadwal secara paralel agar lebih cepat
       const [clubsResponse, schedulesResponse] = await Promise.all([
         supabase.from('clubs').select('*'),
         supabase.from('schedules').select(`
@@ -82,7 +100,6 @@ export default function TimetableSection() {
 
       if (clubsResponse.data) {
         setClubs(clubsResponse.data);
-        // Set default pilihan gym ke gym pertama di database
         if (clubsResponse.data.length > 0) {
           setSelectedClubId(clubsResponse.data[0].id);
         }
@@ -103,7 +120,6 @@ export default function TimetableSection() {
 
   // --- GROUPING LOGIC ---
   const groupedSchedule = useMemo(() => {
-    // Filter berdasarkan club_key dan day_of_week dari database
     const filtered = schedules.filter(
       (item) => item.clubs?.club_key === currentClub?.club_key && item.day_of_week === selectedDayName
     );
@@ -115,14 +131,14 @@ export default function TimetableSection() {
     };
 
     filtered.forEach((item) => {
-      const timeStr = item.start_time; // format dari DB: "19:30:00"
+      const timeStr = item.start_time;
       const hour = parseInt(timeStr.split(':')[0], 10);
       const className = item.classes?.title || 'Unknown Class';
       const category = getClassCategory(className);
 
       const enrichedClass = {
         name: className,
-        time: timeStr.substring(0, 5), // Ambil "19:30" dari "19:30:00"
+        time: timeStr.substring(0, 5),
         duration: '60 min',
         instructor: item.trainer_name,
         location: currentClub?.name,
@@ -136,7 +152,6 @@ export default function TimetableSection() {
       else groups.EVENING.classes.push(enrichedClass);
     });
 
-    // Urutkan kelas berdasarkan jam di masing-masing grup
     Object.values(groups).forEach((group) => {
       group.classes.sort((a, b) => a.sortTime.localeCompare(b.sortTime));
     });
@@ -145,122 +160,93 @@ export default function TimetableSection() {
   }, [schedules, currentClub, selectedDayName]);
 
   return (
-    <Box sx={{ bgcolor: COLORS.black, py: { xs: 10, md: 15 }, color: COLORS.white }}>
+    <Box sx={{ bgcolor: BLACK, py: { xs: 10, md: 15 }, color: '#fff', position: 'relative' }}>
       <Container component={MotionViewport}>
 
         {/* HEADER TITLE */}
-        <Box sx={{ textAlign: 'center', mb: 8 }}>
+        <Box sx={{ textAlign: 'center', mb: 10 }}>
           <m.div variants={varFade().inDown}>
-            <Typography variant="h2" sx={{ fontWeight: 900, textTransform: 'uppercase' }}>
-              CLASS <Box component="span" sx={{ color: COLORS.red }}>SCHEDULE</Box>
+             <Stack direction="row" alignItems="center" justifyContent="center" spacing={1.5} sx={{ mb: 2 }}>
+              <Box sx={{ width: 28, height: 2, bgcolor: RED }} />
+              <Typography sx={{ fontSize: '0.65rem', fontWeight: 800, letterSpacing: 4, textTransform: 'uppercase', color: RED, fontFamily: 'monospace' }}>
+                Weekly Planner
+              </Typography>
+              <Box sx={{ width: 28, height: 2, bgcolor: RED }} />
+            </Stack>
+            <Typography variant="h2" sx={{ fontWeight: 800, textTransform: 'uppercase', fontFamily: "'Poppins', sans-serif", letterSpacing: -3, lineHeight: 0.9, fontSize: { xs: '2.5rem', md: '4rem' } }}>
+              Class <Box component="span" sx={{ color: RED, fontStyle: 'italic', display: 'block' }}>Schedule.</Box>
             </Typography>
           </m.div>
         </Box>
 
         {/* CONTROLS SECTION */}
-        <Stack
-          direction={{ xs: 'column', md: 'row' }}
-          justifyContent="space-between"
-          alignItems={{ xs: 'stretch', md: 'center' }}
-          spacing={5}
-          sx={{ mb: 8 }}
-        >
-          {/* Club Selector */}
+        <Stack direction={{ xs: 'column', md: 'row' }} justifyContent="space-between" spacing={4} sx={{ mb: 8 }}>
           <m.div variants={varFade().inLeft}>
-            <Stack spacing={1}>
-              <Stack direction="row" spacing={1} alignItems="center">
-                <Iconify icon="solar:settings-bold-duotone" sx={{ color: COLORS.white }} />
-                <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 'bold', textTransform: 'uppercase' }}>
-                  Select Club
-                </Typography>
-              </Stack>
-              
-              <TextField
-                select
-                value={selectedClubId}
-                onChange={(e) => setSelectedClubId(e.target.value)}
-                disabled={isLoading}
-                sx={{
-                  minWidth: 280,
-                  '& .MuiOutlinedInput-root': {
-                    color: COLORS.white,
-                    bgcolor: alpha(COLORS.white, 0.05),
-                    borderRadius: 1,
-                    '& fieldset': { borderColor: alpha(COLORS.white, 0.2) },
-                    '&:hover fieldset': { borderColor: COLORS.white },
-                    '&.Mui-focused fieldset': { borderColor: COLORS.red },
-                  },
-                  '& .MuiSvgIcon-root': { color: COLORS.white },
-                }}
-              >
-                {clubs.length === 0 && (
-                  <MenuItem disabled value="">Loading clubs...</MenuItem>
-                )}
-                {clubs.map((club) => (
-                  <MenuItem key={club.id} value={club.id}>
-                    {club.name}
-                  </MenuItem>
-                ))}
-              </TextField>
-            </Stack>
+            <TextField
+              select
+              label="SELECT CLUB"
+              value={selectedClubId}
+              onChange={(e) => setSelectedClubId(e.target.value)}
+              disabled={isLoading}
+              fullWidth={!mdUp}
+              sx={{ ...inputSx, minWidth: { xs: '100%', md: 300 } }}
+            >
+              {clubs.map((club) => (
+                <MenuItem key={club.id} value={club.id} sx={{ fontFamily: 'monospace', fontSize: '0.8rem' }}>
+                  {club.name.toUpperCase()}
+                </MenuItem>
+              ))}
+            </TextField>
           </m.div>
 
-          {/* Date Navigation (Using Days) */}
           <m.div variants={varFade().inRight}>
             <Stack direction="row" alignItems="center" spacing={1}>
-              <IconButton
-                onClick={() => setSelectedDayIndex((prev) => Math.max(0, prev - 1))}
-                sx={{ color: COLORS.white }}
-              >
-                <Iconify icon="eva:arrow-ios-back-fill" />
-              </IconButton>
+                {/* Arrow Kiri - Opsional, bisa dihilangkan jika Stack overflow sudah cukup */}
+                {/* <IconButton onClick={() => setSelectedDayIndex((prev) => Math.max(0, prev - 1))} sx={{ color: '#fff', borderRadius: 0 }}>
+                    <Iconify icon="eva:arrow-ios-back-fill" />
+                </IconButton> */}
 
-              <Stack direction="row" spacing={1} sx={{ overflowX: 'auto', maxWidth: { xs: 300, md: 'unset' } }}>
+                <Stack direction="row" spacing={1} sx={{ overflowX: 'auto', pb: 1 }}>
                 {DAYS.map((day, index) => {
-                  const isSelected = selectedDayIndex === index;
-                  return (
+                    const isSelected = selectedDayIndex === index;
+                    return (
                     <Button
-                      key={index}
-                      onClick={() => setSelectedDayIndex(index)}
-                      sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        minWidth: 80,
+                        key={index}
+                        onClick={() => setSelectedDayIndex(index)}
+                        sx={{
+                        borderRadius: 0, // Sharp edges
+                        minWidth: 90,
                         py: 1.5,
-                        borderRadius: 1,
-                        bgcolor: isSelected ? COLORS.red : 'transparent',
-                        color: COLORS.white,
-                        border: `1px solid ${isSelected ? COLORS.red : alpha(COLORS.white, 0.2)}`,
-                        '&:hover': {
-                          bgcolor: isSelected ? COLORS.red : alpha(COLORS.white, 0.1),
-                        },
-                      }}
+                        fontFamily: 'monospace',
+                        bgcolor: isSelected ? RED : 'transparent',
+                        color: isSelected ? '#fff' : alpha('#fff', 0.4),
+                        border: `1px solid ${isSelected ? RED : alpha('#fff', 0.1)}`,
+                        '&:hover': { bgcolor: isSelected ? RED : alpha(RED, 0.1), borderColor: RED },
+                        }}
                     >
-                      <Typography variant="caption" sx={{ fontWeight: 800, textTransform: 'uppercase' }}>
-                        {day}
-                      </Typography>
-                      <Typography variant="caption" sx={{ opacity: 0.8 }}>JADWAL</Typography>
+                        <Stack spacing={0}>
+                        <Typography variant="caption" sx={{ fontWeight: 800, fontSize: '0.7rem' }}>{day.toUpperCase()}</Typography>
+                        <Typography variant="caption" sx={{ fontSize: '0.6rem', opacity: 0.5 }}>VIEW</Typography>
+                        </Stack>
                     </Button>
-                  );
+                    );
                 })}
-              </Stack>
+                </Stack>
 
-              <IconButton
-                onClick={() => setSelectedDayIndex((prev) => Math.min(DAYS.length - 1, prev + 1))}
-                sx={{ color: COLORS.white }}
-              >
-                <Iconify icon="eva:arrow-ios-forward-fill" />
-              </IconButton>
+                {/* Arrow Kanan - Opsional */}
+                {/* <IconButton onClick={() => setSelectedDayIndex((prev) => Math.min(DAYS.length - 1, prev + 1))} sx={{ color: '#fff', borderRadius: 0 }}>
+                    <Iconify icon="eva:arrow-ios-forward-fill" />
+                </IconButton> */}
             </Stack>
           </m.div>
         </Stack>
 
-        {/* LEGEND */}
-        <Stack direction="row" flexWrap="wrap" gap={3} sx={{ mb: 8, justifyContent: { xs: 'center', md: 'flex-end' } }}>
+        {/* LEGEND - Sharp boxes */}
+        <Stack direction="row" flexWrap="wrap" gap={3} sx={{ mb: 5, justifyContent: 'center' }}>
           {Object.values(CATEGORIES).map((type) => (
             <Stack key={type.label} direction="row" alignItems="center" spacing={1}>
-              <Box sx={{ width: 12, height: 12, borderRadius: 0.5, bgcolor: type.color }} />
-              <Typography variant="caption" sx={{ fontWeight: 'bold', color: 'text.secondary' }}>
+              <Box sx={{ width: 10, height: 10, bgcolor: type.color, borderRadius: 0 }} />
+              <Typography sx={{ fontSize: '0.65rem', fontWeight: 800, color: alpha('#fff', 0.5), fontFamily: 'monospace', textTransform: 'uppercase' }}>
                 {type.label}
               </Typography>
             </Stack>
@@ -270,77 +256,69 @@ export default function TimetableSection() {
         {/* TIMETABLE GRID */}
         {isLoading ? (
           <Box sx={{ display: 'flex', justifyContent: 'center', py: 10 }}>
-            <CircularProgress color="error" />
+            <CircularProgress sx={{ color: RED }} />
           </Box>
         ) : (
-          <Stack spacing={6}>
+          <Stack spacing={8}>
             {groupedSchedule.map((section) => (
               <Box key={section.timeSlot}>
-                <Typography
-                  variant="h6"
-                  sx={{
-                    borderBottom: `1px solid ${alpha(COLORS.white, 0.1)}`,
-                    pb: 2,
-                    mb: 3,
-                    opacity: 0.7,
-                  }}
-                >
+                <Typography variant="overline" sx={{ color: RED, fontFamily: 'monospace', letterSpacing: 3, mb: 3, display: 'block', borderBottom: `1px solid ${alpha(RED, 0.2)}`, pb: 1 }}>
                   {section.timeSlot}
                 </Typography>
 
                 {section.classes.length === 0 ? (
-                  <Typography variant="body2" sx={{ color: 'text.secondary', fontStyle: 'italic' }}>
+                  <Typography variant="body2" sx={{ color: alpha('#fff', 0.4), fontStyle: 'italic', fontFamily: 'monospace' }}>
                     No classes scheduled for this time slot.
                   </Typography>
                 ) : (
-                  <Grid container spacing={3}>
+                  <Grid container spacing={2}>
                     {section.classes.map((cls, idx) => (
                       <Grid key={`${cls.name}-${cls.time}-${idx}`} xs={12} sm={6} md={4}>
-                        <m.div
+                         <m.div
                           initial={{ opacity: 0, y: 24 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ duration: 0.4, delay: idx * 0.05, ease: 'easeOut' }}
                         >
-                          <Card
+                            <Box
                             sx={{
-                              p: 3,
-                              bgcolor: alpha(COLORS.white, 0.03),
-                              color: COLORS.white,
-                              borderRadius: 2,
-                              position: 'relative',
-                              overflow: 'hidden',
-                              borderLeft: `6px solid ${cls.color}`,
-                              transition: 'all 0.3s',
-                              '&:hover': {
-                                bgcolor: alpha(COLORS.white, 0.06),
-                                transform: 'translateY(-4px)',
-                                boxShadow: `0 8px 24px ${alpha(cls.color, 0.2)}`,
-                              },
+                                p: 3,
+                                bgcolor: '#080808',
+                                border: `1px solid ${alpha('#fff', 0.05)}`,
+                                borderLeft: `4px solid ${cls.color}`,
+                                borderRadius: 0, // Sharp
+                                transition: 'all 0.3s',
+                                '&:hover': {
+                                bgcolor: '#0c0c0c',
+                                borderColor: alpha(cls.color, 0.4),
+                                transform: 'translateY(-4px)'
+                                },
                             }}
-                          >
-                            <Typography variant="h6" sx={{ fontWeight: 800, color: cls.color, mb: 1 }}>
-                              {cls.name}
+                            >
+                            <Typography sx={{ color: cls.color, fontSize: '0.65rem', fontWeight: 800, fontFamily: 'monospace', mb: 1, textTransform: 'uppercase' }}>
+                                {cls.type}
+                            </Typography>
+                            <Typography variant="h5" sx={{ fontWeight: 800, fontFamily: "'Poppins', sans-serif", textTransform: 'uppercase', mb: 0.5, lineHeight: 1.1 }}>
+                                {cls.name}
+                            </Typography>
+                            <Typography variant="h4" sx={{ fontWeight: 900, mb: 3, color: alpha('#fff', 0.9), fontFamily: 'monospace' }}>
+                                {cls.time}
                             </Typography>
 
-                            <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 2 }}>
-                              {cls.time}
-                            </Typography>
-
-                            <Stack spacing={1}>
-                              <Stack direction="row" alignItems="center" spacing={1} sx={{ opacity: 0.7 }}>
-                                <Iconify icon="solar:clock-circle-bold" width={16} />
-                                <Typography variant="caption">{cls.duration}</Typography>
-                              </Stack>
-                              <Stack direction="row" alignItems="center" spacing={1} sx={{ opacity: 0.7 }}>
-                                <Iconify icon="solar:map-point-bold" width={16} />
-                                <Typography variant="caption">{cls.location}</Typography>
-                              </Stack>
-                              <Stack direction="row" alignItems="center" spacing={1} sx={{ opacity: 0.7 }}>
-                                <Iconify icon="solar:user-bold" width={16} />
-                                <Typography variant="caption">Coach {cls.instructor}</Typography>
-                              </Stack>
+                            <Stack spacing={1.5}>
+                                <Stack direction="row" alignItems="center" spacing={1.5} sx={{ color: alpha('#fff', 0.4) }}>
+                                    <Iconify icon="solar:clock-circle-bold" width={16} />
+                                    <Typography sx={{ fontSize: '0.75rem', fontFamily: 'monospace' }}>{cls.duration}</Typography>
+                                </Stack>
+                                <Stack direction="row" alignItems="center" spacing={1.5} sx={{ color: alpha('#fff', 0.4) }}>
+                                    <Iconify icon="solar:map-point-bold" width={16} />
+                                    <Typography sx={{ fontSize: '0.75rem', fontFamily: 'monospace' }}>{cls.location}</Typography>
+                                </Stack>
+                                <Stack direction="row" alignItems="center" spacing={1.5} sx={{ color: alpha('#fff', 0.4) }}>
+                                    <Iconify icon="solar:user-bold" width={16} sx={{ color: RED }} />
+                                    <Typography sx={{ fontSize: '0.75rem', fontFamily: 'monospace' }}>COACH {cls.instructor.toUpperCase()}</Typography>
+                                </Stack>
                             </Stack>
-                          </Card>
+                            </Box>
                         </m.div>
                       </Grid>
                     ))}
@@ -350,7 +328,6 @@ export default function TimetableSection() {
             ))}
           </Stack>
         )}
-
       </Container>
     </Box>
   );

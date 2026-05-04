@@ -1,6 +1,6 @@
 import { m } from 'framer-motion';
 // @mui
-import { alpha, useTheme } from '@mui/material/styles';
+import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
@@ -13,6 +13,10 @@ import Iconify from 'src/components/iconify';
 import { MotionViewport, varFade } from 'src/components/animate';
 
 // ----------------------------------------------------------------------
+
+const RED = '#DF2026';
+const RED_DARK = '#A8171C';
+const BLACK = '#060606';
 
 const FEATURES = [
   {
@@ -34,29 +38,29 @@ const FEATURES = [
 ];
 
 export default function HomeRockstarWorkouts() {
-  const theme = useTheme();
-
   return (
     <Box
       sx={{
         py: { xs: 10, md: 15 },
-        bgcolor: '#090101', // Dark background
+        bgcolor: BLACK, 
         overflow: 'hidden',
         position: 'relative',
+        borderTop: `1px solid ${alpha(RED, 0.15)}`
       }}
     >
-       {/* Background Decoration (Optional) */}
+       {/* Background Decoration */}
        <Box
         sx={{
             position: 'absolute',
             top: -100,
             right: -100,
-            width: 400,
-            height: 400,
+            width: 500,
+            height: 500,
             borderRadius: '50%',
-            filter: 'blur(100px)',
-            background: alpha(theme.palette.primary.main, 0.15),
+            filter: 'blur(120px)',
+            background: alpha(RED, 0.1),
             zIndex: 0,
+            pointerEvents: 'none'
         }}
        />
 
@@ -69,14 +73,14 @@ export default function HomeRockstarWorkouts() {
               <Box
                 sx={{
                   position: 'relative',
-                  borderRadius: 2,
+                  borderRadius: 0, // Sharp
                   overflow: 'hidden',
-                  boxShadow: `-40px 40px 80px ${alpha(theme.palette.common.black, 0.48)}`,
+                  border: `1px solid ${alpha(RED, 0.2)}`,
                 }}
               >
                 <Image
                   alt="rockstar workout"
-                  src="/assets/images/e097b50dfb5b0a4131cbabfd28082f7c.webp" // Ganti dengan gambar trampolin
+                  src="/assets/images/e097b50dfb5b0a4131cbabfd28082f7c.webp" 
                   ratio="3/4"
                   sx={{
                     transition: 'transform 0.5s ease',
@@ -84,7 +88,7 @@ export default function HomeRockstarWorkouts() {
                   }}
                 />
                 
-                {/* Overlay Gradient halus di bawah gambar */}
+                {/* Overlay Gradient */}
                 <Box
                     sx={{
                         position: 'absolute',
@@ -92,7 +96,7 @@ export default function HomeRockstarWorkouts() {
                         left: 0,
                         width: 1,
                         height: '40%',
-                        background: `linear-gradient(to top, ${alpha('#140822', 0.8)} 0%, transparent 100%)`,
+                        background: `linear-gradient(to top, ${BLACK} 0%, transparent 100%)`,
                     }}
                 />
               </Box>
@@ -102,55 +106,78 @@ export default function HomeRockstarWorkouts() {
           {/* BAGIAN KANAN: KONTEN & FITUR */}
           <Grid xs={12} md={7}>
             <m.div variants={varFade().inRight}>
-              <Typography variant="h2" sx={{ mb: 2, fontWeight: 900, textTransform: 'uppercase', color: 'common.white' }}>
-                ROCKSTAR-WORTHY <br />
-                <Box component="span" sx={{ color: 'common.white', opacity: 0.7 }}>WORKOUTS</Box>
+              <Stack direction="row" alignItems="center" spacing={1.5} sx={{ mb: 2 }}>
+                  <Box sx={{ width: 28, height: 2, bgcolor: RED }} />
+                  <Typography sx={{ fontSize: '0.65rem', fontWeight: 800, letterSpacing: 4, textTransform: 'uppercase', color: RED, fontFamily: 'monospace' }}>
+                    Elite Training
+                  </Typography>
+              </Stack>
+
+              <Typography 
+                variant="h2" 
+                sx={{ 
+                    mb: 3, 
+                    fontWeight: 800, 
+                    textTransform: 'uppercase', 
+                    color: '#fff',
+                    fontFamily: "'Poppins', sans-serif",
+                    letterSpacing: -2,
+                    lineHeight: 0.95
+                }}
+              >
+                Rockstar-Worthy <br />
+                <Box component="span" sx={{ color: RED, fontStyle: 'italic' }}>Workouts.</Box>
               </Typography>
               
-              <Typography sx={{ color: 'text.primary', mb: 5 }}>
+              <Typography sx={{ color: alpha('#fff', 0.6), mb: 5, fontSize: '0.9rem', lineHeight: 1.8 }}>
                 Our group classes totally rock! Killer workouts. Ultimate training... everything worthy of a rockstar.
               </Typography>
 
-              {/* Box Feature List */}
+              {/* Box Feature List - Sharp Design */}
               <Box
                 sx={{
                     p: 4,
-                    borderRadius: 2,
-                    bgcolor: alpha(theme.palette.common.white, 0.05),
-                    border: `1px solid ${alpha(theme.palette.common.white, 0.1)}`,
-                    backdropFilter: 'blur(10px)',
+                    borderRadius: 0, // Sharp
+                    bgcolor: '#080808',
+                    border: `1px solid ${alpha(RED, 0.15)}`,
+                    borderLeft: `3px solid ${RED}`,
                 }}
               >
                   <Stack spacing={3}>
                     {FEATURES.map((feature, index) => (
-                      <Stack key={index} direction="row" spacing={2} alignItems="center">
+                      <Stack key={index} direction="row" spacing={2.5} alignItems="center">
                         <Iconify 
                             icon={feature.icon} 
-                            width={32} 
-                            sx={{ color: 'primary.main' }} // Cyan/Teal
+                            width={24} 
+                            sx={{ color: RED }} 
                         />
-                        <Typography variant="body1" sx={{ color: 'common.white', fontWeight: 500 }}>
+                        <Typography sx={{ color: alpha('#fff', 0.9), fontWeight: 500, fontSize: '0.9rem', fontFamily: 'monospace', textTransform: 'uppercase' }}>
                             {feature.text}
                         </Typography>
                       </Stack>
                     ))}
 
-                    <Box sx={{ pt: 2 }}>
+                    <Box sx={{ pt: 3 }}>
                         <Button
                             variant="contained"
                             size="large"
-                            color="primary" // Cyan/Teal
                             endIcon={<Iconify icon="solar:arrow-right-up-bold" />}
                             sx={{
-                                borderRadius: 50,
-                                px: 4,
-                                py: 1.5,
-                                fontSize: 16,
-                                fontWeight: 'bold',
-                                boxShadow: `0 8px 16px 0 ${alpha(theme.palette.primary.main, 0.24)}`
+                                borderRadius: 0, // Sharp
+                                px: 5,
+                                py: 1.75,
+                                fontSize: '0.72rem',
+                                fontWeight: 800,
+                                fontFamily: 'monospace',
+                                letterSpacing: 2,
+                                textTransform: 'uppercase',
+                                bgcolor: RED,
+                                color: '#fff',
+                                boxShadow: 'none',
+                                '&:hover': { bgcolor: RED_DARK, boxShadow: 'none' }
                             }}
                         >
-                            DISCOVER MORE
+                            Discover More
                         </Button>
                     </Box>
                   </Stack>

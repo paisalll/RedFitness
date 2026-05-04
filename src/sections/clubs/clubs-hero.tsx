@@ -1,6 +1,6 @@
 import { m } from 'framer-motion';
 // @mui
-import { alpha, useTheme } from '@mui/material/styles';
+import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
@@ -13,26 +13,20 @@ import { MotionContainer, varFade } from 'src/components/animate';
 
 // ----------------------------------------------------------------------
 
-const COLORS = {
-  red: '#D40000',
-  redDark: '#8a0000',
-  black: '#000000',
-  white: '#FFFFFF',
-};
+const RED = '#DF2026';
+const RED_DARK = '#A8171C';
+const BLACK = '#060606';
 
 export default function ClubsHero() {
-  const theme = useTheme();
-
   return (
     <Box
       sx={{
         position: 'relative',
-        height: { xs: '100vh', md: 800 }, // Full screen di mobile, tinggi fix di desktop
+        height: { xs: '100vh', md: 800 },
         overflow: 'hidden',
+        borderBottom: `1px solid ${alpha(RED, 0.15)}`,
       }}
     >
-      {/* 1. BACKGROUND IMAGE */}
-      {/* Ganti src dengan path gambar fasilitas gym kamu */}
       <Image
         alt="world class gym facilities"
         src="/assets/images/facilities/hero_facilities.jpg" 
@@ -47,8 +41,7 @@ export default function ClubsHero() {
         }}
       />
 
-      {/* 2. OVERLAY GRADIENT (THEMA RED FITNESS) */}
-      {/* Ini penting untuk membuat teks terbaca dan mengubah suasana menjadi "Red Fitness" */}
+      {/* OVERLAY GRADIENT */}
       <Box
         sx={{
           position: 'absolute',
@@ -57,15 +50,14 @@ export default function ClubsHero() {
           width: 1,
           height: 1,
           zIndex: 1,
-          // Gradient: Hitam pekat di kiri bawah, perlahan transparan dengan tint merah di kanan atas
           background: `linear-gradient(to top right, 
-            ${alpha(COLORS.black, 0.9)} 20%, 
-            ${alpha(COLORS.black, 0.7)} 50%, 
-            ${alpha(COLORS.red, 0.3)} 100%)`,
+            ${alpha(BLACK, 0.95)} 20%, 
+            ${alpha(BLACK, 0.7)} 50%, 
+            ${alpha(RED, 0.25)} 100%)`,
         }}
       />
 
-      {/* 3. HERO CONTENT */}
+      {/* HERO CONTENT */}
       <Container
         component={MotionContainer}
         sx={{
@@ -74,56 +66,50 @@ export default function ClubsHero() {
           zIndex: 2,
           display: 'flex',
           flexDirection: 'column',
-          justifyContent: 'center', // Konten di tengah secara vertikal
-          alignItems: { xs: 'center', md: 'flex-start' }, // Kiri di desktop, tengah di mobile
+          justifyContent: 'center',
+          alignItems: { xs: 'center', md: 'flex-start' },
           textAlign: { xs: 'center', md: 'left' },
           pt: { xs: 10, md: 0 }
         }}
       >
         <m.div variants={varFade().inRight}>
-          <Typography
-            variant="overline"
-            sx={{
-              color: COLORS.red,
-              fontWeight: 800,
-              letterSpacing: 2,
-              mb: 2,
-              display: 'block'
-            }}
-          >
-            PREMIUM TRAINING GROUNDS
-          </Typography>
+            <Stack direction="row" alignItems="center" spacing={1.5} sx={{ mb: 2, justifyContent: { xs: 'center', md: 'flex-start' } }}>
+              <Box sx={{ width: 28, height: 2, bgcolor: RED }} />
+              <Typography sx={{ fontSize: '0.65rem', fontWeight: 800, letterSpacing: 4, textTransform: 'uppercase', color: RED, fontFamily: 'monospace' }}>
+                Premium Grounds
+              </Typography>
+            </Stack>
         </m.div>
 
         <m.div variants={varFade().inRight}>
           <Typography
             variant="h1"
             sx={{
-              color: COLORS.white,
+              color: '#fff',
               fontWeight: 900,
               textTransform: 'uppercase',
-              lineHeight: 1,
+              lineHeight: 0.95,
               mb: 3,
-              fontSize: { xs: '3.5rem', md: '6rem' }, // Font raksasa
+              letterSpacing: -2,
+              fontFamily: "'Poppins', sans-serif",
+              fontSize: { xs: '3.5rem', md: '6rem' },
             }}
           >
-            WORLD-CLASS <br />
-            <Box component="span" sx={{ color: COLORS.red, textShadow: `0 0 30px ${alpha(COLORS.red, 0.5)}` }}>
-              FACILITIES
+            World-Class <br />
+            <Box component="span" sx={{ color: RED, fontStyle: 'italic', display: 'block' }}>
+              Facilities.
             </Box>
           </Typography>
         </m.div>
 
         <m.div variants={varFade().inRight}>
           <Typography
-            variant="h5"
             sx={{
-              color: COLORS.white,
-              fontWeight: 'normal',
-              maxWidth: 600,
+              color: alpha('#fff', 0.6),
+              maxWidth: 500,
               mb: 6,
-              opacity: 0.9,
-              lineHeight: 1.6
+              fontSize: '0.9rem',
+              lineHeight: 1.8
             }}
           >
             Train with the best. Our state-of-the-art equipment, spacious zones, and dedicated performance areas are designed to push your limits.
@@ -137,43 +123,45 @@ export default function ClubsHero() {
               size="large"
               endIcon={<Iconify icon="solar:arrow-right-up-bold" />}
               sx={{
-                bgcolor: COLORS.red,
-                color: COLORS.white,
-                borderRadius: 50,
+                bgcolor: RED,
+                color: '#fff',
+                borderRadius: 0, // Sharp
                 px: 5,
-                py: 1.5,
-                fontSize: '1.1rem',
-                fontWeight: 'bold',
-                boxShadow: `0 8px 24px ${alpha(COLORS.red, 0.4)}`,
-                '&:hover': {
-                  bgcolor: COLORS.redDark,
-                  transform: 'translateY(-2px)',
-                },
-                transition: 'all 0.3s ease',
+                py: 1.75,
+                fontSize: '0.72rem',
+                fontWeight: 800,
+                letterSpacing: 2,
+                textTransform: 'uppercase',
+                fontFamily: 'monospace',
+                boxShadow: 'none',
+                '&:hover': { bgcolor: RED_DARK, boxShadow: 'none' },
               }}
             >
-              EXPLORE ZONES
+              Explore Zones
             </Button>
-            
+
             <Button
               variant="outlined"
               size="large"
               startIcon={<Iconify icon="solar:play-circle-bold" />}
               sx={{
-                color: COLORS.white,
-                borderColor: alpha(COLORS.white, 0.5),
-                borderRadius: 50,
+                color: '#fff',
+                borderColor: alpha('#fff', 0.3),
+                borderRadius: 0, // Sharp
                 px: 5,
-                py: 1.5,
-                fontSize: '1.1rem',
-                fontWeight: 'bold',
+                py: 1.75,
+                fontSize: '0.72rem',
+                fontWeight: 800,
+                letterSpacing: 2,
+                textTransform: 'uppercase',
+                fontFamily: 'monospace',
                 '&:hover': {
-                  borderColor: COLORS.red,
-                  bgcolor: alpha(COLORS.red, 0.1)
+                  borderColor: RED,
+                  bgcolor: alpha(RED, 0.1),
                 },
               }}
             >
-              VIRTUAL TOUR
+              Virtual Tour
             </Button>
           </Stack>
         </m.div>

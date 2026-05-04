@@ -14,13 +14,9 @@ import { MotionViewport, varFade } from 'src/components/animate';
 
 // ----------------------------------------------------------------------
 
-// DEFINISI WARNA SESUAI REQUEST
-export const COLORS = {
-  red: '#D40000',
-  redDark: '#8a0000', // Variasi gelap untuk gradient
-  black: '#000000',
-  white: '#ffffff',
-};
+const RED = '#DF2026';
+const RED_DARK = '#A8171C';
+const BLACK = '#060606';
 
 export default function HomeGoalsAndDualCTA() {
   const theme = useTheme();
@@ -31,46 +27,56 @@ export default function HomeGoalsAndDualCTA() {
         {/* TEKS & KONTEN (KIRI) */}
         <Grid xs={12} md={6}>
           <m.div variants={varFade().inLeft}>
+             <Stack direction="row" alignItems="center" spacing={1.5} sx={{ mb: 2 }}>
+              <Box sx={{ width: 28, height: 2, bgcolor: RED }} />
+              <Typography sx={{ fontSize: '0.65rem', fontWeight: 800, letterSpacing: 4, textTransform: 'uppercase', color: RED, fontFamily: 'monospace' }}>
+                Personal Training
+              </Typography>
+            </Stack>
+
             <Typography 
               variant="h2" 
               sx={{ 
-                mb: 2, 
-                fontWeight: 900, 
+                mb: 3, 
+                fontWeight: 800, 
                 textTransform: 'uppercase', 
-                color: COLORS.white 
+                color: '#fff',
+                fontFamily: "'Poppins', sans-serif",
+                letterSpacing: -2,
+                lineHeight: 0.95
               }}
             >
-              CRUSH THOSE <br />
-              <Box component="span" sx={{ color: COLORS.red }}>GOALS</Box>
+              Crush Those <br />
+              <Box component="span" sx={{ color: RED, fontStyle: 'italic' }}>Goals.</Box>
             </Typography>
 
-            <Typography sx={{ color: 'text.secondary', mb: 4 }}>
+            <Typography sx={{ color: alpha('#fff', 0.6), mb: 4, fontSize: '0.9rem', lineHeight: 1.8 }}>
               Ready for a fresh twist to your routine? Make it personal with our StarMakers Personal Training Packages.
             </Typography>
 
-            {/* Feature Box */}
+            {/* Feature Box - Sharp Corners */}
             <Box
               sx={{
-                p: 3,
-                mb: 4,
-                borderRadius: 2,
-                bgcolor: alpha(COLORS.white, 0.05), // Sedikit transparan putih di atas hitam
-                border: `1px solid ${alpha(COLORS.red, 0.3)}`, // Border merah tipis
+                p: 4,
+                mb: 5,
+                borderRadius: 0, // Sharp
+                bgcolor: '#080808', // Solid dark background
+                border: `1px solid ${alpha(RED, 0.15)}`,
+                borderLeft: `3px solid ${RED}`,
               }}
             >
-              <Stack spacing={2}>
+              <Stack spacing={3}>
                 {[
                   'Your road to greatness includes a personalized plan tailored to your goals, strengths and style.',
                   'Get motivating feedback and supercharged, supervised workouts for maximum results and total fun.',
                 ].map((text, index) => (
-                  <Stack key={index} direction="row" alignItems="flex-start" spacing={2}>
-                    {/* Ikon Bintang Merah */}
+                  <Stack key={index} direction="row" alignItems="flex-start" spacing={2.5}>
                     <Iconify 
                       icon="solar:star-bold" 
-                      width={24} 
-                      sx={{ color: COLORS.red, mt: 0.5, flexShrink: 0 }} 
+                      width={20} 
+                      sx={{ color: RED, mt: 0.2, flexShrink: 0 }} 
                     />
-                    <Typography variant="body2" sx={{ color: COLORS.white }}>
+                    <Typography sx={{ color: alpha('#fff', 0.8), fontSize: '0.85rem', lineHeight: 1.6 }}>
                       {text}
                     </Typography>
                   </Stack>
@@ -83,18 +89,24 @@ export default function HomeGoalsAndDualCTA() {
               size="large"
               endIcon={<Iconify icon="solar:arrow-right-up-bold" />}
               sx={{
-                bgcolor: COLORS.red,
-                color: COLORS.white,
-                borderRadius: 50,
-                px: 4,
-                fontWeight: 'bold',
-                boxShadow: `0 8px 16px 0 ${alpha(COLORS.red, 0.4)}`, // Shadow merah
+                bgcolor: RED,
+                color: '#fff',
+                borderRadius: 0, // Sharp
+                px: 5,
+                py: 1.75,
+                fontWeight: 800,
+                fontSize: '0.72rem',
+                fontFamily: 'monospace',
+                textTransform: 'uppercase',
+                letterSpacing: 2,
+                boxShadow: 'none',
                 '&:hover': {
-                  bgcolor: COLORS.redDark, // Gelap saat hover
+                  bgcolor: RED_DARK,
+                  boxShadow: 'none',
                 }
               }}
             >
-              DISCOVER MORE
+              Discover More
             </Button>
           </m.div>
         </Grid>
@@ -105,10 +117,9 @@ export default function HomeGoalsAndDualCTA() {
             <Box
               sx={{
                 position: 'relative',
-                borderRadius: 2,
+                borderRadius: 0, // Sharp
                 overflow: 'hidden',
-                boxShadow: `-40px 40px 80px ${alpha(COLORS.red, 0.15)}`, // Glow merah tipis di belakang gambar
-                border: `1px solid ${alpha(COLORS.white, 0.1)}`,
+                border: `1px solid ${alpha(RED, 0.15)}`,
               }}
             >
               <Image
@@ -120,7 +131,7 @@ export default function HomeGoalsAndDualCTA() {
                   '&:hover': { transform: 'scale(1.05)' },
                 }}
               />
-               {/* Overlay Gradient Merah di bawah gambar */}
+               {/* Overlay Gradient Merah-Hitam di bawah gambar */}
                <Box
                   sx={{
                     position: 'absolute',
@@ -128,7 +139,7 @@ export default function HomeGoalsAndDualCTA() {
                     left: 0,
                     width: 1,
                     height: '50%',
-                    background: `linear-gradient(to top, ${COLORS.black} 0%, transparent 100%)`,
+                    background: `linear-gradient(to top, ${BLACK} 0%, transparent 100%)`,
                   }}
                 />
             </Box>
@@ -139,57 +150,70 @@ export default function HomeGoalsAndDualCTA() {
   );
 
   const renderDualCTA = (
-    <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, width: 1 }}>
-      {/* BAGIAN KIRI: TRY US FOR FREE (Black -> Dark Red) */}
+    <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, width: 1, borderTop: `1px solid ${alpha(RED, 0.15)}` }}>
+      
+      {/* BAGIAN KIRI: TRY US FOR FREE */}
       <Box
         sx={{
           flex: 1,
-          py: { xs: 8, md: 10 },
-          px: { xs: 3, md: 5 },
+          py: { xs: 10, md: 15 },
+          px: { xs: 3, md: 8 },
           textAlign: 'center',
-          // Gradient Hitam ke Merah Gelap
-          background: `linear-gradient(135deg, ${COLORS.black} 0%, ${COLORS.redDark} 100%)`,
+          background: `linear-gradient(135deg, ${BLACK} 0%, ${RED_DARK} 100%)`,
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          borderRight: { md: `1px solid ${alpha(COLORS.white, 0.1)}` }
+          position: 'relative',
+          borderRight: { md: `1px solid ${alpha('#fff', 0.1)}` },
+          borderBottom: { xs: `1px solid ${alpha('#fff', 0.1)}`, md: 'none' }
         }}
       >
         <m.div variants={varFade().inUp}>
-          <Typography variant="h3" sx={{ color: COLORS.white, mb: 2, fontWeight: 900, textTransform: 'uppercase' }}>
-            TRY US FOR FREE
+          <Stack direction="row" alignItems="center" justifyContent="center" spacing={1.5} sx={{ mb: 2 }}>
+              <Box sx={{ width: 20, height: 2, bgcolor: RED }} />
+              <Typography sx={{ fontSize: '0.65rem', fontWeight: 800, letterSpacing: 4, textTransform: 'uppercase', color: RED, fontFamily: 'monospace' }}>
+                Trial Access
+              </Typography>
+          </Stack>
+          <Typography variant="h2" sx={{ color: '#fff', mb: 2, fontWeight: 800, textTransform: 'uppercase', fontFamily: "'Poppins', sans-serif", letterSpacing: -2, lineHeight: 0.95 }}>
+            Try Us <br /> For <Box component="span" sx={{ fontStyle: 'italic', color: RED }}>Free.</Box>
           </Typography>
-          <Typography sx={{ color: COLORS.white, opacity: 0.8, mb: 4 }}>
+          <Typography sx={{ color: alpha('#fff', 0.6), mb: 5, maxWidth: 320, mx: 'auto', fontSize: '0.9rem' }}>
             Get an exclusive FREE TRIAL experience. No strings attached.
           </Typography>
+          
           <Button
             variant="contained"
             size="large"
             endIcon={<Iconify icon="solar:arrow-right-up-bold" />}
-            sx={{ 
-                borderRadius: 50, 
-                px: 5, 
-                fontWeight: 'bold',
-                bgcolor: COLORS.white,
-                color: COLORS.black, // Tombol Putih text Hitam (Kontras)
-                '&:hover': { bgcolor: alpha(COLORS.white, 0.9) }
+            sx={{
+                bgcolor: '#fff',
+                color: BLACK,
+                borderRadius: 0, // Sharp
+                px: 5,
+                py: 1.75,
+                fontWeight: 800,
+                fontFamily: 'monospace',
+                letterSpacing: 2,
+                textTransform: 'uppercase',
+                boxShadow: 'none',
+                '&:hover': { bgcolor: alpha('#fff', 0.9), boxShadow: 'none' }
             }}
           >
-            TRY NOW
+            Try Now
           </Button>
         </m.div>
       </Box>
 
-      {/* BAGIAN KANAN: CORPORATE DEAL (Red -> Dark Red) */}
+      {/* BAGIAN KANAN: CORPORATE DEAL */}
       <Box
         sx={{
           flex: 1,
-          py: { xs: 8, md: 10 },
-          px: { xs: 3, md: 5 },
+          py: { xs: 10, md: 15 },
+          px: { xs: 3, md: 8 },
           textAlign: 'center',
-          // Gradient Merah Terang ke Merah Gelap
-          background: `linear-gradient(135deg, ${COLORS.red} 0%, ${COLORS.redDark} 100%)`,
+          bgcolor: '#080808',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -197,34 +221,47 @@ export default function HomeGoalsAndDualCTA() {
         }}
       >
         <m.div variants={varFade().inUp}>
-          <Typography variant="h3" sx={{ color: COLORS.white, mb: 2, fontWeight: 900, textTransform: 'uppercase' }}>
-            LOOKING FOR A <br /> CORPORATE DEAL?
+          <Stack direction="row" alignItems="center" justifyContent="center" spacing={1.5} sx={{ mb: 2 }}>
+              <Typography sx={{ fontSize: '0.65rem', fontWeight: 800, letterSpacing: 4, textTransform: 'uppercase', color: RED, fontFamily: 'monospace' }}>
+                B2B Solutions
+              </Typography>
+              <Box sx={{ width: 20, height: 2, bgcolor: RED }} />
+          </Stack>
+          <Typography variant="h2" sx={{ color: '#fff', mb: 2, fontWeight: 800, textTransform: 'uppercase', fontFamily: "'Poppins', sans-serif", letterSpacing: -2, lineHeight: 0.95 }}>
+            Corporate <br /> <Box component="span" sx={{ fontStyle: 'italic', color: RED }}>Deal.</Box>
           </Typography>
-          <Typography sx={{ color: COLORS.white, opacity: 0.8, mb: 4 }}>
-            Get an exclusive FREE TRIAL experience. No strings attached.
+          <Typography sx={{ color: alpha('#fff', 0.6), mb: 5, maxWidth: 320, mx: 'auto', fontSize: '0.9rem' }}>
+            Elevate your team's performance with our tailored corporate memberships.
           </Typography>
+          
           <Button
             variant="contained"
             size="large"
             endIcon={<Iconify icon="solar:arrow-right-up-bold" />}
-            sx={{ 
-                borderRadius: 50, 
-                px: 5, 
-                fontWeight: 'bold',
-                bgcolor: COLORS.black, // Tombol Hitam di atas background Merah
-                color: COLORS.white,
-                '&:hover': { bgcolor: alpha(COLORS.black, 0.8) }
+            sx={{
+                bgcolor: RED,
+                color: '#fff',
+                borderRadius: 0, // Sharp
+                px: 5,
+                py: 1.75,
+                fontWeight: 800,
+                fontFamily: 'monospace',
+                letterSpacing: 2,
+                textTransform: 'uppercase',
+                boxShadow: 'none',
+                '&:hover': { bgcolor: RED_DARK, boxShadow: 'none' }
             }}
           >
-            CHECK OUT NOW
+            Check Out Now
           </Button>
         </m.div>
       </Box>
+
     </Box>
   );
 
   return (
-    <Box sx={{ bgcolor: COLORS.black, overflow: 'hidden' }}>
+    <Box sx={{ bgcolor: BLACK, overflow: 'hidden' }}>
       {renderGoalsSection}
       {renderDualCTA}
     </Box>

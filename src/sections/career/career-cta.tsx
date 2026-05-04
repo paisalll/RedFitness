@@ -16,8 +16,8 @@ import { MotionViewport, varFade } from 'src/components/animate';
 
 // DEFINISI WARNA SESUAI REQUEST
 export const COLORS = {
-  red: '#D40000',
-  redDark: '#8a0000', // Variasi gelap untuk gradient
+  red: '#DF2026',
+  redDark: '#A8171C',
   black: '#000000',
   white: '#ffffff',
 };
@@ -54,13 +54,15 @@ export default function CareerDualCTA() {
             variant="contained"
             size="large"
             endIcon={<Iconify icon="solar:arrow-right-up-bold" />}
-            sx={{ 
-                borderRadius: 50, 
-                px: 5, 
-                fontWeight: 'bold',
+            sx={{
+                borderRadius: 0.5,
+                px: 5,
+                fontWeight: 700,
+                letterSpacing: 1,
                 bgcolor: COLORS.white,
-                color: COLORS.black, // Tombol Putih text Hitam (Kontras)
-                '&:hover': { bgcolor: alpha(COLORS.white, 0.9) }
+                color: COLORS.black,
+                boxShadow: 'none',
+                '&:hover': { bgcolor: alpha(COLORS.white, 0.9), boxShadow: 'none' }
             }}
           >
             TRY NOW
@@ -94,13 +96,15 @@ export default function CareerDualCTA() {
             variant="contained"
             size="large"
             endIcon={<Iconify icon="solar:arrow-right-up-bold" />}
-            sx={{ 
-                borderRadius: 50, 
-                px: 5, 
-                fontWeight: 'bold',
-                bgcolor: COLORS.black, // Tombol Hitam di atas background Merah
+            sx={{
+                borderRadius: 0.5,
+                px: 5,
+                fontWeight: 700,
+                letterSpacing: 1,
+                bgcolor: COLORS.black,
                 color: COLORS.white,
-                '&:hover': { bgcolor: alpha(COLORS.black, 0.8) }
+                boxShadow: 'none',
+                '&:hover': { bgcolor: alpha(COLORS.black, 0.8), boxShadow: 'none' }
             }}
           >
             CHECK OUT NOW

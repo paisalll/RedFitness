@@ -14,18 +14,14 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 // components
-import Image from 'src/components/image'; 
 import Iconify from 'src/components/iconify';
 import { MotionViewport, varFade } from 'src/components/animate';
 
 // ----------------------------------------------------------------------
 
-const COLORS = {
-  red: '#D40000',
-  redDark: '#8a0000',
-  black: '#000000',
-  white: '#FFFFFF',
-};
+const RED = '#DF2026';
+const RED_DARK = '#A8171C';
+const BLACK = '#060606';
 
 const FAQ = [
   {
@@ -46,13 +42,27 @@ const FAQ = [
   },
 ];
 
+const inputSx = {
+    '& .MuiFilledInput-root': {
+      borderRadius: 0, // Sharp
+      color: '#fff',
+      fontFamily: 'monospace',
+      bgcolor: alpha('#fff', 0.05),
+      borderBottom: `2px solid ${alpha('#fff', 0.2)}`,
+      '&:hover': { bgcolor: alpha('#fff', 0.08) },
+      '&.Mui-focused': { bgcolor: alpha('#fff', 0.1), borderBottomColor: RED },
+    },
+    '& .MuiInputLabel-root': { color: alpha('#fff', 0.4), fontFamily: 'monospace', fontSize: '0.8rem' },
+    '& .MuiInputLabel-root.Mui-focused': { color: RED },
+};
+
 export default function PersonalTrainingFinal() {
   return (
-    <Box sx={{ bgcolor: COLORS.black, py: { xs: 10, md: 15 }, color: COLORS.white }}>
+    <Box sx={{ bgcolor: BLACK, py: { xs: 10, md: 15 }, color: '#fff', borderTop: `1px solid ${alpha(RED, 0.15)}` }}>
       <Container component={MotionViewport}>
         
         {/* SECTION: JOIN THE PROGRAM */}
-        <Grid container spacing={{ xs: 5, md: 10 }} alignItems="flex-start" sx={{ mb: { xs: 15, md: 20 } }}>
+        <Grid container spacing={{ xs: 5, md: 10 }} alignItems="center" sx={{ mb: { xs: 15, md: 20 } }}>
           
           {/* Kolom Kiri: Form Sign Up */}
           <Grid xs={12} md={5}>
@@ -60,30 +70,37 @@ export default function PersonalTrainingFinal() {
               <Box
                 sx={{
                   p: 4,
-                  borderRadius: 2,
-                  bgcolor: alpha(COLORS.white, 0.03),
-                  border: `1px solid ${alpha(COLORS.red, 0.2)}`,
+                  borderRadius: 0, // Sharp
+                  bgcolor: '#080808',
+                  border: `1px solid ${alpha(RED, 0.2)}`,
+                  boxShadow: `-20px 20px 60px -8px ${alpha(BLACK, 0.8)}`,
                 }}
               >
-                <Typography variant="h4" sx={{ mb: 1, fontWeight: 900, textAlign: 'center' }}>
-                  SIGN UP FOR A <br />
-                  <Box component="span" sx={{ color: COLORS.red }}>FREE TRIAL</Box>
+                <Stack direction="row" alignItems="center" justifyContent="center" spacing={1.5} sx={{ mb: 2 }}>
+                    <Box sx={{ width: 20, height: 2, bgcolor: RED }} />
+                    <Typography sx={{ fontSize: '0.65rem', fontWeight: 800, letterSpacing: 4, textTransform: 'uppercase', color: RED, fontFamily: 'monospace' }}>
+                        Limited Offer
+                    </Typography>
+                </Stack>
+                <Typography variant="h4" sx={{ mb: 1, fontWeight: 800, textAlign: 'center', fontFamily: "'Poppins', sans-serif", textTransform: 'uppercase', letterSpacing: -1 }}>
+                  Sign Up For A <br />
+                  <Box component="span" sx={{ color: RED, fontStyle: 'italic' }}>Free Trial.</Box>
                 </Typography>
-                <Typography variant="body2" sx={{ mb: 4, textAlign: 'center', opacity: 0.6 }}>
+                <Typography variant="body2" sx={{ mb: 4, textAlign: 'center', opacity: 0.6, fontFamily: 'monospace' }}>
                   We'll get in touch within 48 hours.
                 </Typography>
 
                 <Stack spacing={2.5}>
-                  <TextField fullWidth label="First Name" variant="filled" sx={{ bgcolor: alpha(COLORS.white, 0.05) }} />
-                  <TextField fullWidth label="Last Name" variant="filled" sx={{ bgcolor: alpha(COLORS.white, 0.05) }} />
-                  <TextField fullWidth label="Email Address" variant="filled" sx={{ bgcolor: alpha(COLORS.white, 0.05) }} />
-                  <TextField fullWidth label="Phone Number" variant="filled" sx={{ bgcolor: alpha(COLORS.white, 0.05) }} />
+                  <TextField fullWidth label="First Name" variant="filled" sx={inputSx} />
+                  <TextField fullWidth label="Last Name" variant="filled" sx={inputSx} />
+                  <TextField fullWidth label="Email Address" variant="filled" sx={inputSx} />
+                  <TextField fullWidth label="Phone Number" variant="filled" sx={inputSx} />
                   
                   <FormControlLabel
-                    control={<Checkbox sx={{ color: COLORS.red, '&.Mui-checked': { color: COLORS.red } }} />}
+                    control={<Checkbox sx={{ color: alpha('#fff', 0.3), '&.Mui-checked': { color: RED } }} />}
                     label={
-                      <Typography variant="caption" sx={{ opacity: 0.7 }}>
-                        I've read and agree to the Terms and Data Privacy policy.
+                      <Typography variant="caption" sx={{ opacity: 0.7, fontFamily: 'monospace' }}>
+                        I agree to the <span style={{ color: RED, textDecoration: 'underline' }}>Terms</span> and Data Privacy policy.
                       </Typography>
                     }
                   />
@@ -92,15 +109,21 @@ export default function PersonalTrainingFinal() {
                     fullWidth
                     size="large"
                     variant="contained"
+                    endIcon={<Iconify icon="solar:arrow-right-up-bold" />}
                     sx={{
-                      bgcolor: COLORS.red,
-                      color: COLORS.white,
-                      fontWeight: 'bold',
-                      py: 1.5,
-                      '&:hover': { bgcolor: COLORS.redDark }
+                      bgcolor: RED,
+                      color: '#fff',
+                      fontWeight: 800,
+                      py: 1.75,
+                      borderRadius: 0, // Sharp
+                      fontFamily: 'monospace',
+                      letterSpacing: 2,
+                      textTransform: 'uppercase',
+                      boxShadow: 'none',
+                      '&:hover': { bgcolor: RED_DARK, boxShadow: 'none' }
                     }}
                   >
-                    SUBMIT
+                    Submit Request
                   </Button>
                 </Stack>
               </Box>
@@ -110,19 +133,22 @@ export default function PersonalTrainingFinal() {
           {/* Kolom Kanan: Benefit List */}
           <Grid xs={12} md={7}>
             <m.div variants={varFade().inRight}>
-              <Typography variant="h2" sx={{ fontWeight: 900, textTransform: 'uppercase', mb: 1 }}>
-                JOIN THE PROGRAM
+              <Stack direction="row" alignItems="center" spacing={1.5} sx={{ mb: 2 }}>
+                  <Box sx={{ width: 28, height: 2, bgcolor: RED }} />
+                  <Typography sx={{ fontSize: '0.65rem', fontWeight: 800, letterSpacing: 4, textTransform: 'uppercase', color: RED, fontFamily: 'monospace' }}>
+                    Join The Program
+                  </Typography>
+              </Stack>
+              <Typography variant="h2" sx={{ fontWeight: 800, textTransform: 'uppercase', mb: 3, fontFamily: "'Poppins', sans-serif", letterSpacing: -2, lineHeight: 0.95 }}>
+                Personal Training <br /> <Box component="span" sx={{ fontStyle: 'italic', color: RED }}>Made For You.</Box>
               </Typography>
-              <Typography variant="h4" sx={{ color: COLORS.red, fontWeight: 800, mb: 3 }}>
-                PERSONAL TRAINING MADE FOR YOU
-              </Typography>
-              <Typography sx={{ color: 'text.secondary', mb: 5 }}>
-                Crush those goals with our experts. We don't do average. It's a custom, results-driven training vibe.
+              <Typography sx={{ color: alpha('#fff', 0.6), mb: 5, fontSize: '0.9rem', lineHeight: 1.8 }}>
+                Crush those goals with our experts. We don't do average. It's a custom, results-driven training vibe tailored specifically for your body and ambitions.
               </Typography>
 
-              <Box sx={{ p: 4, bgcolor: alpha(COLORS.white, 0.02), borderRadius: 2, border: `1px solid ${alpha(COLORS.white, 0.05)}` }}>
-                <Typography variant="subtitle1" sx={{ mb: 3, fontWeight: 'bold' }}>YOU'LL ENJOY</Typography>
-                <Stack spacing={2}>
+              <Box sx={{ p: 4, bgcolor: '#080808', borderRadius: 0, border: `1px solid ${alpha('#fff', 0.1)}`, borderLeft: `3px solid ${RED}` }}>
+                <Typography variant="overline" sx={{ mb: 3, fontWeight: 800, color: RED, display: 'block', letterSpacing: 2 }}>YOU'LL ENJOY</Typography>
+                <Stack spacing={2.5}>
                   {[
                     'Save up and own your fitness journey!',
                     'Certified Coaches on your schedule, your style.',
@@ -132,8 +158,8 @@ export default function PersonalTrainingFinal() {
                     'Plus pro tips on nutrition.'
                   ].map((text) => (
                     <Stack key={text} direction="row" spacing={2} alignItems="center">
-                      <Iconify icon="solar:star-bold" width={18} sx={{ color: COLORS.red }} />
-                      <Typography variant="body2" sx={{ opacity: 0.8 }}>{text}</Typography>
+                      <Iconify icon="solar:star-bold" width={18} sx={{ color: RED }} />
+                      <Typography variant="body2" sx={{ opacity: 0.9, fontFamily: 'monospace', fontSize: '0.8rem' }}>{text.toUpperCase()}</Typography>
                     </Stack>
                   ))}
                 </Stack>
@@ -145,28 +171,36 @@ export default function PersonalTrainingFinal() {
         {/* SECTION: FAQ */}
         <Box>
           <m.div variants={varFade().inDown}>
-            <Typography variant="h2" sx={{ textAlign: 'center', fontWeight: 900, mb: 8 }}>
-              FREQUENTLY ASKED <Box component="span" sx={{ color: COLORS.red }}>QUESTIONS</Box>
+             <Stack direction="row" alignItems="center" justifyContent="center" spacing={1.5} sx={{ mb: 2 }}>
+                <Box sx={{ width: 28, height: 2, bgcolor: RED }} />
+                <Typography sx={{ fontSize: '0.65rem', fontWeight: 800, letterSpacing: 4, textTransform: 'uppercase', color: RED, fontFamily: 'monospace' }}>
+                    Get Answers
+                </Typography>
+                <Box sx={{ width: 28, height: 2, bgcolor: RED }} />
+            </Stack>
+            <Typography variant="h2" sx={{ textAlign: 'center', fontWeight: 800, mb: 8, textTransform: 'uppercase', fontFamily: "'Poppins', sans-serif", letterSpacing: -2, lineHeight: 0.95 }}>
+              Frequently Asked <br /> <Box component="span" sx={{ color: RED, fontStyle: 'italic' }}>Questions.</Box>
             </Typography>
           </m.div>
 
-          <Stack spacing={2}>
+          <Stack spacing={2} sx={{ maxWidth: 800, mx: 'auto' }}>
             {FAQ.map((item, index) => (
               <m.div key={index} variants={varFade().inUp}>
                 <Accordion 
                   sx={{ 
-                    bgcolor: alpha(COLORS.white, 0.02), 
-                    color: COLORS.white,
-                    border: `1px solid ${alpha(COLORS.white, 0.1)}`,
+                    bgcolor: '#080808', 
+                    color: '#fff',
+                    borderRadius: 0, // Sharp
+                    border: `1px solid ${alpha('#fff', 0.1)}`,
                     '&:before': { display: 'none' },
-                    '&.Mui-expanded': { border: `1px solid ${COLORS.red}` }
+                    '&.Mui-expanded': { border: `1px solid ${RED}`, bgcolor: '#0c0c0c' }
                   }}
                 >
-                  <AccordionSummary expandIcon={<Iconify icon="eva:plus-fill" sx={{ color: COLORS.red }} />}>
-                    <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>{item.question}</Typography>
+                  <AccordionSummary expandIcon={<Iconify icon="solar:alt-arrow-down-bold" sx={{ color: RED }} />}>
+                    <Typography variant="subtitle1" sx={{ fontWeight: 800, fontFamily: "'Poppins', sans-serif", letterSpacing: 0.5 }}>{item.question}</Typography>
                   </AccordionSummary>
                   <AccordionDetails>
-                    <Typography sx={{ opacity: 0.7 }}>{item.answer}</Typography>
+                    <Typography sx={{ opacity: 0.7, fontSize: '0.9rem', lineHeight: 1.8 }}>{item.answer}</Typography>
                   </AccordionDetails>
                 </Accordion>
               </m.div>

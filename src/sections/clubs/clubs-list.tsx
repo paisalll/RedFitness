@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { m } from 'framer-motion';
 // @mui
 import { alpha } from '@mui/material/styles';
@@ -10,24 +11,20 @@ import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import Card from '@mui/material/Card';
 import IconButton from '@mui/material/IconButton';
+import CircularProgress from '@mui/material/CircularProgress';
 // components
 import Image from 'src/components/image';
 import Iconify from 'src/components/iconify';
 import { MotionViewport, varFade } from 'src/components/animate';
-import { useEffect, useState } from 'react';
 import { supabase } from 'src/utils/supabase';
 
 // ----------------------------------------------------------------------
 
-const COLORS = {
-  red: '#D40000',
-  black: '#000000',
-  white: '#FFFFFF',
-};
+const RED = '#DF2026';
+const BLACK = '#060606';
 
 export default function ClubsGrid() {
   const [clubs, setClubs] = useState<any[]>([]);
-  // (Opsional) Tambahkan state loading agar lebih rapi
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -35,7 +32,6 @@ export default function ClubsGrid() {
       setIsLoading(true);
       const { data, error } = await supabase.from('clubs').select('*');
       
-      // Pastikan data tidak null sebelum set ke state
       if (!error && data) {
         setClubs(data);
       } else {
@@ -47,50 +43,57 @@ export default function ClubsGrid() {
   }, []);
 
   return (
-    <Box sx={{ bgcolor: COLORS.black, py: { xs: 10, md: 15 }, color: COLORS.white }}>
+    <Box sx={{ bgcolor: BLACK, py: { xs: 10, md: 15 }, color: '#fff', borderTop: `1px solid ${alpha(RED, 0.15)}` }}>
       <Container component={MotionViewport}>
         
         {/* HEADER & SEARCH */}
         <Stack spacing={5} sx={{ mb: 8 }} alignItems="center">
           <m.div variants={varFade().inDown}>
-            <Typography variant="h2" sx={{ fontWeight: 900, textTransform: 'uppercase', textAlign: 'center' }}>
-              ALL GYM <Box component="span" sx={{ color: COLORS.red }}>CLUBS</Box>
+             <Stack direction="row" alignItems="center" justifyContent="center" spacing={1.5} sx={{ mb: 2 }}>
+              <Box sx={{ width: 28, height: 2, bgcolor: RED }} />
+              <Typography sx={{ fontSize: '0.65rem', fontWeight: 800, letterSpacing: 4, textTransform: 'uppercase', color: RED, fontFamily: 'monospace' }}>
+                Our Locations
+              </Typography>
+              <Box sx={{ width: 28, height: 2, bgcolor: RED }} />
+            </Stack>
+            <Typography variant="h2" sx={{ fontWeight: 800, textTransform: 'uppercase', textAlign: 'center', fontFamily: "'Poppins', sans-serif", letterSpacing: -2, lineHeight: 0.9 }}>
+              All Gym <Box component="span" sx={{ color: RED, fontStyle: 'italic' }}>Clubs.</Box>
             </Typography>
           </m.div>
 
           <m.div variants={varFade().inUp}>
             <TextField
-              placeholder="Enter Search Terms"
+              placeholder="ENTER SEARCH TERMS"
               variant="outlined"
               sx={{
                 width: { xs: 1, md: 480 },
                 '& .MuiOutlinedInput-root': {
-                  color: COLORS.white,
-                  bgcolor: alpha(COLORS.white, 0.05),
-                  borderRadius: 2,
-                  border: `1px solid ${alpha(COLORS.white, 0.2)}`,
+                  color: '#fff',
+                  fontFamily: 'monospace',
+                  fontSize: '0.8rem',
+                  bgcolor: '#080808', // Dark fill
+                  borderRadius: 0, // Sharp
+                  border: `1px solid ${alpha('#fff', 0.1)}`,
                   transition: 'all 0.3s',
                   '& fieldset': { border: 'none' },
                   '&:hover': { 
-                      bgcolor: alpha(COLORS.white, 0.08),
-                      borderColor: COLORS.white 
+                      borderColor: alpha('#fff', 0.3) 
                   },
                   '&.Mui-focused': { 
-                      borderColor: COLORS.red,
-                      boxShadow: `0 0 0 2px ${alpha(COLORS.red, 0.2)}`
+                      borderColor: RED,
                   },
                 },
               }}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
-                    <Iconify icon="solar:settings-bold-duotone" width={24} sx={{ color: COLORS.white, mr: 1, cursor: 'pointer' }} />
+                    <Iconify icon="solar:settings-bold-duotone" width={24} sx={{ color: alpha('#fff', 0.4), mr: 1 }} />
                   </InputAdornment>
                 ),
                 endAdornment: (
                   <InputAdornment position="end">
-                    <IconButton edge="end">
-                       <Iconify icon="eva:search-fill" sx={{ color: COLORS.red }} />
+                    <IconButton edge="end" sx={{ color: RED, borderRadius: 0, '&:hover': { bgcolor: alpha(RED, 0.1) } }}>
+                       <Iconify icon="eva:search-fill" />
                     </IconButton>
                   </InputAdornment>
                 )
@@ -99,95 +102,99 @@ export default function ClubsGrid() {
           </m.div>
         </Stack>
 
-        {/* LOADING STATE (Opsional) */}
-        {isLoading && (
-          <Typography textAlign="center" sx={{ color: 'text.secondary', mt: 5 }}>
-            Loading clubs data...
-          </Typography>
-        )}
-
-        {/* CLUBS GRID */}
-        <Grid container spacing={4}>
-          {clubs.map((club, index) => (
-            // Gunakan club.id sebagai key jika ada, jangan index
-            <Grid key={club.id || index} xs={12} sm={6} md={3}>
-              {/* PERBAIKAN DI SINI: Gunakan animasi manual alih-alih varFade dari parent */}
-              <m.div 
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1, ease: 'easeOut' }}
-              >
-                <Card
-                  sx={{
-                    bgcolor: alpha(COLORS.white, 0.03),
-                    borderRadius: 2,
-                    border: `1px solid ${alpha(COLORS.white, 0.05)}`,
-                    overflow: 'hidden',
-                    height: '100%',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    transition: 'all 0.3s ease',
-                    cursor: 'pointer',
-                    '&:hover': {
-                      transform: 'translateY(-8px)',
-                      borderColor: COLORS.red,
-                      bgcolor: alpha(COLORS.white, 0.05),
-                      '& .club-img': { transform: 'scale(1.1)' },
-                      '& .arrow-icon': { bgcolor: COLORS.red, color: COLORS.white }
-                    }
-                  }}
+        {isLoading ? (
+          <Box sx={{ display: 'flex', justifyContent: 'center', py: 10 }}>
+            <CircularProgress sx={{ color: RED }} />
+          </Box>
+        ) : (
+          <Grid container spacing={3}>
+            {clubs.map((club, index) => (
+              <Grid key={club.id || index} xs={12} sm={6} md={3}>
+                <m.div 
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1, ease: 'easeOut' }}
                 >
-                  {/* Image Container */}
-                  <Box sx={{ position: 'relative', pt: '65%', overflow: 'hidden' }}>
-                    <Image
-                      alt={club.name}
-                      src={club.image_url} // Pastikan field di database bernama image_url (bukan img)
-                      className="club-img"
-                      sx={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        width: 1,
-                        height: 1,
-                        transition: 'transform 0.5s ease',
-                      }}
-                    />
-                  </Box>
-
-                  {/* Content Container */}
-                  <Box sx={{ p: 3, flexGrow: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                    <Box>
-                        <Typography variant="subtitle1" sx={{ fontWeight: 800, textTransform: 'uppercase', mb: 1, lineHeight: 1.2 }}>
-                        {club.name}
-                        </Typography>
-                        <Typography variant="body2" sx={{ color: 'text.secondary', fontSize: '0.85rem', lineHeight: 1.5, mb: 3 }}>
-                        {club.address}
-                        </Typography>
+                  <Card
+                    sx={{
+                      bgcolor: '#080808',
+                      borderRadius: 0, // Sharp
+                      border: `1px solid ${alpha(RED, 0.15)}`,
+                      borderLeft: `3px solid ${RED}`,
+                      overflow: 'hidden',
+                      height: '100%',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      transition: 'all 0.3s ease',
+                      cursor: 'pointer',
+                      '&:hover': {
+                        transform: 'translateY(-8px)',
+                        borderColor: alpha(RED, 0.5),
+                        bgcolor: '#0c0c0c',
+                        '& .club-img': { transform: 'scale(1.05)' },
+                        '& .arrow-icon': { bgcolor: RED, color: '#fff', borderColor: RED }
+                      }
+                    }}
+                  >
+                    {/* Image Container */}
+                    <Box sx={{ position: 'relative', pt: '65%', overflow: 'hidden' }}>
+                      <Image
+                        alt={club.name}
+                        src={club.image_url} 
+                        className="club-img"
+                        sx={{
+                          position: 'absolute',
+                          top: 0,
+                          left: 0,
+                          width: 1,
+                          height: 1,
+                          transition: 'transform 0.5s ease',
+                        }}
+                      />
+                       {/* Overlay Gradien pada gambar agar tidak terlalu terang */}
+                       <Box sx={{ position: 'absolute', top: 0, left: 0, width: 1, height: 1, background: `linear-gradient(to bottom, transparent 40%, ${BLACK} 100%)` }} />
                     </Box>
 
-                    {/* Arrow Icon Button */}
-                    <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                         <IconButton 
-                            className="arrow-icon"
-                            size="small"
-                            sx={{ 
-                                bgcolor: 'transparent',
-                                color: COLORS.red,
-                                transition: 'all 0.3s',
-                                border: `1px solid ${alpha(COLORS.red, 0.3)}`,
-                                '&:hover': { bgcolor: COLORS.red, color: COLORS.white }
-                            }}
-                         >
-                            <Iconify icon="solar:arrow-right-up-bold" width={20} />
-                         </IconButton>
-                    </Box>
-                  </Box>
-                </Card>
-              </m.div>
-            </Grid>
-          ))}
-        </Grid>
+                    {/* Content Container */}
+                    <Box sx={{ p: 3, flexGrow: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', bgcolor: '#080808' }}>
+                      <Box>
+                          <Typography variant="overline" sx={{ color: RED, fontFamily: 'monospace', mb: 0.5, display: 'block', letterSpacing: 2 }}>
+                            {club.city || 'LOCATION'}
+                          </Typography>
+                          <Typography variant="h5" sx={{ fontWeight: 800, textTransform: 'uppercase', mb: 1, lineHeight: 1.1, fontFamily: "'Poppins', sans-serif" }}>
+                            {club.name}
+                          </Typography>
+                          <Typography variant="caption" sx={{ color: alpha('#fff', 0.5), lineHeight: 1.5, mb: 3, display: 'block', fontFamily: 'monospace' }}>
+                            {club.address}
+                          </Typography>
+                      </Box>
 
+                      {/* Arrow Icon Button */}
+                      <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
+                           <Typography sx={{ fontSize: '0.65rem', fontWeight: 800, letterSpacing: 1.5, fontFamily: 'monospace', color: RED, mr: 1, textTransform: 'uppercase' }}>
+                              View Detail
+                           </Typography>
+                           <IconButton 
+                              className="arrow-icon"
+                              size="small"
+                              sx={{ 
+                                  bgcolor: BLACK,
+                                  color: alpha('#fff', 0.5),
+                                  transition: 'all 0.3s',
+                                  border: `1px solid ${alpha('#fff', 0.1)}`,
+                                  borderRadius: 0, // Sharp
+                              }}
+                           >
+                              <Iconify icon="solar:arrow-right-up-bold" width={18} />
+                           </IconButton>
+                      </Box>
+                    </Box>
+                  </Card>
+                </m.div>
+              </Grid>
+            ))}
+          </Grid>
+        )}
       </Container>
     </Box>
   );

@@ -1,6 +1,6 @@
 import { m } from 'framer-motion';
 // @mui
-import { alpha, useTheme } from '@mui/material/styles';
+import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
@@ -13,28 +13,23 @@ import { MotionContainer, varFade } from 'src/components/animate';
 
 // ----------------------------------------------------------------------
 
-const COLORS = {
-    red: '#D40000',
-    redDark: '#8a0000',
-    black: '#000000',
-    white: '#FFFFFF',
-};
+const RED = '#DF2026';
+const RED_DARK = '#A8171C';
+const BLACK = '#060606';
 
 export default function ClassesHero() {
-    const theme = useTheme();
-
     return (
     <Box
         sx={{
         position: 'relative',
-        height: { xs: '100vh', md: 760 }, // Full screen di mobile, fixed height di desktop
+        height: { xs: '100vh', md: 760 }, 
         overflow: 'hidden',
+        borderBottom: `1px solid ${alpha(RED, 0.15)}`,
         }}
     >
-        {/* 1. BACKGROUND IMAGE */}
         <Image
         alt="classes hero"
-        src="public/assets/background/CLASSES/21.png" // Ganti dengan gambar gym/rowing class kamu
+        src="public/assets/background/CLASSES/21.png" 
         sx={{
             width: 1,
             height: 1,
@@ -46,7 +41,7 @@ export default function ClassesHero() {
         }}
         />
 
-        {/* 2. OVERLAY GRADIENT (BLACK & RED) */}
+        {/* OVERLAY GRADIENT */}
         <Box
         sx={{
             position: 'absolute',
@@ -55,15 +50,14 @@ export default function ClassesHero() {
             width: 1,
             height: 1,
             zIndex: 1,
-            // Gradient dari Hitam (kiri) ke Transparan (kanan) dengan sedikit tint merah
             background: `linear-gradient(to right, 
-            ${alpha(COLORS.black, 0.9)} 0%, 
-            ${alpha(COLORS.black, 0.7)} 40%, 
-            ${alpha(COLORS.red, 0.2)} 100%)`,
+            ${alpha(BLACK, 0.95)} 0%, 
+            ${alpha(BLACK, 0.7)} 40%, 
+            ${alpha(RED, 0.25)} 100%)`,
         }}
         />
 
-        {/* 3. CONTENT */}
+        {/* CONTENT */}
         <Container
         component={MotionContainer}
         sx={{
@@ -73,38 +67,48 @@ export default function ClassesHero() {
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
-            alignItems: { xs: 'center', md: 'flex-start' }, // Tengah di HP, Kiri di Desktop
+            alignItems: { xs: 'center', md: 'flex-start' }, 
             textAlign: { xs: 'center', md: 'left' },
         }}
         >
         <m.div variants={varFade().inRight}>
+            <Stack direction="row" alignItems="center" spacing={1.5} sx={{ mb: 2, justifyContent: { xs: 'center', md: 'flex-start' } }}>
+              <Box sx={{ width: 28, height: 2, bgcolor: RED }} />
+              <Typography sx={{ fontSize: '0.65rem', fontWeight: 800, letterSpacing: 4, textTransform: 'uppercase', color: RED, fontFamily: 'monospace' }}>
+                Endless Options
+              </Typography>
+            </Stack>
+        </m.div>
+
+        <m.div variants={varFade().inRight}>
             <Typography
             variant="h1"
             sx={{
-                color: COLORS.white,
+                color: '#fff',
                 fontWeight: 900,
                 textTransform: 'uppercase',
-                lineHeight: 0.9,
-                mb: 2,
-                fontSize: { xs: '3rem', md: '5.5rem' }, // Ukuran font raksasa
+                lineHeight: 0.95,
+                mb: 3,
+                letterSpacing: -2,
+                fontFamily: "'Poppins', sans-serif",
+                fontSize: { xs: '3rem', md: '5.5rem' },
             }}
             >
-            7.700 CLASSES <br />
-            <Box component="span" sx={{ color: COLORS.red }}>
-                EVERY MONTH
+            7,700 Classes <br />
+            <Box component="span" sx={{ color: RED, fontStyle: 'italic', display: 'block' }}>
+                Every Month.
             </Box>
             </Typography>
         </m.div>
 
         <m.div variants={varFade().inRight}>
             <Typography
-            variant="h6"
             sx={{
-                color: COLORS.white,
-                fontWeight: 'normal',
+                color: alpha('#fff', 0.6),
                 maxWidth: 480,
                 mb: 5,
-                opacity: 0.9,
+                fontSize: '0.9rem',
+                lineHeight: 1.8
             }}
             >
             Your toughest decision will be which of the 7,700 group fitness classes to try next.
@@ -117,27 +121,29 @@ export default function ClassesHero() {
             size="large"
             endIcon={<Iconify icon="solar:arrow-right-up-bold" />}
             sx={{
-                bgcolor: COLORS.red,
-                color: COLORS.white,
-                borderRadius: 50,
+                bgcolor: RED,
+                color: '#fff',
+                borderRadius: 0, // Sharp
                 px: 5,
-                py: 1.5,
-                fontSize: '1.1rem',
-                fontWeight: 'bold',
-                boxShadow: `0 8px 24px ${alpha(COLORS.red, 0.4)}`,
+                py: 1.75,
+                fontSize: '0.72rem',
+                fontWeight: 800,
+                letterSpacing: 2,
+                textTransform: 'uppercase',
+                fontFamily: 'monospace',
+                boxShadow: 'none',
                 '&:hover': {
-                bgcolor: COLORS.redDark,
-                transform: 'translateY(-2px)',
+                    bgcolor: RED_DARK,
+                    boxShadow: 'none',
                 },
-                transition: 'all 0.3s ease',
             }}
             >
-            EXPLORE CLASSES
+            Explore Classes
             </Button>
         </m.div>
         </Container>
 
-        {/* 4. SLIDER INDICATORS (DOTS) */}
+        {/* SLIDER INDICATORS */}
         <Stack
         direction="row"
         spacing={1.5}
@@ -154,13 +160,13 @@ export default function ClassesHero() {
             <Box
             key={index}
             sx={{
-                width: index === 0 ? 32 : 8, // Dot pertama panjang (aktif)
+                width: index === 0 ? 32 : 8, 
                 height: 8,
-                borderRadius: 4,
-                bgcolor: index === 0 ? COLORS.red : alpha(COLORS.white, 0.3),
+                borderRadius: 0, // Sharp
+                bgcolor: index === 0 ? RED : alpha('#fff', 0.3),
                 transition: 'all 0.3s ease',
                 cursor: 'pointer',
-                '&:hover': { bgcolor: COLORS.red },
+                '&:hover': { bgcolor: RED },
             }}
             />
         ))}

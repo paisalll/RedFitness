@@ -1,7 +1,7 @@
 import { m } from 'framer-motion';
 // @mui
 import Masonry from '@mui/lab/Masonry';
-import { alpha, useTheme } from '@mui/material/styles';
+import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Rating from '@mui/material/Rating';
 import Button from '@mui/material/Button';
@@ -18,20 +18,32 @@ import { fDate } from 'src/utils/format-time';
 // _mock
 import { _testimonials } from 'src/_mock';
 // theme
-import { bgBlur, bgGradient, hideScroll } from 'src/theme/css';
+import { hideScroll } from 'src/theme/css';
 // components
 import Iconify from 'src/components/iconify';
 import { MotionViewport, varFade } from 'src/components/animate';
 
 // ----------------------------------------------------------------------
 
-export default function AboutTestimonials() {
-  const theme = useTheme();
+const RED = '#DF2026';
+const BLACK = '#060606';
 
+export default function AboutTestimonials() {
   const mdUp = useResponsive('up', 'md');
 
   const renderLink = (
-    <Button color="primary" endIcon={<Iconify icon="eva:arrow-ios-forward-fill" />}>
+    <Button 
+      endIcon={<Iconify icon="eva:arrow-ios-forward-fill" />}
+      sx={{ 
+        color: RED, 
+        fontFamily: 'monospace', 
+        fontWeight: 800, 
+        letterSpacing: 1, 
+        textTransform: 'uppercase',
+        borderRadius: 0,
+        '&:hover': { bgcolor: alpha(RED, 0.1) }
+      }}
+    >
       Read more testimonials
     </Button>
   );
@@ -44,20 +56,34 @@ export default function AboutTestimonials() {
       }}
     >
       <m.div variants={varFade().inUp}>
-        <Typography variant="overline" sx={{ color: 'common.white', opacity: 0.48 }}>
-          Testimonials
+        <Stack direction="row" alignItems="center" spacing={1.5} sx={{ mb: 2, justifyContent: { xs: 'center', md: 'flex-start' } }}>
+            <Box sx={{ width: 28, height: 2, bgcolor: RED }} />
+            <Typography sx={{ fontSize: '0.65rem', fontWeight: 800, letterSpacing: 4, textTransform: 'uppercase', color: RED, fontFamily: 'monospace' }}>
+                Testimonials
+            </Typography>
+        </Stack>
+      </m.div>
+
+      <m.div variants={varFade().inUp}>
+        <Typography 
+            variant="h2" 
+            sx={{ 
+                my: 3, 
+                color: '#fff',
+                fontWeight: 800,
+                textTransform: 'uppercase',
+                fontFamily: "'Poppins', sans-serif",
+                letterSpacing: -2,
+                lineHeight: 0.95
+            }}
+        >
+          Who Love <br />
+          <Box component="span" sx={{ fontStyle: 'italic', color: RED }}>Our Work.</Box>
         </Typography>
       </m.div>
 
       <m.div variants={varFade().inUp}>
-        <Typography variant="h2" sx={{ my: 3, color: 'common.white' }}>
-          Who love <br />
-          my work
-        </Typography>
-      </m.div>
-
-      <m.div variants={varFade().inUp}>
-        <Typography sx={{ color: 'common.white' }}>
+        <Typography sx={{ color: alpha('#fff', 0.6), fontSize: '0.9rem', lineHeight: 1.8 }}>
           Our goal is to create a product and service that you’re satisfied with and use it every
           day. This is why we’re constantly working on our services to make it better every day and
           really listen to what our users has to say.
@@ -68,7 +94,7 @@ export default function AboutTestimonials() {
         <Box
           component={m.div}
           variants={varFade().inUp}
-          sx={{ mt: 3, display: 'flex', justifyContent: 'center' }}
+          sx={{ mt: 5, display: 'flex', justifyContent: 'center' }}
         >
           {renderLink}
         </Box>
@@ -99,24 +125,26 @@ export default function AboutTestimonials() {
   return (
     <Box
       sx={{
-        ...bgGradient({
-          color: alpha(theme.palette.grey[900], 0.9),
-          imgUrl: '/assets/images/about/testimonials.jpg',
-        }),
+        bgcolor: BLACK,
+        position: 'relative',
         overflow: 'hidden',
         height: { md: 840 },
         py: { xs: 10, md: 0 },
+        borderTop: `1px solid ${alpha(RED, 0.15)}`
       }}
     >
-      <Container component={MotionViewport} sx={{ position: 'relative', height: 1 }}>
+      {/* Background Grid Pattern - Opsional untuk menambah tekstur */}
+      <Box sx={{ position: 'absolute', top: 0, left: 0, width: 1, height: 1, opacity: 0.03, backgroundImage: 'linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)', backgroundSize: '40px 40px', zIndex: 0 }} />
+
+      <Container component={MotionViewport} sx={{ position: 'relative', height: 1, zIndex: 1 }}>
         <Grid
           container
-          spacing={3}
+          spacing={5}
           alignItems="center"
           justifyContent={{ xs: 'center', md: 'space-between' }}
           sx={{ height: 1 }}
         >
-          <Grid xs={10} md={4}>
+          <Grid xs={12} md={4}>
             {renderDescription}
           </Grid>
 
@@ -125,9 +153,7 @@ export default function AboutTestimonials() {
             md={7}
             lg={6}
             alignItems="center"
-            sx={{
-              height: 1,
-            }}
+            sx={{ height: 1 }}
           >
             {renderContent}
           </Grid>
@@ -160,45 +186,54 @@ type TestimonialCardProps = StackProps & {
 };
 
 function TestimonialCard({ testimonial, sx, ...other }: TestimonialCardProps) {
-  const theme = useTheme();
-
   const { name, ratingNumber, postedDate, content, avatarUrl } = testimonial;
 
   return (
     <Stack
       spacing={3}
       sx={{
-        ...bgBlur({
-          color: theme.palette.common.white,
-          opacity: 0.08,
-        }),
-        p: 3,
-        borderRadius: 2,
-        color: 'common.white',
+        bgcolor: '#080808',
+        border: `1px solid ${alpha(RED, 0.15)}`,
+        borderLeft: `3px solid ${RED}`,
+        p: 4,
+        borderRadius: 0, // Sharp
+        color: '#fff',
+        transition: 'all 0.3s ease',
+        '&:hover': {
+            transform: 'translateY(-4px)',
+            borderColor: alpha(RED, 0.4),
+            bgcolor: '#0c0c0c'
+        },
         ...sx,
       }}
       {...other}
     >
-      <Iconify icon="mingcute:quote-left-fill" width={40} sx={{ opacity: 0.48 }} />
+      <Iconify icon="mingcute:quote-left-fill" width={40} sx={{ color: RED, opacity: 0.5 }} />
 
-      <Typography variant="body2">{content}</Typography>
+      <Typography sx={{ fontSize: '0.9rem', lineHeight: 1.8, color: alpha('#fff', 0.8) }}>{content}</Typography>
 
-      <Rating value={ratingNumber} readOnly size="small" />
+      <Rating 
+        value={ratingNumber} 
+        readOnly 
+        size="small" 
+        sx={{ '& .MuiRating-iconFilled': { color: RED }, '& .MuiRating-iconEmpty': { color: alpha('#fff', 0.2) } }} 
+      />
 
-      <Stack direction="row">
-        <Avatar alt={name} src={avatarUrl} sx={{ mr: 2 }} />
+      <Stack direction="row" alignItems="center">
+        <Avatar alt={name} src={avatarUrl} sx={{ mr: 2, borderRadius: 0, border: `1px solid ${alpha('#fff', 0.2)}` }} />
 
         <ListItemText
-          primary={name}
+          primary={name.toUpperCase()}
           secondary={fDate(postedDate)}
           primaryTypographyProps={{
-            typography: 'subtitle2',
+            fontWeight: 800,
+            fontFamily: "'Poppins', sans-serif",
             mb: 0.5,
           }}
           secondaryTypographyProps={{
             typography: 'caption',
-            color: 'inherit',
-            sx: { opacity: 0.64 },
+            fontFamily: 'monospace',
+            sx: { opacity: 0.5, color: '#fff' },
           }}
         />
       </Stack>

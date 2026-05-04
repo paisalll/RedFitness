@@ -12,11 +12,8 @@ import { MotionViewport, varFade } from 'src/components/animate';
 
 // ----------------------------------------------------------------------
 
-const COLORS = {
-  red: '#D40000',
-  black: '#000000',
-  white: '#FFFFFF',
-};
+const RED = '#DF2026';
+const BLACK = '#060606';
 
 const PILLARS = [
   {
@@ -76,16 +73,22 @@ const FEATURES = [
 
 export default function PersonalTrainingPillars() {
   return (
-    <Box sx={{ bgcolor: COLORS.black, py: { xs: 10, md: 15 }, color: COLORS.white }}>
+    <Box sx={{ bgcolor: BLACK, py: { xs: 10, md: 15 }, color: '#fff', borderTop: `1px solid ${alpha(RED, 0.15)}` }}>
       <Container component={MotionViewport}>
         
         {/* SECTION 1: 5 PILLARS */}
         <Grid container spacing={5} sx={{ mb: { xs: 10, md: 20 } }}>
           <Grid xs={12} md={4}>
             <m.div variants={varFade().inLeft}>
-              <Typography variant="h2" sx={{ fontWeight: 900, textTransform: 'uppercase', lineHeight: 1.1, mb: 3 }}>
-                OUR COACHES PRACTICE <br />
-                <Box component="span" sx={{ color: COLORS.red }}>THE 5 KEY PILLARS OF FITNESS</Box>
+              <Stack direction="row" alignItems="center" spacing={1.5} sx={{ mb: 2 }}>
+                  <Box sx={{ width: 28, height: 2, bgcolor: RED }} />
+                  <Typography sx={{ fontSize: '0.65rem', fontWeight: 800, letterSpacing: 4, textTransform: 'uppercase', color: RED, fontFamily: 'monospace' }}>
+                    Foundation
+                  </Typography>
+              </Stack>
+              <Typography variant="h2" sx={{ fontWeight: 800, textTransform: 'uppercase', lineHeight: 0.95, letterSpacing: -2, mb: 3, fontFamily: "'Poppins', sans-serif" }}>
+                Our Coaches <br /> Practice The <br />
+                <Box component="span" sx={{ color: RED, fontStyle: 'italic' }}>5 Key Pillars.</Box>
               </Typography>
             </m.div>
           </Grid>
@@ -94,17 +97,25 @@ export default function PersonalTrainingPillars() {
             <Grid container spacing={3}>
               {PILLARS.map((pillar, index) => (
                 <Grid key={pillar.title} xs={12} sm={6} md={4}>
-                  <m.div variants={varFade().inUp} transition={{ delay: index * 0.1 }}>
+                  <m.div variants={varFade().inUp} transition={{ delay: index * 0.1 }} style={{ height: '100%' }}>
                     <Box sx={{ 
-                      p: 3, 
-                      height: 1, 
-                      border: `1px solid ${alpha(COLORS.white, 0.1)}`,
+                      p: 4, 
+                      height: '100%', 
+                      bgcolor: '#080808',
+                      border: `1px solid ${alpha('#fff', 0.05)}`,
+                      borderTop: `3px solid transparent`,
+                      borderRadius: 0, // Sharp
                       transition: 'all 0.3s',
-                      '&:hover': { borderColor: COLORS.red, transform: 'translateY(-5px)' }
+                      '&:hover': { 
+                          borderColor: alpha(RED, 0.2), 
+                          borderTopColor: RED, 
+                          bgcolor: '#0c0c0c',
+                          transform: 'translateY(-5px)' 
+                      }
                     }}>
-                      <Iconify icon={pillar.icon} width={32} sx={{ color: COLORS.red, mb: 2 }} />
-                      <Typography variant="h6" sx={{ mb: 1, fontWeight: 800 }}>{pillar.title}</Typography>
-                      <Typography variant="body2" sx={{ opacity: 0.6 }}>{pillar.description}</Typography>
+                      <Iconify icon={pillar.icon} width={32} sx={{ color: RED, mb: 3 }} />
+                      <Typography variant="h6" sx={{ mb: 1.5, fontWeight: 800, fontFamily: "'Poppins', sans-serif" }}>{pillar.title}</Typography>
+                      <Typography variant="body2" sx={{ color: alpha('#fff', 0.6), lineHeight: 1.7 }}>{pillar.description}</Typography>
                     </Box>
                   </m.div>
                 </Grid>
@@ -116,29 +127,42 @@ export default function PersonalTrainingPillars() {
         {/* SECTION 2: MY TRAINER FEATURE */}
         <Box sx={{ textAlign: 'center' }}>
           <m.div variants={varFade().inDown}>
-            <Typography variant="h2" sx={{ fontWeight: 900, textTransform: 'uppercase', mb: 8 }}>
-              LEVEL UP WITH <Box component="span" sx={{ color: COLORS.red }}>MY TRAINER FEATURE</Box>
+             <Stack direction="row" alignItems="center" justifyContent="center" spacing={1.5} sx={{ mb: 2 }}>
+                <Box sx={{ width: 28, height: 2, bgcolor: RED }} />
+                <Typography sx={{ fontSize: '0.65rem', fontWeight: 800, letterSpacing: 4, textTransform: 'uppercase', color: RED, fontFamily: 'monospace' }}>
+                    Digital Experience
+                </Typography>
+                <Box sx={{ width: 28, height: 2, bgcolor: RED }} />
+            </Stack>
+            <Typography variant="h2" sx={{ fontWeight: 800, textTransform: 'uppercase', mb: 8, fontFamily: "'Poppins', sans-serif", letterSpacing: -2, lineHeight: 0.95 }}>
+              Level Up With <br /> <Box component="span" sx={{ color: RED, fontStyle: 'italic' }}>My Trainer Feature.</Box>
             </Typography>
           </m.div>
 
           <Grid container spacing={3} justifyContent="center">
             {FEATURES.map((feature, index) => (
               <Grid key={feature.title} xs={12} sm={6} md={4}>
-                <m.div variants={varFade().inUp} transition={{ delay: index * 0.1 }}>
+                <m.div variants={varFade().inUp} transition={{ delay: index * 0.1 }} style={{ height: '100%' }}>
                   <Stack 
-                    spacing={2} 
+                    spacing={2.5} 
                     alignItems="center" 
                     sx={{ 
                       p: 4, 
-                      borderRadius: 2,
-                      bgcolor: alpha(COLORS.white, 0.03),
-                      border: `1px solid ${alpha(COLORS.red, 0.1)}`,
-                      height: 1
+                      borderRadius: 0, // Sharp
+                      bgcolor: '#080808',
+                      border: `1px solid ${alpha(RED, 0.1)}`,
+                      height: '100%',
+                      transition: 'all 0.3s',
+                      '&:hover': {
+                          borderColor: RED,
+                          bgcolor: '#0c0c0c',
+                          transform: 'translateY(-4px)'
+                      }
                     }}
                   >
-                    <Iconify icon={feature.icon} width={48} sx={{ color: COLORS.red }} />
-                    <Typography variant="h6" sx={{ fontWeight: 800 }}>{feature.title}</Typography>
-                    <Typography variant="body2" sx={{ opacity: 0.7 }}>{feature.description}</Typography>
+                    <Iconify icon={feature.icon} width={48} sx={{ color: RED }} />
+                    <Typography variant="h6" sx={{ fontWeight: 800, fontFamily: "'Poppins', sans-serif" }}>{feature.title}</Typography>
+                    <Typography variant="body2" sx={{ color: alpha('#fff', 0.6), lineHeight: 1.7 }}>{feature.description}</Typography>
                   </Stack>
                 </m.div>
               </Grid>

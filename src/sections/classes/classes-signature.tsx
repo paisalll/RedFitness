@@ -11,7 +11,7 @@ import 'swiper/css/navigation';
 // @ts-ignore
 import 'swiper/css/pagination';
 // @mui
-import { alpha, useTheme } from '@mui/material/styles';
+import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Container from '@mui/material/Container';
@@ -25,13 +25,9 @@ import { MotionViewport, varFade } from 'src/components/animate';
 
 // ----------------------------------------------------------------------
 
-const COLORS = {
-    red: '#D40000',
-    black: '#000000',
-    white: '#FFFFFF',
-};
+const RED = '#DF2026';
+const BLACK = '#060606';
 
-// Data Mockup Kelas (Ganti src gambar dengan asset kamu)
 const SIGNATURE_CLASSES = [
     { id: '01', title: 'DNA FLAVOR', image: '/assets/background/CLASSES/s1.png' },
     { id: '02', title: 'DNA MASK', image: '/assets/background/CLASSES/s2.png' },
@@ -41,47 +37,44 @@ const SIGNATURE_CLASSES = [
 ];
 
 export default function ClassesSignature() {
-    const theme = useTheme();
     const swiperRef = useRef<SwiperType | null>(null);
     const [progress, setProgress] = useState(0);
 
-    // Update progress bar saat slide berubah
     const handleSlideChange = (swiper: SwiperType) => {
-    // 1. Ambil slidesPerView, pastikan tipenya number.
-    // Jika 'auto' atau undefined, kita anggap 1 agar tidak error saat dibagi.
-    const slidesPerView = typeof swiper.params.slidesPerView === 'number' 
-        ? swiper.params.slidesPerView 
-        : 1;
+        const slidesPerView = typeof swiper.params.slidesPerView === 'number' 
+            ? swiper.params.slidesPerView 
+            : 1;
 
-        // 2. Hitung total slide yang bisa digeser
         const totalScrollableSlides = swiper.slides.length - slidesPerView;
 
-        // 3. Hindari pembagian dengan 0 atau angka negatif
         if (totalScrollableSlides <= 0) {
-        setProgress(100);
-        return;
+            setProgress(100);
+            return;
         }
 
-        // 4. Kalkulasi persentase
         const progressValue = (swiper.activeIndex / totalScrollableSlides) * 100;
-        
-        // 5. Batasi nilai antara 0 sampai 100 (Clamping)
         const safeProgress = Math.min(Math.max(progressValue, 0), 100); 
-        
         setProgress(safeProgress);
     };
 
     return (
-        <Box sx={{ bgcolor: COLORS.black, py: { xs: 10, md: 15 }, overflow: 'hidden' }}>
+        <Box sx={{ bgcolor: BLACK, py: { xs: 10, md: 15 }, overflow: 'hidden' }}>
         <Container component={MotionViewport}>
             
             {/* HEADER SECTION */}
-            <Box sx={{ textAlign: 'center', mb: 8 }}>
+            <Box sx={{ textAlign: 'center', mb: 10 }}>
             <m.div variants={varFade().inDown}>
-                <Typography variant="h2" sx={{ color: COLORS.white, fontWeight: 900, textTransform: 'uppercase', mb: 2 }}>
-                SIGNATURE <Box component="span" sx={{ color: COLORS.red }}>CLASSES</Box>
+                <Stack direction="row" alignItems="center" justifyContent="center" spacing={1.5} sx={{ mb: 2 }}>
+                    <Box sx={{ width: 28, height: 2, bgcolor: RED }} />
+                    <Typography sx={{ fontSize: '0.65rem', fontWeight: 800, letterSpacing: 4, textTransform: 'uppercase', color: RED, fontFamily: 'monospace' }}>
+                        Elite Programs
+                    </Typography>
+                    <Box sx={{ width: 28, height: 2, bgcolor: RED }} />
+                </Stack>
+                <Typography variant="h2" sx={{ color: '#fff', fontWeight: 800, textTransform: 'uppercase', mb: 3, fontFamily: "'Poppins', sans-serif", letterSpacing: -2, lineHeight: 0.9 }}>
+                Signature <Box component="span" sx={{ color: RED, fontStyle: 'italic' }}>Classes.</Box>
                 </Typography>
-                <Typography sx={{ color: 'text.secondary', maxWidth: 600, mx: 'auto' }}>
+                <Typography sx={{ color: alpha('#fff', 0.6), maxWidth: 500, mx: 'auto', fontSize: '0.9rem' }}>
                 Experience our signature classes, designed to get you training like a star.
                 </Typography>
             </m.div>
@@ -94,10 +87,10 @@ export default function ClassesSignature() {
                 onSlideChange={handleSlideChange}
                 modules={[Navigation]}
                 spaceBetween={24}
-                slidesPerView={1.2} // Mobile: lihat sedikit slide sebelah
+                slidesPerView={1.2} 
                 breakpoints={{
-                640: { slidesPerView: 2.2 },
-                1024: { slidesPerView: 3.5 }, // Desktop: 3.5 slide
+                    640: { slidesPerView: 2.2 },
+                    1024: { slidesPerView: 3.5 }, 
                 }}
                 style={{ overflow: 'visible' }}
             >
@@ -107,21 +100,21 @@ export default function ClassesSignature() {
                     sx={{ 
                         bgcolor: 'transparent', 
                         boxShadow: 'none', 
-                        borderRadius: 0,
+                        borderRadius: 0, // Sharp
                         position: 'relative',
                         transition: 'transform 0.3s',
                         '&:hover': { transform: 'translateY(-8px)' }
                     }}
                     >
                     {/* Image Container */}
-                    <Box sx={{ borderRadius: 2, overflow: 'hidden', mb: 3 }}>
+                    <Box sx={{ borderRadius: 0, overflow: 'hidden', mb: 3, border: `1px solid ${alpha('#fff', 0.1)}` }}>
                         <Image 
                         alt={item.title} 
                         src={item.image} 
                         ratio="4/3" 
                         sx={{ 
                             transition: 'transform 0.5s',
-                            '&:hover': { transform: 'scale(1.1)' } 
+                            '&:hover': { transform: 'scale(1.05)' } 
                         }} 
                         />
                     </Box>
@@ -129,20 +122,20 @@ export default function ClassesSignature() {
                     {/* Content */}
                     <Stack spacing={1}>
                         <Typography 
-                        variant="h4" 
-                        sx={{ color: COLORS.red, fontWeight: 900, opacity: 0.8 }}
+                        variant="overline" 
+                        sx={{ color: RED, fontFamily: 'monospace', letterSpacing: 2, display: 'block' }}
                         >
-                        {item.id}
+                        CLASS {item.id}
                         </Typography>
                         
                         <Stack direction="row" alignItems="center" justifyContent="space-between">
-                        <Typography variant="h5" sx={{ color: COLORS.white, fontWeight: 800, textTransform: 'uppercase' }}>
+                        <Typography variant="h5" sx={{ color: '#fff', fontWeight: 800, textTransform: 'uppercase', fontFamily: "'Poppins', sans-serif" }}>
                             {item.title}
                         </Typography>
                         
                         <Iconify 
                             icon="solar:arrow-right-up-bold" 
-                            sx={{ color: COLORS.red, width: 24, height: 24 }} 
+                            sx={{ color: RED, width: 24, height: 24 }} 
                         />
                         </Stack>
                     </Stack>
@@ -164,10 +157,10 @@ export default function ClassesSignature() {
                 sx={{ 
                 height: 2, 
                 flexGrow: 1, 
-                bgcolor: alpha(COLORS.white, 0.1), 
+                bgcolor: alpha('#fff', 0.1), 
                 mr: 5, 
                 position: 'relative',
-                borderRadius: 1
+                borderRadius: 0 // Sharp
                 }}
             >
                 <Box 
@@ -176,8 +169,8 @@ export default function ClassesSignature() {
                     left: 0, 
                     top: 0, 
                     height: 1, 
-                    width: `${Math.max(15, progress)}%`, // Minimal width 15% biar kelihatan
-                    bgcolor: COLORS.red,
+                    width: `${Math.max(15, progress)}%`, 
+                    bgcolor: RED,
                     transition: 'width 0.3s ease'
                 }} 
                 />
@@ -188,9 +181,10 @@ export default function ClassesSignature() {
                 <IconButton
                 onClick={() => swiperRef.current?.slidePrev()}
                 sx={{
-                    border: `1px solid ${alpha(COLORS.white, 0.3)}`,
-                    color: COLORS.white,
-                    '&:hover': { borderColor: COLORS.red, color: COLORS.red }
+                    borderRadius: 0, // Sharp
+                    border: `1px solid ${alpha('#fff', 0.2)}`,
+                    color: '#fff',
+                    '&:hover': { borderColor: RED, color: '#fff', bgcolor: RED }
                 }}
                 >
                 <Iconify icon="eva:arrow-back-fill" />
@@ -199,9 +193,10 @@ export default function ClassesSignature() {
                 <IconButton
                 onClick={() => swiperRef.current?.slideNext()}
                 sx={{
-                    border: `1px solid ${alpha(COLORS.white, 0.3)}`,
-                    color: COLORS.white,
-                    '&:hover': { borderColor: COLORS.red, color: COLORS.red }
+                    borderRadius: 0, // Sharp
+                    border: `1px solid ${alpha('#fff', 0.2)}`,
+                    color: '#fff',
+                    '&:hover': { borderColor: RED, color: '#fff', bgcolor: RED }
                 }}
                 >
                 <Iconify icon="eva:arrow-forward-fill" />
@@ -210,23 +205,24 @@ export default function ClassesSignature() {
             </Stack>
 
             {/* BOTTOM CTA LINK */}
-            <Box sx={{ textAlign: 'center', mt: 10 }}>
+            <Box sx={{ textAlign: 'center', mt: 15 }}>
             <m.div variants={varFade().inUp}>
                 <Typography 
-                    variant="h3" 
+                    variant="h4" 
                     sx={{ 
                         fontWeight: 900, 
                         textTransform: 'uppercase', 
-                        color: COLORS.white,
+                        color: '#fff',
                         display: 'inline-flex',
                         alignItems: 'center',
                         cursor: 'pointer',
                         transition: 'color 0.3s',
-                        '&:hover': { color: COLORS.red }
+                        fontFamily: "'Poppins', sans-serif",
+                        '&:hover': { color: RED }
                     }}
                 >
                     EXPLORE ALL CLASSES
-                    <Iconify icon="solar:arrow-right-up-bold" sx={{ ml: 1, width: 32, height: 32 }} />
+                    <Iconify icon="solar:arrow-right-up-bold" sx={{ ml: 1, width: 28, height: 28 }} />
                 </Typography>
             </m.div>
             </Box>

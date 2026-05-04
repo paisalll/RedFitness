@@ -12,6 +12,10 @@ import Image from 'src/components/image';
 import Iconify from 'src/components/iconify';
 import { MotionContainer, varFade } from 'src/components/animate';
 
+const RED = '#DF2026';
+const RED_DARK = '#A8171C';
+const BLACK = '#060606';
+
 // ----------------------------------------------------------------------
 
 export default function AboutHero() {
@@ -24,54 +28,69 @@ export default function AboutHero() {
         py: { xs: 10, md: 0 },
         overflow: 'hidden',
         position: 'relative',
-        // KEMBALI KE PENGATURAN BACKGROUND IMAGE
+        bgcolor: BLACK, // Fallback background color
         backgroundSize: 'cover',
         backgroundPosition: 'center',
-        // Ganti URL ini dengan gambar background abstrak (tanpa orang)
         backgroundImage:
           'url(/assets/background/overlay_1.svg), url(/assets/background/member.png)',
+        borderBottom: `1px solid ${alpha(RED, 0.15)}`,
       }}
     >
-      <Container component={MotionContainer} sx={{ position: 'relative', zIndex: 1, height: 1, mt: 5 }}>
+        {/* Overlay agar gambar background tidak mengganggu teks */}
+        <Box
+            sx={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: 1,
+            height: 1,
+            zIndex: 0,
+            background: `linear-gradient(to right, ${alpha(BLACK, 0.9)} 0%, ${alpha(BLACK, 0.6)} 50%, transparent 100%)`,
+            }}
+        />
+
+      <Container component={MotionContainer} sx={{ position: 'relative', zIndex: 1, height: 1, mt: { md: 5 } }}>
         <Grid container spacing={5} alignItems="center" sx={{ height: 1 }}>
           
           {/* BAGIAN KIRI: TEKS */}
           <Grid xs={12} md={6} sx={{ textAlign: { xs: 'center', md: 'left' } }}>
             <m.div variants={varFade().inRight}>
-              <Typography variant="overline" sx={{ color: 'common.white', opacity: 0.8, letterSpacing: 2 }}>
-                MEMBERSHIP
-              </Typography>
+                <Stack direction="row" alignItems="center" spacing={1.5} sx={{ mb: 2, justifyContent: { xs: 'center', md: 'flex-start' } }}>
+                    <Box sx={{ width: 28, height: 2, bgcolor: RED }} />
+                    <Typography sx={{ fontSize: '0.65rem', fontWeight: 800, letterSpacing: 4, textTransform: 'uppercase', color: RED, fontFamily: 'monospace' }}>
+                        Membership
+                    </Typography>
+                </Stack>
             </m.div>
 
             <Box sx={{ mt: 2, mb: 3 }}>
               <TextAnimate
                 text="GET YOUR"
                 variants={varFade().inRight}
-                sx={{ color: 'common.white', display: 'block' }}
+                sx={{ color: '#fff', display: 'block', fontFamily: "'Poppins', sans-serif", letterSpacing: -2, lineHeight: 1 }}
               />
               <Stack
-                spacing={2}
+                spacing={1}
                 display="inline-flex"
                 direction={{ xs: 'column', md: 'row' }}
-                sx={{ color: 'common.white' }}
+                sx={{ color: '#fff' }}
               >
-                <TextAnimate text="STAR POWER" sx={{ color: 'common.white' }} />
-                <TextAnimate text="ON" sx={{ color: 'common.white' }} />
+                <TextAnimate text="STAR POWER" sx={{ color: RED, fontFamily: "'Poppins', sans-serif", letterSpacing: -2, lineHeight: 1, fontStyle: 'italic' }} />
+                <TextAnimate text="ON." sx={{ color: '#fff', fontFamily: "'Poppins', sans-serif", letterSpacing: -2, lineHeight: 1 }} />
               </Stack>
             </Box>
 
             <m.div variants={varFade().inRight}>
               <Typography
-                variant="h5"
                 sx={{
-                  color: 'common.white',
-                  fontWeight: 'normal',
-                  opacity: 0.9,
+                  color: alpha('#fff', 0.6),
+                  fontSize: '0.9rem',
+                  lineHeight: 1.8,
                   maxWidth: 480,
                   mx: { xs: 'auto', md: 'unset' }
                 }}
               >
-                You're in charge. Get pumped with your choice of classes.
+                You're in charge. Get pumped with your choice of classes. Experience elite training tailored to your goals.
               </Typography>
             </m.div>
 
@@ -79,16 +98,24 @@ export default function AboutHero() {
               <Button
                 variant="contained"
                 size="large"
-                color="primary" // Sesuaikan warna (Cyan/Teal)
                 endIcon={<Iconify icon="solar:arrow-right-up-bold" />}
                 sx={{
                   mt: 5,
-                  borderRadius: 50,
-                  px: 4,
-                  py: 1.5,
-                  fontSize: 16,
-                  fontWeight: 'bold',
-                  boxShadow: `0 8px 16px 0 ${alpha(theme.palette.primary.main, 0.24)}`
+                  bgcolor: RED,
+                  color: '#fff',
+                  borderRadius: 0, // Sharp corners
+                  px: 5,
+                  py: 1.75,
+                  fontSize: '0.72rem',
+                  fontWeight: 800,
+                  letterSpacing: 2,
+                  textTransform: 'uppercase',
+                  fontFamily: 'monospace',
+                  boxShadow: 'none',
+                  '&:hover': {
+                    bgcolor: RED_DARK,
+                    boxShadow: 'none',
+                  },
                 }}
               >
                 LEARN MORE
@@ -96,7 +123,7 @@ export default function AboutHero() {
             </m.div>
           </Grid>
 
-          {/* BAGIAN KANAN: GAMBAR MODEL (PNG Transparan) */}
+          {/* BAGIAN KANAN: GAMBAR MODEL */}
           <Grid xs={12} md={6}>
             <m.div variants={varFade().inUp}>
               <Box
@@ -105,8 +132,11 @@ export default function AboutHero() {
                   mt: { xs: 5, md: 0 },
                 }}
               >
-                {/* Pastikan ini gambar orangnya saja (transparent background) */}
-                {/* <Image
+                {/* 
+                   Pastikan ini gambar orangnya saja (transparent background). 
+                   Uncomment jika gambarnya sudah siap.
+                */}
+                <Image
                   disabledEffect
                   visibleByDefault
                   alt="membership hero model"
@@ -114,9 +144,8 @@ export default function AboutHero() {
                   sx={{
                     maxWidth: { xs: 300, md: 500 },
                     mx: 'auto',
-                    filter: 'drop-shadow(0 20px 40px rgba(0,0,0,0.24))'
                   }}
-                /> */}
+                />
               </Box>
             </m.div>
           </Grid>
@@ -139,7 +168,7 @@ function TextAnimate({ text, variants, sx, ...other }: TextAnimateProps) {
     <Box
       component={m.div}
       sx={{
-        typography: 'h2',
+        typography: 'h1', // Adjusted size to match other heroes
         fontWeight: 900,
         overflow: 'hidden',
         display: 'inline-flex',
@@ -150,7 +179,7 @@ function TextAnimate({ text, variants, sx, ...other }: TextAnimateProps) {
     >
       {text.split('').map((letter, index) => (
         <m.span key={index} variants={variants || varFade().inUp}>
-          {letter}
+          {letter === ' ' ? '\u00A0' : letter} {/* Preserve spaces */}
         </m.span>
       ))}
     </Box>

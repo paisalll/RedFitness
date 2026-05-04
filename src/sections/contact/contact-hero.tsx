@@ -14,12 +14,9 @@ import { MotionContainer, varFade } from 'src/components/animate';
 
 // ----------------------------------------------------------------------
 
-const COLORS = {
-  red: '#D40000',
-  redDark: '#8a0000', 
-  black: '#000000',
-  white: '#FFFFFF',
-};
+const RED = '#DF2026';
+const RED_DARK = '#A8171C';
+const BLACK = '#060606';
 
 export default function PersonalTrainingHero() {
   const theme = useTheme();
@@ -28,17 +25,29 @@ export default function PersonalTrainingHero() {
     <Box
       sx={{
         minHeight: { md: 560 },
-        py: { xs: 10, md: 0},
+        py: { xs: 10, md: 0 },
         overflow: 'hidden',
         position: 'relative',
-        // KEMBALI KE PENGATURAN BACKGROUND IMAGE
+        bgcolor: BLACK,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
-        // Ganti URL ini dengan gambar background abstrak (tanpa orang)
-        backgroundImage:
-          'url(/assets/background/overlay_1.svg), url(/assets/background/TRAINER/16.png)',
+        backgroundImage: 'url(/assets/background/overlay_1.svg), url(/assets/background/TRAINER/16.png)',
+        borderBottom: `1px solid ${alpha(RED, 0.15)}`,
       }}
     >
+      {/* OVERLAY GRADIENT: Agar teks tetap terbaca di atas background */}
+      <Box
+        sx={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: 1,
+          height: 1,
+          zIndex: 0,
+          background: `linear-gradient(to right, ${alpha(BLACK, 0.95)} 0%, ${alpha(BLACK, 0.7)} 50%, ${alpha(RED, 0.2)} 100%)`,
+        }}
+      />
+
       {/* Dekorasi Cahaya Merah di Latar Belakang */}
       <Box
         sx={{
@@ -47,9 +56,10 @@ export default function PersonalTrainingHero() {
           right: 0,
           width: '60%',
           height: '100%',
-          background: `radial-gradient(circle at center, ${alpha(COLORS.red, 0.15)} 0%, transparent 70%)`,
+          background: `radial-gradient(circle at center, ${alpha(RED, 0.15)} 0%, transparent 70%)`,
           filter: 'blur(80px)',
           zIndex: 0,
+          pointerEvents: 'none',
         }}
       />
 
@@ -59,9 +69,12 @@ export default function PersonalTrainingHero() {
           {/* BAGIAN KIRI: TEKS */}
           <Grid xs={12} md={6} sx={{ textAlign: { xs: 'center', md: 'left' } }}>
             <m.div variants={varFade().inRight}>
-              <Typography variant="overline" sx={{ color: COLORS.red, fontWeight: 'bold', letterSpacing: 2 }}>
-                PERSONAL TRAINING
-              </Typography>
+                <Stack direction="row" alignItems="center" spacing={1.5} sx={{ mb: 2, justifyContent: { xs: 'center', md: 'flex-start' } }}>
+                    <Box sx={{ width: 28, height: 2, bgcolor: RED }} />
+                    <Typography sx={{ fontSize: '0.65rem', fontWeight: 800, letterSpacing: 4, textTransform: 'uppercase', color: RED, fontFamily: 'monospace' }}>
+                        Personal Training
+                    </Typography>
+                </Stack>
             </m.div>
 
             <m.div variants={varFade().inRight}>
@@ -71,28 +84,30 @@ export default function PersonalTrainingHero() {
                   mt: 2,
                   mb: 3,
                   fontWeight: 900,
-                  color: COLORS.white,
+                  color: '#fff',
                   textTransform: 'uppercase',
-                  lineHeight: 1.1,
+                  lineHeight: 0.95,
+                  letterSpacing: -2,
+                  fontFamily: "'Poppins', sans-serif",
+                  fontSize: { xs: '3.5rem', md: '5.5rem' },
                 }}
               >
-                TRAIN LIKE <br />
-                <Box component="span" sx={{ color: COLORS.red }}>A STAR</Box>
+                Train Like <br />
+                <Box component="span" sx={{ color: RED, fontStyle: 'italic' }}>A Star.</Box>
               </Typography>
             </m.div>
 
             <m.div variants={varFade().inRight}>
               <Typography
-                variant="h5"
                 sx={{
-                  color: COLORS.white,
-                  fontWeight: 'normal',
-                  opacity: 0.8,
+                  color: alpha('#fff', 0.6),
+                  fontSize: '0.9rem',
+                  lineHeight: 1.8,
                   maxWidth: 480,
                   mx: { xs: 'auto', md: 'unset' }
                 }}
               >
-                Get maximum results with our StarMakers.
+                Get maximum results with our StarMakers. Elevate your potential with a customized plan just for you.
               </Typography>
             </m.div>
 
@@ -103,20 +118,24 @@ export default function PersonalTrainingHero() {
                 endIcon={<Iconify icon="solar:arrow-right-up-bold" />}
                 sx={{
                   mt: 5,
-                  bgcolor: COLORS.red,
-                  color: COLORS.white,
-                  borderRadius: 50,
-                  px: 4,
-                  py: 1.5,
-                  fontSize: 16,
-                  fontWeight: 'bold',
-                  boxShadow: `0 8px 24px 0 ${alpha(COLORS.red, 0.4)}`,
+                  bgcolor: RED,
+                  color: '#fff',
+                  borderRadius: 0, // Sharp
+                  px: 5,
+                  py: 1.75,
+                  fontSize: '0.72rem',
+                  fontWeight: 800,
+                  letterSpacing: 2,
+                  textTransform: 'uppercase',
+                  fontFamily: 'monospace',
+                  boxShadow: 'none',
                   '&:hover': {
-                    bgcolor: COLORS.redDark,
+                    bgcolor: RED_DARK,
+                    boxShadow: 'none',
                   }
                 }}
               >
-                GET YOUR TRAINER NOW
+                Get Your Trainer
               </Button>
             </m.div>
           </Grid>
@@ -137,7 +156,7 @@ export default function PersonalTrainingHero() {
                      transform: 'translate(-50%, -50%)',
                      width: '100%',
                      height: '100%',
-                     background: `radial-gradient(circle, ${alpha(COLORS.red, 0.2)} 0%, transparent 70%)`,
+                     background: `radial-gradient(circle, ${alpha(RED, 0.2)} 0%, transparent 70%)`,
                      filter: 'blur(50px)',
                      zIndex: -1,
                   }
@@ -146,7 +165,7 @@ export default function PersonalTrainingHero() {
                 {/* <Image
                   visibleByDefault
                   disabledEffect
-                  alt="Personal Training"
+                  alt="Personal Training Model"
                   src="/assets/images/home/personal_training_model.png" 
                   sx={{
                     maxWidth: { xs: 320, md: 560 },

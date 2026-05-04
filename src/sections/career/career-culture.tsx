@@ -14,7 +14,7 @@ import { MotionViewport, varFade } from 'src/components/animate';
 // ----------------------------------------------------------------------
 
 const COLORS = {
-  red: '#D40000',
+  red: '#DF2026',
   black: '#000000',
   white: '#FFFFFF',
 };
