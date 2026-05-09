@@ -1,12 +1,15 @@
 import { lazy, Suspense } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, Navigate } from 'react-router-dom';
 // layouts
 import MainLayout from 'src/layouts/main';
 import SimpleLayout from 'src/layouts/simple';
 import CompactLayout from 'src/layouts/compact';
+import AdminLayout from 'src/layouts/admin';
+import BookingLayout from 'src/layouts/booking';
 // components
 import { SplashScreen } from 'src/components/loading-screen';
-import BookingLayout from 'src/layouts/booking';
+// admin auth
+import { AdminAuthProvider } from 'src/contexts/admin-auth-context';
 
 // ----------------------------------------------------------------------
 
@@ -14,7 +17,6 @@ export const HomePage = lazy(() => import('src/pages/home'));
 const Page500 = lazy(() => import('src/pages/500'));
 const Page403 = lazy(() => import('src/pages/403'));
 const Page404 = lazy(() => import('src/pages/404'));
-// const FaqsPage = lazy(() => import('src/pages/faqs'));
 const AboutPage = lazy(() => import('src/pages/about-us'));
 const ContactPage = lazy(() => import('src/pages/contact-us'));
 const ClasessPage = lazy(() => import('src/pages/classes'));
@@ -29,7 +31,15 @@ const SelectPlanPage = lazy(() => import('src/pages/select-plan'));
 const YourDetailsPage = lazy(() => import('src/pages/your-details'));
 const PaymentPage = lazy(() => import('src/pages/payment'));
 const LoginPage = lazy(() => import('src/pages/login'));
-const AdminDashboardPage = lazy(() => import('src/pages/admin-dashboard'));
+
+// Admin pages
+const AdminLoginPage = lazy(() => import('src/pages/admin/login'));
+const AdminDashboardPage = lazy(() => import('src/pages/admin/index'));
+const AdminClubsPage = lazy(() => import('src/pages/admin/clubs'));
+const AdminClassesPage = lazy(() => import('src/pages/admin/classes'));
+const AdminSchedulesPage = lazy(() => import('src/pages/admin/schedules'));
+const AdminBannersPage = lazy(() => import('src/pages/admin/banners'));
+
 // ----------------------------------------------------------------------
 
 export const mainRoutes = [
@@ -43,16 +53,16 @@ export const mainRoutes = [
     ),
     children: [
       { path: 'membership', element: <AboutPage /> },
-      { path: 'classes', element: <ClasessPage/> },
-      { path: 'personal-training', element: <ContactPage />  },
-      { path: 'highligth', element: <HighligthPage />  },
-      { path: 'career', element: <CareerPage />  },
-      { path: 'timetable', element: <TimetablePage />  },
-      { path: 'clubs', element: <ClubsPage />  },
+      { path: 'classes', element: <ClasessPage /> },
+      { path: 'personal-training', element: <ContactPage /> },
+      { path: 'highligth', element: <HighligthPage /> },
+      { path: 'career', element: <CareerPage /> },
+      { path: 'timetable', element: <TimetablePage /> },
+      { path: 'clubs', element: <ClubsPage /> },
     ],
   },
   {
-    path: 'join', // URL-nya nanti jadi /join/select-club
+    path: 'join',
     element: (
       <BookingLayout>
         <Suspense fallback={<SplashScreen />}>
@@ -68,31 +78,15 @@ export const mainRoutes = [
     ],
   },
   {
-    path: 'join', // URL-nya nanti jadi /join/select-club
+    path: 'login',
     element: (
       <BookingLayout>
         <Suspense fallback={<SplashScreen />}>
-          <Outlet />
+          <LoginPage />
         </Suspense>
       </BookingLayout>
     ),
-    children: [
-      { path: 'select-club', element: <SelectClubPage /> },
-      { path: 'select-plan', element: <SelectPlanPage /> },
-      { path: 'details', element: <YourDetailsPage /> },
-      { path: 'payment', element: <PaymentPage /> },
-    ],
   },
-  {
-  path: 'login',
-  element: (
-    <BookingLayout> {/* Menggunakan Header Minimalis */}
-      <Suspense fallback={<SplashScreen />}>
-        <LoginPage />
-      </Suspense>
-    </BookingLayout>
-  ),
-},
   {
     element: (
       <CompactLayout>
@@ -108,13 +102,30 @@ export const mainRoutes = [
       { path: '404', element: <Page404 /> },
       { path: '403', element: <Page403 /> },
     ],
-  },  // Tambahkan blok ini di dalam array mainRoutes
+  },
+  // ─── Admin section ────────────────────────────────────────────────────────
   {
     path: 'rf-admin',
     element: (
-      <Suspense fallback={<SplashScreen />}>
-        <AdminDashboardPage />
-      </Suspense>
+      <AdminAuthProvider>
+        <Suspense fallback={<SplashScreen />}>
+          <Outlet />
+        </Suspense>
+      </AdminAuthProvider>
     ),
+    children: [
+      { index: true, element: <Navigate to="/rf-admin/login" replace /> },
+      { path: 'login', element: <AdminLoginPage /> },
+      {
+        element: <AdminLayout />,
+        children: [
+          { path: 'dashboard', element: <AdminDashboardPage /> },
+          { path: 'clubs', element: <AdminClubsPage /> },
+          { path: 'classes', element: <AdminClassesPage /> },
+          { path: 'schedules', element: <AdminSchedulesPage /> },
+          { path: 'banners', element: <AdminBannersPage /> },
+        ],
+      },
+    ],
   },
 ];

@@ -8,26 +8,30 @@ import Typography from '@mui/material/Typography';
 // components
 import Image from 'src/components/image';
 import { MotionContainer, varFade } from 'src/components/animate';
+// hooks
+import { useBanner } from 'src/hooks/use-banner';
 
 // ----------------------------------------------------------------------
 
 const RED = '#DF2026';
 const BLACK = '#060606';
+const DEFAULT_BG = '/assets/background/op.png';
 
 export default function HightligthHero() {
+    const bannerUrl = useBanner('highlights');
     return (
     <Box
         sx={{
         position: 'relative',
-        height: { xs: '100vh', md: 760 }, 
+        height: { xs: '100vh', md: 760 },
         overflow: 'hidden',
         borderBottom: `1px solid ${alpha(RED, 0.15)}`,
         }}
     >
         {/* 1. BACKGROUND IMAGE */}
         <Image
-        alt="classes hero"
-        src="/assets/background/op.png" 
+        alt="highlights hero"
+        src={bannerUrl || DEFAULT_BG}
         sx={{
             width: 1,
             height: 1,

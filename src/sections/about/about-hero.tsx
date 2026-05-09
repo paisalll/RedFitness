@@ -11,15 +11,19 @@ import Typography from '@mui/material/Typography';
 import Image from 'src/components/image';
 import Iconify from 'src/components/iconify';
 import { MotionContainer, varFade } from 'src/components/animate';
+// hooks
+import { useBanner } from 'src/hooks/use-banner';
 
 const RED = '#DF2026';
 const RED_DARK = '#A8171C';
 const BLACK = '#060606';
+const DEFAULT_BG = '/assets/background/member.png';
 
 // ----------------------------------------------------------------------
 
 export default function AboutHero() {
   const theme = useTheme();
+  const bannerUrl = useBanner('membership');
 
   return (
     <Box
@@ -28,11 +32,10 @@ export default function AboutHero() {
         py: { xs: 10, md: 0 },
         overflow: 'hidden',
         position: 'relative',
-        bgcolor: BLACK, // Fallback background color
+        bgcolor: BLACK,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
-        backgroundImage:
-          'url(/assets/background/overlay_1.svg), url(/assets/background/member.png)',
+        backgroundImage: `url(/assets/background/overlay_1.svg), url(${bannerUrl || DEFAULT_BG})`,
         borderBottom: `1px solid ${alpha(RED, 0.15)}`,
       }}
     >

@@ -10,6 +10,8 @@ import Typography from '@mui/material/Typography';
 import Image from 'src/components/image';
 import Iconify from 'src/components/iconify';
 import { MotionContainer, varFade } from 'src/components/animate';
+// hooks
+import { useBanner } from 'src/hooks/use-banner';
 
 // ----------------------------------------------------------------------
 
@@ -19,22 +21,24 @@ const COLORS = {
     black: '#000000',
     white: '#FFFFFF',
 };
+const DEFAULT_BG = '/assets/background/CAREERS/KEBUTUHAN WEB RF (2).png';
 
 export default function CareerHero() {
     const theme = useTheme();
+    const bannerUrl = useBanner('career');
 
     return (
     <Box
         sx={{
         position: 'relative',
-        height: { xs: '100vh', md: 760 }, // Full screen di mobile, fixed height di desktop
+        height: { xs: '100vh', md: 760 },
         overflow: 'hidden',
         }}
     >
         {/* 1. BACKGROUND IMAGE */}
         <Image
-        alt="classes hero"
-        src="/assets/background/CAREERS/KEBUTUHAN WEB RF (2).png" // Ganti dengan gambar gym/rowing class kamu
+        alt="career hero"
+        src={bannerUrl || DEFAULT_BG}
         sx={{
             width: 1,
             height: 1,

@@ -10,14 +10,18 @@ import Typography from '@mui/material/Typography';
 import Image from 'src/components/image';
 import Iconify from 'src/components/iconify';
 import { MotionContainer, varFade } from 'src/components/animate';
+// hooks
+import { useBanner } from 'src/hooks/use-banner';
 
 // ----------------------------------------------------------------------
 
 const RED = '#DF2026';
 const RED_DARK = '#A8171C';
 const BLACK = '#060606';
+const DEFAULT_BG = '/assets/images/facilities/hero_facilities.jpg';
 
 export default function ClubsHero() {
+  const bannerUrl = useBanner('clubs');
   return (
     <Box
       sx={{
@@ -29,7 +33,7 @@ export default function ClubsHero() {
     >
       <Image
         alt="world class gym facilities"
-        src="/assets/images/facilities/hero_facilities.jpg" 
+        src={bannerUrl || DEFAULT_BG}
         sx={{
           width: 1,
           height: 1,

@@ -14,6 +14,7 @@ import Typography from '@mui/material/Typography';
 import { paths } from 'src/routes/paths';
 // hooks
 import { useResponsive } from 'src/hooks/use-responsive';
+import { useBanner } from 'src/hooks/use-banner';
 // theme
 import { bgGradient, bgBlur } from 'src/theme/css';
 // layouts
@@ -30,10 +31,10 @@ const RED_DARK = '#A8171C';
 
 // ----------------------------------------------------------------------
 
-const StyledRoot = styled('div')(({ theme }) => ({
+const StyledRoot = styled('div')<{ bannerUrl?: string }>(({ theme, bannerUrl }) => ({
   ...bgGradient({
     color: alpha(theme.palette.background.default, theme.palette.mode === 'light' ? 0.9 : 0.6),
-    imgUrl: '/assets/background/1.png',
+    imgUrl: bannerUrl || '/assets/background/1.png',
   }),
   width: '100%',
   height: '100vh',
@@ -101,6 +102,7 @@ const StyledPolygon = styled('div')<StyledPolygonProps>(
 // ----------------------------------------------------------------------
 
 export default function HomeHero() {
+  const bannerUrl = useBanner('home');
   const mdUp = useResponsive('up', 'md');
   const theme = useTheme();
   const heroRef = useRef<HTMLDivElement | null>(null);
@@ -292,6 +294,7 @@ export default function HomeHero() {
     <>
       <StyledRoot
         ref={heroRef}
+        bannerUrl={bannerUrl}
         sx={{
           ...(hide && { opacity: 0 }),
         }}

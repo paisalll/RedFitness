@@ -10,26 +10,30 @@ import Typography from '@mui/material/Typography';
 import Image from 'src/components/image';
 import Iconify from 'src/components/iconify';
 import { MotionContainer, varFade } from 'src/components/animate';
+// hooks
+import { useBanner } from 'src/hooks/use-banner';
 
 // ----------------------------------------------------------------------
 
 const RED = '#DF2026';
 const RED_DARK = '#A8171C';
 const BLACK = '#060606';
+const DEFAULT_BG = 'public/assets/background/CLASSES/21.png';
 
 export default function ClassesHero() {
+    const bannerUrl = useBanner('classes');
     return (
     <Box
         sx={{
         position: 'relative',
-        height: { xs: '100vh', md: 760 }, 
+        height: { xs: '100vh', md: 760 },
         overflow: 'hidden',
         borderBottom: `1px solid ${alpha(RED, 0.15)}`,
         }}
     >
         <Image
         alt="classes hero"
-        src="public/assets/background/CLASSES/21.png" 
+        src={bannerUrl || DEFAULT_BG}
         sx={{
             width: 1,
             height: 1,
