@@ -29,6 +29,8 @@ export const paths = {
   highligth: '/highligth',
   timetable: '/timetable',
   clubs: '/clubs',
+  pilatesPerformer: '/pilates-performer',
+  redSeitai: '/red-seitai',
   join: {
     select: `${ROOTS.JOIN}/select-club`,
     plan: `${ROOTS.JOIN}/select-plan`,

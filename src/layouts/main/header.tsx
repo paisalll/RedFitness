@@ -65,13 +65,14 @@ export default function Header() {
       >
         <Container sx={{ height: 1, display: 'flex', alignItems: 'center' }}>
           
-          {/* 1. LOGO (Kiri) - Diperbesar dengan scale */}
-          <Box 
-            sx={{ 
-              transform: { xs: 'scale(1.1)', md: 'scale(1.25)' }, 
-              transformOrigin: 'left center', 
+          {/* 1. LOGO (Kiri) */}
+          <Box
+            sx={{
+              transform: { xs: 'scale(1.05)', md: 'scale(1.1)' },
+              transformOrigin: 'left center',
               display: 'flex',
-              mr: 2
+              mr: 1.5,
+              flexShrink: 0,
             }}
           >
             <Logo />
@@ -79,67 +80,48 @@ export default function Header() {
 
           <Box sx={{ flexGrow: 1 }} />
 
-          {/* 2. NAVIGATION DESKTOP (Tengah-Kanan) */}
+          {/* 2. NAVIGATION DESKTOP */}
           {mdUp && (
-            <Box sx={{ mr: 3 }}>
-              <NavDesktop 
-                offsetTop={offsetTop} 
-                data={navConfig} 
-                // Catatan: Pastikan di NavDesktop kamu juga mengubah warna teks menjadi Putih & Hover Merah
-              />
-            </Box>
+            <NavDesktop offsetTop={offsetTop} data={navConfig} />
           )}
 
           {/* 3. ACTIONS (Kanan) */}
-          <Stack direction="row" alignItems="center" spacing={2.5}>
-            
-            {/* Tombol Join Online - Diupdate ke gaya tajam jika ingin digunakan nanti */}
-            {/* {mdUp && (
-              <Button
-                variant="outlined"
-                endIcon={<Iconify icon="solar:arrow-right-up-bold" width={18} />}
-                sx={{
-                  color: 'common.white',
-                  borderColor: alpha('#fff', 0.3),
-                  borderRadius: 0, // Dibuat kotak tajam
-                  px: 3,
-                  py: 1,
-                  fontWeight: 800,
-                  fontFamily: 'monospace',
-                  letterSpacing: 1,
-                  textTransform: 'uppercase',
-                  '&:hover': {
-                    borderColor: RED,
-                    color: RED,
-                    bgcolor: alpha(RED, 0.08),
-                  },
-                }}
-                onClick={() => router.push(paths.join.select)}
-              >
-                Join Online
-              </Button>
-            )} */}
+          <Stack direction="row" alignItems="center" spacing={1.5}>
+            <Stack direction="row" spacing={1.5} sx={{ color: 'common.white', alignItems: 'center' }}>
+              <Iconify
+                icon="solar:calendar-minimalistic-bold"
+                width={20}
+                sx={{ cursor: 'pointer', transition: 'color 0.2s', '&:hover': { color: RED } }}
+                onClick={() => router.push(paths.timetable)}
+              />
+              <Iconify
+                icon="solar:map-point-bold"
+                width={20}
+                sx={{ cursor: 'pointer', transition: 'color 0.2s', '&:hover': { color: RED } }}
+                onClick={() => router.push(paths.clubs)}
+              />
+              <Iconify
+                icon="solar:user-circle-bold"
+                width={20}
+                sx={{ cursor: 'pointer', transition: 'color 0.2s', '&:hover': { color: RED } }}
+              />
 
-            {/* Icons Group (Calendar, Location, Profile) */}
-            <Stack direction="row" spacing={2} sx={{ color: 'common.white', alignItems: 'center' }}>
-              <Iconify icon="solar:calendar-minimalistic-bold" width={22} sx={{ cursor: 'pointer', transition: 'color 0.2s', '&:hover': { color: RED } }} onClick={() => router.push(paths.timetable)} />
-              <Iconify icon="solar:map-point-bold" width={22} sx={{ cursor: 'pointer', transition: 'color 0.2s', '&:hover': { color: RED } }} onClick={() => router.push(paths.clubs)} />
-              <Iconify icon="solar:user-circle-bold" width={22} sx={{ cursor: 'pointer', transition: 'color 0.2s', '&:hover': { color: RED } }} />
-              
-              {/* Language Selector dengan Monospace font */}
-              <Typography 
-                variant="caption" 
-                sx={{ 
-                  fontWeight: 700, 
-                  display: 'flex', 
-                  alignItems: 'center', 
+              {/* Language Selector — hidden on smaller desktops to save space */}
+              <Typography
+                variant="caption"
+                sx={{
+                  fontWeight: 700,
+                  display: { xs: 'none', xl: 'flex' },
+                  alignItems: 'center',
                   cursor: 'pointer',
                   fontFamily: 'monospace',
+                  fontSize: '0.7rem',
                   transition: 'color 0.2s',
-                  '&:hover': { color: RED }
+                  '&:hover': { color: RED },
                 }}
               >
-                ID <Box component="span" sx={{ color: alpha('#fff', 0.3), mx: 0.5 }}>|</Box> EN <Iconify icon="eva:chevron-down-fill" width={16} sx={{ ml: 0.5 }} />
+                ID <Box component="span" sx={{ color: alpha('#fff', 0.3), mx: 0.5 }}>|</Box> EN
+                <Iconify icon="eva:chevron-down-fill" width={14} sx={{ ml: 0.25 }} />
               </Typography>
             </Stack>
 

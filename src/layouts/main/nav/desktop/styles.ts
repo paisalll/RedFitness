@@ -23,15 +23,19 @@ export const ListItem = styled(ListItemButton, {
     position: 'absolute',
     width: 6,
     height: 6,
-    left: -14,
+    left: -10,
     opacity: 0.48,
     backgroundColor: 'currentColor',
   };
 
   return {
     ...theme.typography.subtitle2,
-    padding: 0,
+    fontSize: '0.75rem',
+    fontWeight: 600,
+    letterSpacing: 0.2,
+    padding: '0 12px',
     height: '100%',
+    whiteSpace: 'nowrap',
     color: theme.palette.text.primary,
     transition: theme.transitions.create(['opacity'], {
       duration: theme.transitions.duration.shorter,

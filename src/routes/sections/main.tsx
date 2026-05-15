@@ -31,6 +31,8 @@ const SelectPlanPage = lazy(() => import('src/pages/select-plan'));
 const YourDetailsPage = lazy(() => import('src/pages/your-details'));
 const PaymentPage = lazy(() => import('src/pages/payment'));
 const LoginPage = lazy(() => import('src/pages/login'));
+const PilatesPerformerPage = lazy(() => import('src/pages/pilates-performer'));
+const RedSeitaiPage = lazy(() => import('src/pages/red-seitai'));
 
 // Admin pages
 const AdminLoginPage = lazy(() => import('src/pages/admin/login'));
@@ -59,6 +61,8 @@ export const mainRoutes = [
       { path: 'career', element: <CareerPage /> },
       { path: 'timetable', element: <TimetablePage /> },
       { path: 'clubs', element: <ClubsPage /> },
+      { path: 'pilates-performer', element: <PilatesPerformerPage /> },
+      { path: 'red-seitai', element: <RedSeitaiPage /> },
     ],
   },
   {

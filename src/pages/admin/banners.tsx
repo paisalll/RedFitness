@@ -15,6 +15,8 @@ const PAGE_LABELS: Record<string, string> = {
   career: 'Career',
   contact: 'Personal Training',
   highlights: 'Highlights',
+  'pilates-performer': 'Pilates Performer',
+  'red-seitai': 'Red Seitai Therapy',
 };
 
 type Banner = { id: number; page_key: string; image_url: string | null; updated_at: string };
