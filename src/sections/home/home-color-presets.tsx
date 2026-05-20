@@ -119,28 +119,17 @@ export default function HomeFreeTrial() {
     setSubmitting(true);
     setError('');
     try {
-      const clubId = form.club_id || null;
-      const { error: insertError } = await supabase.from('registrations').insert([{
-        first_name: form.first_name.trim(),
-        last_name: form.last_name.trim() || null,
-        email: form.email.trim(),
-        phone: form.phone.trim() || null,
-        club_id: clubId,
-        source: 'free_trial',
-      }]);
-      if (insertError) throw insertError;
-
-      const clubName = clubs.find((c) => c.id === form.club_id)?.name ?? null;
-      await supabase.functions.invoke('send-registration-email', {
+      const { error: fnError } = await supabase.functions.invoke('send-registration-email', {
         body: {
           first_name: form.first_name.trim(),
           last_name: form.last_name.trim() || null,
           email: form.email.trim(),
           phone: form.phone.trim() || null,
-          club_name: clubName,
+          club_id: form.club_id || null,
           source: 'free_trial',
         },
       });
+      if (fnError) throw fnError;
 
       setSuccess(true);
       setForm({ first_name: '', last_name: '', email: '', phone: '', club_id: '', agreed: true });

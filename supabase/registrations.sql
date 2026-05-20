@@ -30,3 +30,7 @@ CREATE POLICY "registrations_auth_read"
 
 CREATE POLICY "registrations_auth_delete"
   ON public.registrations FOR DELETE TO authenticated USING (true);
+
+-- Grant table-level privileges (RLS policies alone are not enough)
+GRANT INSERT ON public.registrations TO anon;
+GRANT SELECT, DELETE ON public.registrations TO authenticated;

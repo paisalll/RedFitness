@@ -1,4 +1,5 @@
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 import { createTransport } from 'npm:nodemailer';
 
 const corsHeaders = {
@@ -12,7 +13,30 @@ serve(async (req) => {
   }
 
   try {
-    const { first_name, last_name, email, phone, club_name, source } = await req.json();
+    const { first_name, last_name, email, phone, club_id, source } = await req.json();
+
+    // Insert using service role key — bypasses RLS
+    const supabase = createClient(
+      Deno.env.get('SUPABASE_URL')!,
+      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!,
+    );
+
+    const { error: insertError } = await supabase.from('registrations').insert([{
+      first_name,
+      last_name: last_name || null,
+      email,
+      phone: phone || null,
+      club_id: club_id || null,
+      source: source ?? 'free_trial',
+    }]);
+    if (insertError) throw insertError;
+
+    // Resolve club name for email
+    let club_name: string | null = null;
+    if (club_id) {
+      const { data: clubRow } = await supabase.from('clubs').select('name').eq('id', club_id).single();
+      club_name = clubRow?.name ?? null;
+    }
 
     const transporter = createTransport({
       host: Deno.env.get('SMTP_HOST'),
