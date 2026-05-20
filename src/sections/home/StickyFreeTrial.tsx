@@ -161,7 +161,7 @@ export default function StickyFreeTrial() {
               Free Trial
             </Typography>
             <Typography sx={{ color: 'rgba(255,255,255,0.35)', fontSize: '0.72rem', fontFamily: 'monospace', letterSpacing: 1 }}>
-              Daftar sesi pertama gratis
+              Register your first session free
             </Typography>
           </Box>
           <IconButton onClick={() => setOpen(false)} size="small" sx={{ color: 'rgba(255,255,255,0.35)', '&:hover': { color: '#fff' } }}>
@@ -175,17 +175,17 @@ export default function StickyFreeTrial() {
               <Iconify icon="solar:check-circle-bold-duotone" width={32} sx={{ color: '#DF2026' }} />
             </Box>
             <Typography sx={{ color: '#fff', fontWeight: 700, textAlign: 'center', fontFamily: "'Poppins', sans-serif" }}>
-              Pendaftaran Berhasil!
+              You&apos;re Registered!
             </Typography>
             <Typography sx={{ color: 'rgba(255,255,255,0.45)', fontSize: '0.85rem', textAlign: 'center', lineHeight: 1.7 }}>
-              Kami akan segera menghubungi kamu. Cek email untuk konfirmasi.
+              We&apos;ll be in touch shortly. Check your email for confirmation.
             </Typography>
             <Button
               size="small"
               onClick={() => setSuccess(false)}
               sx={{ color: '#DF2026', fontSize: '0.75rem', fontFamily: 'monospace', letterSpacing: 1, textTransform: 'uppercase' }}
             >
-              Daftar lagi
+              Register again
             </Button>
           </Stack>
         ) : (
@@ -193,7 +193,7 @@ export default function StickyFreeTrial() {
             <TextField
               fullWidth
               size="small"
-              label="Nama Depan *"
+              label="First Name *"
               value={form.first_name}
               onChange={handleChange('first_name')}
               sx={fieldSx(theme)}
@@ -201,7 +201,7 @@ export default function StickyFreeTrial() {
             <TextField
               fullWidth
               size="small"
-              label="Nama Belakang"
+              label="Last Name"
               value={form.last_name}
               onChange={handleChange('last_name')}
               sx={fieldSx(theme)}
@@ -218,7 +218,7 @@ export default function StickyFreeTrial() {
             <TextField
               fullWidth
               size="small"
-              label="Nomor Telepon"
+              label="Phone Number"
               value={form.phone}
               onChange={handleChange('phone')}
               sx={fieldSx(theme)}
@@ -227,13 +227,13 @@ export default function StickyFreeTrial() {
               select
               fullWidth
               size="small"
-              label="Pilih Klub"
+              label="Preferred Club"
               value={form.club_id}
               onChange={handleChange('club_id')}
               sx={fieldSx(theme)}
-              SelectProps={{ MenuProps: { PaperProps: { sx: { bgcolor: '#1a1a1a', color: '#fff', '& .MuiMenuItem-root:hover': { bgcolor: 'rgba(223,32,38,0.08)' } } } } }}
+              SelectProps={{ MenuProps: { sx: { zIndex: 10001 }, PaperProps: { sx: { bgcolor: '#1a1a1a', color: '#fff', '& .MuiMenuItem-root:hover': { bgcolor: 'rgba(223,32,38,0.08)' } } } } }}
             >
-              <MenuItem value="">Pilih Klub (opsional)</MenuItem>
+              <MenuItem value="">Select Club (optional)</MenuItem>
               {clubs.map((c) => (
                 <MenuItem key={c.id} value={String(c.id)}>{c.name}</MenuItem>
               ))}
@@ -267,11 +267,11 @@ export default function StickyFreeTrial() {
                 '&.Mui-disabled': { bgcolor: 'rgba(223,32,38,0.4)', color: 'rgba(255,255,255,0.5)' },
               }}
             >
-              {submitting ? <CircularProgress size={20} color="inherit" /> : 'Daftar Sekarang'}
+              {submitting ? <CircularProgress size={20} color="inherit" /> : 'Register Now'}
             </Button>
 
             <Typography sx={{ color: 'rgba(255,255,255,0.25)', fontSize: '0.7rem', textAlign: 'center', lineHeight: 1.6 }}>
-              Data kamu aman dan tidak akan dibagikan ke pihak ketiga.
+              Your data is safe and will never be shared with third parties.
             </Typography>
           </Stack>
         )}

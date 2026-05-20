@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { m } from 'framer-motion';
 // @mui
 import { alpha, useTheme } from '@mui/material/styles';
@@ -6,6 +7,7 @@ import Grid from '@mui/material/Unstable_Grid2';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
+import CircularProgress from '@mui/material/CircularProgress';
 import Divider from '@mui/material/Divider';
 import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
@@ -17,6 +19,8 @@ import { useResponsive } from 'src/hooks/use-responsive';
 // components
 import Iconify from 'src/components/iconify';
 import { MotionViewport, varFade } from 'src/components/animate';
+// utils
+import { supabase } from 'src/utils/supabase';
 
 // ----------------------------------------------------------------------
 
@@ -84,9 +88,68 @@ const inputSx = {
 
 // ----------------------------------------------------------------------
 
+type Club = { id: string; name: string };
+
 export default function HomeFreeTrial() {
   const theme = useTheme();
   const mdUp = useResponsive('up', 'md');
+  const [clubs, setClubs] = useState<Club[]>([]);
+  const [form, setForm] = useState({ first_name: '', last_name: '', email: '', phone: '', club_id: '', agreed: true });
+  const [submitting, setSubmitting] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    supabase.from('clubs').select('id, name').order('id').then(({ data }) => {
+      if (data) setClubs(data as Club[]);
+    });
+  }, []);
+
+  const handleChange = (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = field === 'agreed' ? e.target.checked : e.target.value;
+    setForm((prev) => ({ ...prev, [field]: value }));
+    setError('');
+  };
+
+  const handleSubmit = async () => {
+    if (!form.first_name.trim() || !form.email.trim()) {
+      setError('First name and email are required.');
+      return;
+    }
+    setSubmitting(true);
+    setError('');
+    try {
+      const clubId = form.club_id || null;
+      const { error: insertError } = await supabase.from('registrations').insert([{
+        first_name: form.first_name.trim(),
+        last_name: form.last_name.trim() || null,
+        email: form.email.trim(),
+        phone: form.phone.trim() || null,
+        club_id: clubId,
+        source: 'free_trial',
+      }]);
+      if (insertError) throw insertError;
+
+      const clubName = clubs.find((c) => c.id === form.club_id)?.name ?? null;
+      await supabase.functions.invoke('send-registration-email', {
+        body: {
+          first_name: form.first_name.trim(),
+          last_name: form.last_name.trim() || null,
+          email: form.email.trim(),
+          phone: form.phone.trim() || null,
+          club_name: clubName,
+          source: 'free_trial',
+        },
+      });
+
+      setSuccess(true);
+      setForm({ first_name: '', last_name: '', email: '', phone: '', club_id: '', agreed: true });
+    } catch (err: any) {
+      setError(err.message || 'Something went wrong. Please try again.');
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   const renderForm = (
     <Box
@@ -142,63 +205,86 @@ export default function HomeFreeTrial() {
 
         <Divider sx={{ borderColor: alpha(RED, 0.15) }} />
 
-        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1.5}>
-          <TextField fullWidth label="First Name" placeholder="Enter First Name" size="small" sx={inputSx} />
-          <TextField fullWidth label="Last Name" placeholder="Enter Last Name" size="small" sx={inputSx} />
-        </Stack>
-
-        <TextField fullWidth label="Email Address" placeholder="example@mail.com" size="small" sx={inputSx} />
-        <TextField fullWidth label="Phone Number" placeholder="+62 812..." size="small" sx={inputSx} />
-
-        <TextField select fullWidth label="Preferred Club" defaultValue="" size="small" sx={inputSx}>
-          <MenuItem value="jakarta">Jakarta - Central Park</MenuItem>
-          <MenuItem value="tangerang">Tangerang - AEON BSD</MenuItem>
-          <MenuItem value="surabaya">Surabaya - Galaxy Mall</MenuItem>
-        </TextField>
-
-        <FormControlLabel
-          control={
-            <Checkbox
-              defaultChecked
-              size="small"
-              sx={{ color: alpha('#fff', 0.3), '&.Mui-checked': { color: RED } }}
-            />
-          }
-          label={
-            <Typography variant="caption" sx={{ color: alpha('#fff', 0.45) }}>
-              I agree to the{' '}
-              <Box component="span" sx={{ color: RED, textDecoration: 'underline', cursor: 'pointer' }}>
-                Terms
-              </Box>{' '}
-              and Data Privacy policy.
+        {success ? (
+          <Stack alignItems="center" spacing={2.5} sx={{ py: 3 }}>
+            <Box sx={{ width: 56, height: 56, bgcolor: 'rgba(223,32,38,0.1)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Iconify icon="solar:check-circle-bold-duotone" width={32} sx={{ color: RED }} />
+            </Box>
+            <Typography sx={{ color: '#fff', fontWeight: 700, textAlign: 'center', fontFamily: "'Poppins', sans-serif", fontSize: '1.1rem' }}>
+              You&apos;re Registered!
             </Typography>
-          }
-        />
+            <Typography sx={{ color: alpha('#fff', 0.5), fontSize: '0.875rem', textAlign: 'center', lineHeight: 1.7 }}>
+              We&apos;ll be in touch shortly. Check your email for confirmation.
+            </Typography>
+            <Button size="small" onClick={() => setSuccess(false)} sx={{ color: RED, fontFamily: 'monospace', letterSpacing: 1, textTransform: 'uppercase', fontSize: '0.75rem' }}>
+              Register again
+            </Button>
+          </Stack>
+        ) : (
+          <>
+            <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1.5}>
+              <TextField fullWidth label="First Name *" size="small" value={form.first_name} onChange={handleChange('first_name')} sx={inputSx} />
+              <TextField fullWidth label="Last Name" size="small" value={form.last_name} onChange={handleChange('last_name')} sx={inputSx} />
+            </Stack>
 
-        <Button
-          size="large"
-          variant="contained"
-          endIcon={<Iconify icon="solar:arrow-right-up-bold" width={18} />}
-          sx={{
-            py: 1.75,
-            px: 5,
-            fontSize: '0.72rem',
-            fontWeight: 800,
-            letterSpacing: 2.5,
-            textTransform: 'uppercase',
-            fontFamily: 'monospace',
-            borderRadius: 0, // Button tajam
-            bgcolor: RED,
-            color: '#fff',
-            boxShadow: 'none',
-            '&:hover': {
-              bgcolor: RED_DARK,
-              boxShadow: 'none',
-            },
-          }}
-        >
-          Claim My Free Week
-        </Button>
+            <TextField fullWidth label="Email Address *" type="email" size="small" value={form.email} onChange={handleChange('email')} sx={inputSx} />
+            <TextField fullWidth label="Phone Number" size="small" value={form.phone} onChange={handleChange('phone')} sx={inputSx} />
+
+            <TextField select fullWidth label="Preferred Club" size="small" value={form.club_id} onChange={handleChange('club_id')} sx={inputSx}>
+              <MenuItem value="">Select Club (optional)</MenuItem>
+              {clubs.map((c) => (
+                <MenuItem key={c.id} value={c.id}>{c.name}</MenuItem>
+              ))}
+            </TextField>
+
+            {error && (
+              <Typography sx={{ color: RED, fontSize: '0.78rem', fontFamily: 'monospace' }}>{error}</Typography>
+            )}
+
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={form.agreed}
+                  onChange={handleChange('agreed')}
+                  size="small"
+                  sx={{ color: alpha('#fff', 0.3), '&.Mui-checked': { color: RED } }}
+                />
+              }
+              label={
+                <Typography variant="caption" sx={{ color: alpha('#fff', 0.45) }}>
+                  I agree to the{' '}
+                  <Box component="span" sx={{ color: RED, textDecoration: 'underline', cursor: 'pointer' }}>Terms</Box>{' '}
+                  and Data Privacy policy.
+                </Typography>
+              }
+            />
+
+            <Button
+              size="large"
+              variant="contained"
+              onClick={handleSubmit}
+              disabled={submitting || !form.agreed}
+              endIcon={!submitting && <Iconify icon="solar:arrow-right-up-bold" width={18} />}
+              sx={{
+                py: 1.75,
+                px: 5,
+                fontSize: '0.72rem',
+                fontWeight: 800,
+                letterSpacing: 2.5,
+                textTransform: 'uppercase',
+                fontFamily: 'monospace',
+                borderRadius: 0,
+                bgcolor: RED,
+                color: '#fff',
+                boxShadow: 'none',
+                '&:hover': { bgcolor: RED_DARK, boxShadow: 'none' },
+                '&.Mui-disabled': { bgcolor: alpha(RED, 0.4), color: 'rgba(255,255,255,0.5)' },
+              }}
+            >
+              {submitting ? <CircularProgress size={20} color="inherit" /> : 'Claim My Free Week'}
+            </Button>
+          </>
+        )}
       </Stack>
     </Box>
   );
