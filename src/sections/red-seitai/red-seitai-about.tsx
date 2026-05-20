@@ -9,22 +9,26 @@ import Typography from '@mui/material/Typography';
 // components
 import Iconify from 'src/components/iconify';
 import { MotionViewport, varFade } from 'src/components/animate';
+// hooks
+import { useSectionContent } from 'src/hooks/use-page-content';
 
 // ----------------------------------------------------------------------
 
 const RED = '#DF2026';
 const BLACK = '#060606';
 
-const PILLARS = [
-  { icon: 'solar:body-bold-duotone', label: 'Body Realignment' },
-  { icon: 'solar:heart-pulse-bold-duotone', label: 'Circulation Boost' },
-  { icon: 'solar:meditation-round-bold-duotone', label: 'Stress Relief' },
-  { icon: 'solar:shield-bold-duotone', label: 'Holistic Recovery' },
+const PILLAR_ICONS = [
+  'solar:body-bold-duotone',
+  'solar:heart-pulse-bold-duotone',
+  'solar:meditation-round-bold-duotone',
+  'solar:shield-bold-duotone',
 ];
 
 // ----------------------------------------------------------------------
 
 export default function RedSeitaiAbout() {
+  const content = useSectionContent('red-seitai', 'about');
+  const PILLARS = PILLAR_ICONS.map((icon, i) => ({ icon, label: content[`pillar${i + 1}`] || '' }));
   return (
     <Box
       sx={{
@@ -51,7 +55,7 @@ export default function RedSeitaiAbout() {
                     fontFamily: 'monospace',
                   }}
                 >
-                  About Seitai
+                  {content.eyebrow}
                 </Typography>
               </Stack>
 
@@ -67,23 +71,23 @@ export default function RedSeitaiAbout() {
                   mb: 4,
                 }}
               >
-                What Is{' '}
+                {content.title}{' '}
                 <Box component="span" sx={{ color: RED, fontStyle: 'italic', display: 'block' }}>
-                  Red Seitai?
+                  {content.title_highlight}
                 </Box>
               </Typography>
 
               <Stack spacing={3}>
                 <Typography sx={{ color: alpha('#fff', 0.6), fontSize: '0.9rem', lineHeight: 1.9 }}>
-                  <strong style={{ color: '#fff' }}>Seitai</strong> is a Japanese-origin bodywork discipline focused on restoring the body's natural balance. The word means <em>"correct body"</em> — and that's exactly what this therapy aims to achieve.
+                  {content.paragraph1}
                 </Typography>
 
                 <Typography sx={{ color: alpha('#fff', 0.6), fontSize: '0.9rem', lineHeight: 1.9 }}>
-                  Red Seitai Therapy combines traditional manual techniques with modern physiological understanding to release tension, realign the skeletal structure, and support the body's self-healing capacity.
+                  {content.paragraph2}
                 </Typography>
 
                 <Typography sx={{ color: alpha('#fff', 0.6), fontSize: '0.9rem', lineHeight: 1.9 }}>
-                  Unlike conventional massage, Seitai works on the <strong style={{ color: '#fff' }}>root cause</strong> of discomfort — not just the symptoms — leaving you feeling lighter, more mobile, and deeply restored.
+                  {content.paragraph3}
                 </Typography>
               </Stack>
             </m.div>
@@ -149,10 +153,7 @@ export default function RedSeitaiAbout() {
                 }}
               >
                 <Typography sx={{ color: alpha('#fff', 0.5), fontSize: '0.8rem', lineHeight: 1.8 }}>
-                  <Box component="span" sx={{ color: '#fff', fontWeight: 800, fontSize: '1.1rem' }}>
-                    Trusted by athletes, office workers, and wellness seekers
-                  </Box>{' '}
-                  — Red Seitai is for anyone who wants to move and feel better every day.
+                  {content.stats_text}
                 </Typography>
               </Box>
             </m.div>

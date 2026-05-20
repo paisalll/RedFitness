@@ -10,6 +10,8 @@ import Typography from '@mui/material/Typography';
 import Image from 'src/components/image';
 import Iconify from 'src/components/iconify';
 import { MotionViewport, varFade } from 'src/components/animate';
+// hooks
+import { useSectionContent } from 'src/hooks/use-page-content';
 
 // ----------------------------------------------------------------------
 
@@ -19,33 +21,28 @@ const COLORS = {
   white: '#FFFFFF',
 };
 
-const PLAYBOOK = [
-  {
-    title: 'ALL ABOUT THE POSITIVE',
-    description: "We're all about people power. And we've got your back all the way.",
-    icon: 'solar:hand-shake-bold-duotone',
-  },
-  {
-    title: 'WE KEEP IT HEALTHY',
-    description: 'Work hard. Play hard. We celebrate loyalty, positivity and performance. With plenty of social activities to get you fired up.',
-    icon: 'solar:star-fall-bold-duotone',
-  },
-  {
-    title: 'WE GROW TOGETHER',
-    description: 'A great squad is what gets us ahead. So we go all out to help you grow.',
-    icon: 'solar:graph-up-bold-duotone',
-  },
+const PLAYBOOK_ICONS = [
+  'solar:hand-shake-bold-duotone',
+  'solar:star-fall-bold-duotone',
+  'solar:graph-up-bold-duotone',
 ];
 
-const CULTURE_LIST = [
-  { text: 'WIN TOGETHER', icon: 'solar:users-group-rounded-bold' },
-  { text: 'AIM HIGHER', icon: 'solar:rocket-bold' },
-  { text: 'WE CARE', icon: 'solar:heart-bold' },
-  { text: 'OWN IT', icon: 'solar:flag-bold' },
-  { text: 'LOVE WHAT WE DO', icon: 'solar:emoji-funny-circle-bold' },
+const CULTURE_ICONS = [
+  'solar:users-group-rounded-bold',
+  'solar:rocket-bold',
+  'solar:heart-bold',
+  'solar:flag-bold',
+  'solar:emoji-funny-circle-bold',
 ];
 
 export default function CareersCulture() {
+  const content = useSectionContent('career', 'culture');
+  const PLAYBOOK = PLAYBOOK_ICONS.map((icon, i) => ({
+    icon,
+    title: content[`playbook${i + 1}_title`] || '',
+    description: content[`playbook${i + 1}_desc`] || '',
+  }));
+  const CULTURE_LIST = CULTURE_ICONS.map((icon, i) => ({ icon, text: content[`culture${i + 1}`] || '' }));
   return (
     <Box sx={{ bgcolor: COLORS.black, py: { xs: 10, md: 15 }, color: COLORS.white }}>
       <Container component={MotionViewport}>
@@ -55,7 +52,7 @@ export default function CareersCulture() {
           <Grid xs={12} md={4}>
             <m.div variants={varFade().inLeft}>
               <Typography variant="h2" sx={{ fontWeight: 900, textTransform: 'uppercase', lineHeight: 1 }}>
-                OUR <br /> PLAYBOOK
+                {content.playbook_heading}
               </Typography>
             </m.div>
           </Grid>
@@ -126,15 +123,14 @@ export default function CareersCulture() {
           <Grid xs={12} md={6}>
             <m.div variants={varFade().inRight}>
               <Typography variant="h2" sx={{ fontWeight: 900, textTransform: 'uppercase', mb: 1, lineHeight: 1 }}>
-                OUR <br /> SUCCESS
+                {content.success_title_l1}
               </Typography>
               <Typography variant="h2" sx={{ fontWeight: 900, textTransform: 'uppercase', color: COLORS.red, mb: 4 }}>
-                CULTURE
+                {content.success_title_l2}
               </Typography>
 
               <Typography sx={{ color: 'text.secondary', mb: 6 }}>
-                What makes Red Fitness an inspiring place to work? It's our Winning Ways. 
-                These five values drive everything we do, make us stand out, and power the way we motivate others to level up their lives.
+                {content.success_description}
               </Typography>
 
               <Stack spacing={4}>

@@ -28,6 +28,8 @@ import Grid from '@mui/material/Unstable_Grid2';
 import Image from 'src/components/image';
 import Iconify from 'src/components/iconify';
 import { MotionViewport, varFade } from 'src/components/animate';
+// hooks
+import { useSectionContent } from 'src/hooks/use-page-content';
 
 // ----------------------------------------------------------------------
 
@@ -49,14 +51,20 @@ const ROWS = [
   { benefit: 'Free membership dues', value: false, rockstar: false, pt100: true },
 ];
 
-const STEP_SLIDES = [
-  { id: '01', title: 'ASSESSMENTS', description: "Get assessed with our exclusive tests.", img: '/assets/background/TRAINER/19.png' },
-  { id: '02', title: 'PREP FOR PEP', description: "Your trainer crafts a custom regime.", img: '/assets/background/TRAINER/17.png' },
-  { id: '03', title: 'TRAIN HARD', description: "Execute your plan with expert guidance.", img: '/assets/background/TRAINER/18.png' },
+const STEP_IMAGES = [
+  { id: '01', img: '/assets/background/TRAINER/19.png' },
+  { id: '02', img: '/assets/background/TRAINER/17.png' },
+  { id: '03', img: '/assets/background/TRAINER/18.png' },
 ];
 
 export default function PersonalTrainingComparison() {
   const swiperRef = useRef<any>(null);
+  const content = useSectionContent('contact', 'comparation');
+  const STEP_SLIDES = STEP_IMAGES.map((s, i) => ({
+    ...s,
+    title: content[`step${i + 1}_title`] || '',
+    description: content[`step${i + 1}_desc`] || '',
+  }));
 
   return (
     <Box sx={{ bgcolor: BLACK, py: { xs: 10, md: 15 }, color: '#fff', overflow: 'hidden', borderTop: `1px solid ${alpha(RED, 0.15)}` }}>
@@ -67,12 +75,12 @@ export default function PersonalTrainingComparison() {
            <Stack direction="row" alignItems="center" justifyContent="center" spacing={1.5} sx={{ mb: 2 }}>
               <Box sx={{ width: 28, height: 2, bgcolor: RED }} />
               <Typography sx={{ fontSize: '0.65rem', fontWeight: 800, letterSpacing: 4, textTransform: 'uppercase', color: RED, fontFamily: 'monospace' }}>
-                Compare Plans
+                {content.eyebrow}
               </Typography>
               <Box sx={{ width: 28, height: 2, bgcolor: RED }} />
           </Stack>
           <Typography variant="h2" sx={{ textAlign: 'center', fontWeight: 800, mb: 8, textTransform: 'uppercase', fontFamily: "'Poppins', sans-serif", letterSpacing: -2, lineHeight: 0.9 }}>
-            Choose Your <br /> <Box component="span" sx={{ color: RED, fontStyle: 'italic' }}>Personal Trainer.</Box>
+            {content.title} <br /> <Box component="span" sx={{ color: RED, fontStyle: 'italic' }}>{content.title_highlight}</Box>
           </Typography>
         </m.div>
 
@@ -120,7 +128,7 @@ export default function PersonalTrainingComparison() {
                     '&:hover': { bgcolor: RED_DARK, boxShadow: 'none' } 
                 }}
             >
-              Get Started Now
+              {content.cta_button}
             </Button>
           </m.div>
         </Box>
@@ -132,14 +140,14 @@ export default function PersonalTrainingComparison() {
               <Stack direction="row" alignItems="center" spacing={1.5} sx={{ mb: 2 }}>
                   <Box sx={{ width: 28, height: 2, bgcolor: RED }} />
                   <Typography sx={{ fontSize: '0.65rem', fontWeight: 800, letterSpacing: 4, textTransform: 'uppercase', color: RED, fontFamily: 'monospace' }}>
-                    The Process
+                    {content.process_eyebrow}
                   </Typography>
               </Stack>
               <Typography variant="h2" sx={{ fontWeight: 800, textTransform: 'uppercase', lineHeight: 0.95, letterSpacing: -2, mb: 3, fontFamily: "'Poppins', sans-serif" }}>
-                We Make <br /> Your Goal <br /> <Box component="span" sx={{ color: RED, fontStyle: 'italic' }}>Our Job.</Box>
+                {content.process_title} <br /> <Box component="span" sx={{ color: RED, fontStyle: 'italic' }}>{content.process_title_highlight}</Box>
               </Typography>
               <Typography sx={{ color: alpha('#fff', 0.6), mb: 4, fontSize: '0.9rem', lineHeight: 1.8 }}>
-                Your all-access to upping your fitness game. Dedicated, professional trainers to help you rock your journey.
+                {content.process_description}
               </Typography>
               
               <Stack direction="row" spacing={2}>

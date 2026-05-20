@@ -1,0 +1,75 @@
+import { PageContentSchema } from './types';
+
+export const highlightsContent: PageContentSchema = {
+  pageKey: 'highlights',
+  label: 'Highlights',
+  sections: [
+    {
+      key: 'hero',
+      label: 'Hero',
+      description: 'Bagian hero halaman Highlights.',
+      fields: [
+        { key: 'eyebrow', label: 'Eyebrow / Tag', type: 'text' },
+        { key: 'title', label: 'Judul', type: 'text' },
+        { key: 'title_highlight', label: 'Judul (merah)', type: 'text' },
+        { key: 'description', label: 'Deskripsi', type: 'multiline' },
+      ],
+      defaults: {
+        eyebrow: 'Latest Updates',
+        title: 'Our',
+        title_highlight: 'Highlights.',
+        description: "Keep up with the latest events, community gatherings, and what's going on with us.",
+      },
+    },
+    {
+      key: 'list',
+      label: 'Daftar Highlights',
+      description: 'Header section dan judul masing-masing kartu highlight.',
+      fields: [
+        { key: 'eyebrow', label: 'Eyebrow / Tag', type: 'text' },
+        { key: 'title', label: 'Judul', type: 'text' },
+        { key: 'title_highlight', label: 'Judul (merah)', type: 'text' },
+        { key: 'item1_title', label: 'Highlight 1 — Judul', type: 'text' },
+        { key: 'item2_title', label: 'Highlight 2 — Judul', type: 'text' },
+        { key: 'item3_title', label: 'Highlight 3 — Judul', type: 'text' },
+      ],
+      defaults: {
+        eyebrow: 'Events & News',
+        title: 'Check Out Our',
+        title_highlight: 'Highlights.',
+        item1_title: 'FUN RUN COMMUNITY GATHERING SPONSORED BY METROPOLITAN MALL',
+        item2_title: 'RED FITNESS CSR & DONATION AT MIZAN AMANAH KALIDERES',
+        item3_title: 'RED FITNESS ZUMBA GLOW UP EVENT AT HOTEL NEO+ AIRPORT JAKARTA',
+      },
+    },
+    {
+      key: 'cta',
+      label: 'Dual CTA',
+      description: 'Dua kotak CTA: Free Trial dan Corporate.',
+      fields: [
+        { key: 'trial_eyebrow', label: 'CTA Free Trial — Eyebrow', type: 'text' },
+        { key: 'trial_title', label: 'CTA Free Trial — Judul', type: 'text' },
+        { key: 'trial_title_highlight', label: 'CTA Free Trial — Judul (merah)', type: 'text' },
+        { key: 'trial_description', label: 'CTA Free Trial — Deskripsi', type: 'multiline' },
+        { key: 'trial_button', label: 'CTA Free Trial — Teks Tombol', type: 'text' },
+        { key: 'corp_eyebrow', label: 'CTA Corporate — Eyebrow', type: 'text' },
+        { key: 'corp_title', label: 'CTA Corporate — Judul', type: 'text' },
+        { key: 'corp_title_highlight', label: 'CTA Corporate — Judul (merah)', type: 'text' },
+        { key: 'corp_description', label: 'CTA Corporate — Deskripsi', type: 'multiline' },
+        { key: 'corp_button', label: 'CTA Corporate — Teks Tombol', type: 'text' },
+      ],
+      defaults: {
+        trial_eyebrow: 'Trial Access',
+        trial_title: 'Try Us For',
+        trial_title_highlight: 'Free.',
+        trial_description: 'Experience the standard of elite training with an exclusive trial.',
+        trial_button: 'Claim Free Trial',
+        corp_eyebrow: 'B2B Solutions',
+        corp_title: 'Corporate',
+        corp_title_highlight: 'Deal.',
+        corp_description: "Elevate your team's performance with our tailored corporate memberships.",
+        corp_button: 'Get Proposal',
+      },
+    },
+  ],
+};

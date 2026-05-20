@@ -9,6 +9,8 @@ import Typography from '@mui/material/Typography';
 // components
 import Iconify from 'src/components/iconify';
 import { MotionViewport, varFade } from 'src/components/animate';
+// hooks
+import { useSectionContent } from 'src/hooks/use-page-content';
 
 // ----------------------------------------------------------------------
 
@@ -17,6 +19,7 @@ const RED_DARK = '#A8171C';
 const BLACK = '#060606';
 
 export default function ClassesTimetableCTA() {
+    const content = useSectionContent('classes', 'time');
     return (
         <Box sx={{ bgcolor: BLACK, overflow: 'hidden' }}>
         
@@ -35,17 +38,17 @@ export default function ClassesTimetableCTA() {
                 <Stack direction="row" alignItems="center" justifyContent="center" spacing={1.5} sx={{ mb: 2 }}>
                     <Box sx={{ width: 28, height: 2, bgcolor: RED }} />
                     <Typography sx={{ fontSize: '0.65rem', fontWeight: 800, letterSpacing: 4, textTransform: 'uppercase', color: RED, fontFamily: 'monospace' }}>
-                        Schedule
+                        {content.schedule_eyebrow}
                     </Typography>
                     <Box sx={{ width: 28, height: 2, bgcolor: RED }} />
                 </Stack>
 
                 <Typography variant="h2" sx={{ color: '#fff', fontWeight: 800, textTransform: 'uppercase', mb: 3, fontFamily: "'Poppins', sans-serif", letterSpacing: -2, lineHeight: 0.9 }}>
-                Class Times Of <br/> <Box component="span" sx={{ color: RED, fontStyle: 'italic' }}>The Week.</Box>
+                {content.schedule_title} <br/> <Box component="span" sx={{ color: RED, fontStyle: 'italic' }}>{content.schedule_highlight}</Box>
                 </Typography>
-                
+
                 <Typography sx={{ color: alpha('#fff', 0.6), mb: 5, fontSize: '0.9rem' }}>
-                Book our classes up to 6 days before they started.
+                {content.schedule_description}
                 </Typography>
 
                 <Button
@@ -70,7 +73,7 @@ export default function ClassesTimetableCTA() {
                     }
                 }}
                 >
-                View Timetable
+                {content.schedule_button}
                 </Button>
             </m.div>
             </Container>
@@ -100,16 +103,16 @@ export default function ClassesTimetableCTA() {
                 <Stack direction="row" alignItems="center" justifyContent="center" spacing={1.5} sx={{ mb: 2 }}>
                     <Box sx={{ width: 20, height: 2, bgcolor: RED }} />
                     <Typography sx={{ fontSize: '0.65rem', fontWeight: 800, letterSpacing: 4, textTransform: 'uppercase', color: RED, fontFamily: 'monospace' }}>
-                        Trial Access
+                        {content.trial_eyebrow}
                     </Typography>
                 </Stack>
                 <Typography variant="h2" sx={{ color: '#fff', mb: 2, fontWeight: 800, textTransform: 'uppercase', fontFamily: "'Poppins', sans-serif", letterSpacing: -2, lineHeight: 0.95 }}>
-                Try Us <br /> For <Box component="span" sx={{ fontStyle: 'italic', color: RED }}>Free.</Box>
+                {content.trial_title} <br /> <Box component="span" sx={{ fontStyle: 'italic', color: RED }}>{content.trial_title_highlight}</Box>
                 </Typography>
                 <Typography sx={{ color: alpha('#fff', 0.6), mb: 5, maxWidth: 320, fontSize: '0.9rem', mx: 'auto' }}>
-                Get an exclusive FREE TRIAL experience. No strings attached.
+                {content.trial_description}
                 </Typography>
-                
+
                 <Button
                 variant="contained"
                 size="large"
@@ -128,7 +131,7 @@ export default function ClassesTimetableCTA() {
                     '&:hover': { bgcolor: alpha('#fff', 0.9), boxShadow: 'none' }
                 }}
                 >
-                Try Now
+                {content.trial_button}
                 </Button>
             </m.div>
             </Box>
@@ -150,17 +153,17 @@ export default function ClassesTimetableCTA() {
             <m.div variants={varFade().inRight}>
                 <Stack direction="row" alignItems="center" justifyContent="center" spacing={1.5} sx={{ mb: 2 }}>
                     <Typography sx={{ fontSize: '0.65rem', fontWeight: 800, letterSpacing: 4, textTransform: 'uppercase', color: RED, fontFamily: 'monospace' }}>
-                        B2B Solutions
+                        {content.corp_eyebrow}
                     </Typography>
                     <Box sx={{ width: 20, height: 2, bgcolor: RED }} />
                 </Stack>
                 <Typography variant="h2" sx={{ color: '#fff', mb: 2, fontWeight: 800, textTransform: 'uppercase', fontFamily: "'Poppins', sans-serif", letterSpacing: -2, lineHeight: 0.95 }}>
-                Corporate <br /> <Box component="span" sx={{ fontStyle: 'italic', color: RED }}>Deal.</Box>
+                {content.corp_title} <br /> <Box component="span" sx={{ fontStyle: 'italic', color: RED }}>{content.corp_title_highlight}</Box>
                 </Typography>
                 <Typography sx={{ color: alpha('#fff', 0.6), mb: 5, maxWidth: 320, fontSize: '0.9rem', mx: 'auto' }}>
-                Elevate your team's performance with our tailored corporate memberships.
+                {content.corp_description}
                 </Typography>
-                
+
                 <Button
                 variant="contained"
                 size="large"
@@ -179,7 +182,7 @@ export default function ClassesTimetableCTA() {
                     '&:hover': { bgcolor: RED_DARK, boxShadow: 'none' }
                 }}
                 >
-                Check Out Now
+                {content.corp_button}
                 </Button>
             </m.div>
             </Box>

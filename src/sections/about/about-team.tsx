@@ -11,6 +11,8 @@ import Typography from '@mui/material/Typography';
 import Image from 'src/components/image';
 import Iconify from 'src/components/iconify';
 import { MotionViewport, varFade } from 'src/components/animate';
+// hooks
+import { useSectionContent } from 'src/hooks/use-page-content';
 
 // ----------------------------------------------------------------------
 
@@ -20,6 +22,7 @@ const BLACK = '#060606';
 
 export default function HomeGoalsAndDualCTA() {
   const theme = useTheme();
+  const content = useSectionContent('membership', 'team');
 
   const renderGoalsSection = (
     <Container component={MotionViewport} sx={{ py: { xs: 10, md: 15 }, position: 'relative', zIndex: 2 }}>
@@ -30,7 +33,7 @@ export default function HomeGoalsAndDualCTA() {
              <Stack direction="row" alignItems="center" spacing={1.5} sx={{ mb: 2 }}>
               <Box sx={{ width: 28, height: 2, bgcolor: RED }} />
               <Typography sx={{ fontSize: '0.65rem', fontWeight: 800, letterSpacing: 4, textTransform: 'uppercase', color: RED, fontFamily: 'monospace' }}>
-                Personal Training
+                {content.goals_eyebrow}
               </Typography>
             </Stack>
 
@@ -46,12 +49,12 @@ export default function HomeGoalsAndDualCTA() {
                 lineHeight: 0.95
               }}
             >
-              Crush Those <br />
-              <Box component="span" sx={{ color: RED, fontStyle: 'italic' }}>Goals.</Box>
+              {content.goals_title} <br />
+              <Box component="span" sx={{ color: RED, fontStyle: 'italic' }}>{content.goals_title_highlight}</Box>
             </Typography>
 
             <Typography sx={{ color: alpha('#fff', 0.6), mb: 4, fontSize: '0.9rem', lineHeight: 1.8 }}>
-              Ready for a fresh twist to your routine? Make it personal with our StarMakers Personal Training Packages.
+              {content.goals_description}
             </Typography>
 
             {/* Feature Box - Sharp Corners */}
@@ -66,10 +69,7 @@ export default function HomeGoalsAndDualCTA() {
               }}
             >
               <Stack spacing={3}>
-                {[
-                  'Your road to greatness includes a personalized plan tailored to your goals, strengths and style.',
-                  'Get motivating feedback and supercharged, supervised workouts for maximum results and total fun.',
-                ].map((text, index) => (
+                {[content.goals_point1, content.goals_point2].map((text, index) => (
                   <Stack key={index} direction="row" alignItems="flex-start" spacing={2.5}>
                     <Iconify 
                       icon="solar:star-bold" 
@@ -106,7 +106,7 @@ export default function HomeGoalsAndDualCTA() {
                 }
               }}
             >
-              Discover More
+              {content.goals_button}
             </Button>
           </m.div>
         </Grid>
@@ -173,14 +173,14 @@ export default function HomeGoalsAndDualCTA() {
           <Stack direction="row" alignItems="center" justifyContent="center" spacing={1.5} sx={{ mb: 2 }}>
               <Box sx={{ width: 20, height: 2, bgcolor: RED }} />
               <Typography sx={{ fontSize: '0.65rem', fontWeight: 800, letterSpacing: 4, textTransform: 'uppercase', color: RED, fontFamily: 'monospace' }}>
-                Trial Access
+                {content.trial_eyebrow}
               </Typography>
           </Stack>
           <Typography variant="h2" sx={{ color: '#fff', mb: 2, fontWeight: 800, textTransform: 'uppercase', fontFamily: "'Poppins', sans-serif", letterSpacing: -2, lineHeight: 0.95 }}>
-            Try Us <br /> For <Box component="span" sx={{ fontStyle: 'italic', color: RED }}>Free.</Box>
+            {content.trial_title} <br /> <Box component="span" sx={{ fontStyle: 'italic', color: RED }}>{content.trial_title_highlight}</Box>
           </Typography>
           <Typography sx={{ color: alpha('#fff', 0.6), mb: 5, maxWidth: 320, mx: 'auto', fontSize: '0.9rem' }}>
-            Get an exclusive FREE TRIAL experience. No strings attached.
+            {content.trial_description}
           </Typography>
           
           <Button
@@ -201,7 +201,7 @@ export default function HomeGoalsAndDualCTA() {
                 '&:hover': { bgcolor: alpha('#fff', 0.9), boxShadow: 'none' }
             }}
           >
-            Try Now
+            {content.trial_button}
           </Button>
         </m.div>
       </Box>
@@ -223,15 +223,15 @@ export default function HomeGoalsAndDualCTA() {
         <m.div variants={varFade().inUp}>
           <Stack direction="row" alignItems="center" justifyContent="center" spacing={1.5} sx={{ mb: 2 }}>
               <Typography sx={{ fontSize: '0.65rem', fontWeight: 800, letterSpacing: 4, textTransform: 'uppercase', color: RED, fontFamily: 'monospace' }}>
-                B2B Solutions
+                {content.corp_eyebrow}
               </Typography>
               <Box sx={{ width: 20, height: 2, bgcolor: RED }} />
           </Stack>
           <Typography variant="h2" sx={{ color: '#fff', mb: 2, fontWeight: 800, textTransform: 'uppercase', fontFamily: "'Poppins', sans-serif", letterSpacing: -2, lineHeight: 0.95 }}>
-            Corporate <br /> <Box component="span" sx={{ fontStyle: 'italic', color: RED }}>Deal.</Box>
+            {content.corp_title} <br /> <Box component="span" sx={{ fontStyle: 'italic', color: RED }}>{content.corp_title_highlight}</Box>
           </Typography>
           <Typography sx={{ color: alpha('#fff', 0.6), mb: 5, maxWidth: 320, mx: 'auto', fontSize: '0.9rem' }}>
-            Elevate your team's performance with our tailored corporate memberships.
+            {content.corp_description}
           </Typography>
           
           <Button
@@ -252,7 +252,7 @@ export default function HomeGoalsAndDualCTA() {
                 '&:hover': { bgcolor: RED_DARK, boxShadow: 'none' }
             }}
           >
-            Check Out Now
+            {content.corp_button}
           </Button>
         </m.div>
       </Box>

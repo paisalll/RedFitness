@@ -11,6 +11,8 @@ import Typography from '@mui/material/Typography';
 import Image from 'src/components/image';
 import Iconify from 'src/components/iconify';
 import { MotionViewport, varFade } from 'src/components/animate';
+// hooks
+import { useSectionContent } from 'src/hooks/use-page-content';
 
 // ----------------------------------------------------------------------
 
@@ -24,6 +26,7 @@ export const COLORS = {
 
 export default function CareerDualCTA() {
   const theme = useTheme();
+  const content = useSectionContent('career', 'cta');
 
   const renderDualCTA = (
     <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, width: 1 }}>
@@ -45,10 +48,10 @@ export default function CareerDualCTA() {
       >
         <m.div variants={varFade().inUp}>
           <Typography variant="h3" sx={{ color: COLORS.white, mb: 2, fontWeight: 900, textTransform: 'uppercase' }}>
-            TRY US FOR FREE
+            {content.trial_title}
           </Typography>
           <Typography sx={{ color: COLORS.white, opacity: 0.8, mb: 4 }}>
-            Get an exclusive FREE TRIAL experience. No strings attached.
+            {content.trial_description}
           </Typography>
           <Button
             variant="contained"
@@ -65,7 +68,7 @@ export default function CareerDualCTA() {
                 '&:hover': { bgcolor: alpha(COLORS.white, 0.9), boxShadow: 'none' }
             }}
           >
-            TRY NOW
+            {content.trial_button}
           </Button>
         </m.div>
       </Box>
@@ -87,10 +90,10 @@ export default function CareerDualCTA() {
       >
         <m.div variants={varFade().inUp}>
           <Typography variant="h3" sx={{ color: COLORS.white, mb: 2, fontWeight: 900, textTransform: 'uppercase' }}>
-            LOOKING FOR A <br /> CORPORATE DEAL?
+            {content.corp_title}
           </Typography>
           <Typography sx={{ color: COLORS.white, opacity: 0.8, mb: 4 }}>
-            Get an exclusive FREE TRIAL experience. No strings attached.
+            {content.corp_description}
           </Typography>
           <Button
             variant="contained"
@@ -107,7 +110,7 @@ export default function CareerDualCTA() {
                 '&:hover': { bgcolor: alpha(COLORS.black, 0.8), boxShadow: 'none' }
             }}
           >
-            CHECK OUT NOW
+            {content.corp_button}
           </Button>
         </m.div>
       </Box>

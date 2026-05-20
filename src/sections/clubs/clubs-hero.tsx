@@ -12,6 +12,7 @@ import Iconify from 'src/components/iconify';
 import { MotionContainer, varFade } from 'src/components/animate';
 // hooks
 import { useBanner } from 'src/hooks/use-banner';
+import { useSectionContent } from 'src/hooks/use-page-content';
 
 // ----------------------------------------------------------------------
 
@@ -22,6 +23,7 @@ const DEFAULT_BG = '/assets/images/facilities/hero_facilities.jpg';
 
 export default function ClubsHero() {
   const bannerUrl = useBanner('clubs');
+  const content = useSectionContent('clubs', 'hero');
   return (
     <Box
       sx={{
@@ -80,7 +82,7 @@ export default function ClubsHero() {
             <Stack direction="row" alignItems="center" spacing={1.5} sx={{ mb: 2, justifyContent: { xs: 'center', md: 'flex-start' } }}>
               <Box sx={{ width: 28, height: 2, bgcolor: RED }} />
               <Typography sx={{ fontSize: '0.65rem', fontWeight: 800, letterSpacing: 4, textTransform: 'uppercase', color: RED, fontFamily: 'monospace' }}>
-                Premium Grounds
+                {content.eyebrow}
               </Typography>
             </Stack>
         </m.div>
@@ -99,9 +101,9 @@ export default function ClubsHero() {
               fontSize: { xs: '3.5rem', md: '6rem' },
             }}
           >
-            World-Class <br />
+            {content.title} <br />
             <Box component="span" sx={{ color: RED, fontStyle: 'italic', display: 'block' }}>
-              Facilities.
+              {content.title_highlight}
             </Box>
           </Typography>
         </m.div>
@@ -116,7 +118,7 @@ export default function ClubsHero() {
               lineHeight: 1.8
             }}
           >
-            Train with the best. Our state-of-the-art equipment, spacious zones, and dedicated performance areas are designed to push your limits.
+            {content.description}
           </Typography>
         </m.div>
 
@@ -141,7 +143,7 @@ export default function ClubsHero() {
                 '&:hover': { bgcolor: RED_DARK, boxShadow: 'none' },
               }}
             >
-              Explore Zones
+              {content.button1}
             </Button>
 
             <Button
@@ -165,7 +167,7 @@ export default function ClubsHero() {
                 },
               }}
             >
-              Virtual Tour
+              {content.button2}
             </Button>
           </Stack>
         </m.div>

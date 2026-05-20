@@ -22,21 +22,25 @@ import Card from '@mui/material/Card';
 import Image from 'src/components/image';
 import Iconify from 'src/components/iconify';
 import { MotionViewport, varFade } from 'src/components/animate';
+// hooks
+import { useSectionContent } from 'src/hooks/use-page-content';
 
 // ----------------------------------------------------------------------
 
 const RED = '#DF2026';
 const BLACK = '#060606';
 
-const SIGNATURE_CLASSES = [
-    { id: '01', title: 'DNA FLAVOR', image: '/assets/background/CLASSES/s1.png' },
-    { id: '02', title: 'DNA MASK', image: '/assets/background/CLASSES/s2.png' },
-    { id: '03', title: 'DNA INSANITY', image: '/assets/background/CLASSES/s3.png' },
-    { id: '04', title: 'SALTAR', image: '/assets/background/CLASSES/s4.png' },
-    { id: '06', title: 'DNA CORE', image: '/assets/background/CLASSES/s5.png' },
+const CLASS_IMAGES = [
+    { id: '01', image: '/assets/background/CLASSES/s1.png' },
+    { id: '02', image: '/assets/background/CLASSES/s2.png' },
+    { id: '03', image: '/assets/background/CLASSES/s3.png' },
+    { id: '04', image: '/assets/background/CLASSES/s4.png' },
+    { id: '06', image: '/assets/background/CLASSES/s5.png' },
 ];
 
 export default function ClassesSignature() {
+    const content = useSectionContent('classes', 'signature');
+    const SIGNATURE_CLASSES = CLASS_IMAGES.map((c, i) => ({ ...c, title: content[`sig${i + 1}_title`] || c.id }));
     const swiperRef = useRef<SwiperType | null>(null);
     const [progress, setProgress] = useState(0);
 
@@ -67,15 +71,15 @@ export default function ClassesSignature() {
                 <Stack direction="row" alignItems="center" justifyContent="center" spacing={1.5} sx={{ mb: 2 }}>
                     <Box sx={{ width: 28, height: 2, bgcolor: RED }} />
                     <Typography sx={{ fontSize: '0.65rem', fontWeight: 800, letterSpacing: 4, textTransform: 'uppercase', color: RED, fontFamily: 'monospace' }}>
-                        Elite Programs
+                        {content.eyebrow}
                     </Typography>
                     <Box sx={{ width: 28, height: 2, bgcolor: RED }} />
                 </Stack>
                 <Typography variant="h2" sx={{ color: '#fff', fontWeight: 800, textTransform: 'uppercase', mb: 3, fontFamily: "'Poppins', sans-serif", letterSpacing: -2, lineHeight: 0.9 }}>
-                Signature <Box component="span" sx={{ color: RED, fontStyle: 'italic' }}>Classes.</Box>
+                {content.title} <Box component="span" sx={{ color: RED, fontStyle: 'italic' }}>{content.title_highlight}</Box>
                 </Typography>
                 <Typography sx={{ color: alpha('#fff', 0.6), maxWidth: 500, mx: 'auto', fontSize: '0.9rem' }}>
-                Experience our signature classes, designed to get you training like a star.
+                {content.description}
                 </Typography>
             </m.div>
             </Box>
@@ -221,7 +225,7 @@ export default function ClassesSignature() {
                         '&:hover': { color: RED }
                     }}
                 >
-                    EXPLORE ALL CLASSES
+                    {content.cta_link}
                     <Iconify icon="solar:arrow-right-up-bold" sx={{ ml: 1, width: 28, height: 28 }} />
                 </Typography>
             </m.div>

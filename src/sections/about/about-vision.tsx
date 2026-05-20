@@ -11,6 +11,8 @@ import Typography from '@mui/material/Typography';
 import Image from 'src/components/image';
 import Iconify from 'src/components/iconify';
 import { MotionViewport, varFade } from 'src/components/animate';
+// hooks
+import { useSectionContent } from 'src/hooks/use-page-content';
 
 // ----------------------------------------------------------------------
 
@@ -18,26 +20,16 @@ const RED = '#DF2026';
 const RED_DARK = '#A8171C';
 const BLACK = '#060606';
 
-const FEATURES = [
-  {
-    icon: 'solar:users-group-two-rounded-bold-duotone',
-    text: 'Unlimited group fitness classes',
-  },
-  {
-    icon: 'solar:dumbbell-large-bold-duotone',
-    text: 'Unlimited HIIT classes',
-  },
-  {
-    icon: 'solar:meditation-round-bold-duotone',
-    text: 'Unlimited Mind and Body sessions',
-  },
-  {
-    icon: 'solar:bicycle-bold-duotone',
-    text: 'Unlimited Cycling experiences',
-  },
-];
-
 export default function HomeRockstarWorkouts() {
+  const content = useSectionContent('membership', 'vision');
+
+  const FEATURES = [
+    { icon: 'solar:users-group-two-rounded-bold-duotone', text: content.feature1 },
+    { icon: 'solar:dumbbell-large-bold-duotone', text: content.feature2 },
+    { icon: 'solar:meditation-round-bold-duotone', text: content.feature3 },
+    { icon: 'solar:bicycle-bold-duotone', text: content.feature4 },
+  ];
+
   return (
     <Box
       sx={{
@@ -109,7 +101,7 @@ export default function HomeRockstarWorkouts() {
               <Stack direction="row" alignItems="center" spacing={1.5} sx={{ mb: 2 }}>
                   <Box sx={{ width: 28, height: 2, bgcolor: RED }} />
                   <Typography sx={{ fontSize: '0.65rem', fontWeight: 800, letterSpacing: 4, textTransform: 'uppercase', color: RED, fontFamily: 'monospace' }}>
-                    Elite Training
+                    {content.eyebrow}
                   </Typography>
               </Stack>
 
@@ -125,12 +117,12 @@ export default function HomeRockstarWorkouts() {
                     lineHeight: 0.95
                 }}
               >
-                Rockstar-Worthy <br />
-                <Box component="span" sx={{ color: RED, fontStyle: 'italic' }}>Workouts.</Box>
+                {content.title} <br />
+                <Box component="span" sx={{ color: RED, fontStyle: 'italic' }}>{content.title_highlight}</Box>
               </Typography>
               
               <Typography sx={{ color: alpha('#fff', 0.6), mb: 5, fontSize: '0.9rem', lineHeight: 1.8 }}>
-                Our group classes totally rock! Killer workouts. Ultimate training... everything worthy of a rockstar.
+                {content.description}
               </Typography>
 
               {/* Box Feature List - Sharp Design */}
@@ -177,7 +169,7 @@ export default function HomeRockstarWorkouts() {
                                 '&:hover': { bgcolor: RED_DARK, boxShadow: 'none' }
                             }}
                         >
-                            Discover More
+                            {content.button}
                         </Button>
                     </Box>
                   </Stack>

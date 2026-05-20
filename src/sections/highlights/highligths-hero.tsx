@@ -10,6 +10,7 @@ import Image from 'src/components/image';
 import { MotionContainer, varFade } from 'src/components/animate';
 // hooks
 import { useBanner } from 'src/hooks/use-banner';
+import { useSectionContent } from 'src/hooks/use-page-content';
 
 // ----------------------------------------------------------------------
 
@@ -19,6 +20,7 @@ const DEFAULT_BG = '/assets/background/op.png';
 
 export default function HightligthHero() {
     const bannerUrl = useBanner('highlights');
+    const content = useSectionContent('highlights', 'hero');
     return (
     <Box
         sx={{
@@ -77,7 +79,7 @@ export default function HightligthHero() {
             <Stack direction="row" alignItems="center" spacing={1.5} sx={{ mb: 2, justifyContent: { xs: 'center', md: 'flex-start' } }}>
               <Box sx={{ width: 28, height: 2, bgcolor: RED }} />
               <Typography sx={{ fontSize: '0.65rem', fontWeight: 800, letterSpacing: 4, textTransform: 'uppercase', color: RED, fontFamily: 'monospace' }}>
-                Latest Updates
+                {content.eyebrow}
               </Typography>
             </Stack>
         </m.div>
@@ -96,9 +98,9 @@ export default function HightligthHero() {
                 fontSize: { xs: '3.5rem', md: '6rem' },
             }}
             >
-            Our <br />
+            {content.title} <br />
             <Box component="span" sx={{ color: RED, fontStyle: 'italic', display: 'block' }}>
-                Highlights.
+                {content.title_highlight}
             </Box>
             </Typography>
         </m.div>
@@ -113,7 +115,7 @@ export default function HightligthHero() {
                 lineHeight: 1.8
             }}
             >
-            Keep up with the latest events, community gatherings, and what’s going on with us.
+            {content.description}
             </Typography>
         </m.div>
 

@@ -9,48 +9,32 @@ import Typography from '@mui/material/Typography';
 // components
 import Iconify from 'src/components/iconify';
 import { MotionViewport, varFade } from 'src/components/animate';
+// hooks
+import { useSectionContent } from 'src/hooks/use-page-content';
 
 // ----------------------------------------------------------------------
 
 const RED = '#DF2026';
 const BLACK = '#060606';
 
-const BENEFITS = [
-  {
-    icon: 'solar:body-bold-duotone',
-    title: 'Core Strength',
-    desc: 'Build deep stabilizing muscles that support your spine and improve overall body control.',
-  },
-  {
-    icon: 'solar:stretching-bold-duotone',
-    title: 'Flexibility',
-    desc: 'Lengthen and mobilize muscles through controlled movement patterns designed for full range of motion.',
-  },
-  {
-    icon: 'solar:shield-bold-duotone',
-    title: 'Injury Prevention',
-    desc: 'Strengthen underused muscles and correct muscular imbalances to protect joints long term.',
-  },
-  {
-    icon: 'solar:meditation-round-bold-duotone',
-    title: 'Mind-Body Connection',
-    desc: 'Train with precision and intention — every rep is purposeful, building awareness as well as strength.',
-  },
-  {
-    icon: 'solar:running-round-bold-duotone',
-    title: 'Better Posture',
-    desc: 'Realign your body from the inside out. Stand taller, move better, feel the difference daily.',
-  },
-  {
-    icon: 'solar:graph-up-bold-duotone',
-    title: 'Progressive Performance',
-    desc: 'A structured program that evolves with you — from foundation to advanced performer levels.',
-  },
+const BENEFIT_ICONS = [
+  'solar:body-bold-duotone',
+  'solar:stretching-bold-duotone',
+  'solar:shield-bold-duotone',
+  'solar:meditation-round-bold-duotone',
+  'solar:running-round-bold-duotone',
+  'solar:graph-up-bold-duotone',
 ];
 
 // ----------------------------------------------------------------------
 
 export default function PilatesPerformerBenefits() {
+  const content = useSectionContent('pilates-performer', 'benefits');
+  const BENEFITS = BENEFIT_ICONS.map((icon, i) => ({
+    icon,
+    title: content[`benefit${i + 1}_title`] || '',
+    desc: content[`benefit${i + 1}_desc`] || '',
+  }));
   return (
     <Box
       sx={{
@@ -75,7 +59,7 @@ export default function PilatesPerformerBenefits() {
                   fontFamily: 'monospace',
                 }}
               >
-                Why Pilates
+                {content.eyebrow}
               </Typography>
               <Box sx={{ width: 28, height: 2, bgcolor: RED }} />
             </Stack>
@@ -92,14 +76,14 @@ export default function PilatesPerformerBenefits() {
                 lineHeight: 0.9,
               }}
             >
-              The Benefits Of{' '}
+              {content.title}{' '}
               <Box component="span" sx={{ color: RED, fontStyle: 'italic', display: 'block' }}>
-                Performance.
+                {content.title_highlight}
               </Box>
             </Typography>
 
             <Typography sx={{ color: alpha('#fff', 0.55), maxWidth: 480, mx: 'auto', fontSize: '0.9rem', lineHeight: 1.8 }}>
-              Pilates is more than exercise — it's a complete system that transforms how your body moves and performs.
+              {content.description}
             </Typography>
           </m.div>
         </Box>

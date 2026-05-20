@@ -15,6 +15,8 @@ import IconButton from '@mui/material/IconButton';
 // components
 import Iconify from 'src/components/iconify';
 import { MotionViewport, varFade } from 'src/components/animate';
+// hooks
+import { useSectionContent } from 'src/hooks/use-page-content';
 
 // ----------------------------------------------------------------------
 
@@ -26,64 +28,32 @@ const COLORS = {
 
 const CATEGORIES = ['ALL', 'FITNESS', 'FRONT OF HOUSE', 'MANAGEMENT'];
 
-const JOBS = [
-  { 
-    title: 'PERSONAL TRAINER', 
-    department: 'Fitness', 
-    location: 'Indonesia', 
-    type: 'Club', 
-    isNew: false 
-  },
-  { 
-    title: 'MEMBERSHIP CONSULTANT', 
-    department: 'Sales', 
-    location: 'Indonesia', 
-    type: 'Club', 
-    isNew: false 
-  },
-  { 
-    title: 'SALES MANAGER', 
-    department: 'Management', 
-    location: 'Indonesia', 
-    type: 'Club', 
-    isNew: true 
-  },
-  { 
-    title: 'CLUB GENERAL MANAGER', 
-    department: 'Management', 
-    location: 'Indonesia', 
-    type: 'Club', 
-    isNew: false 
-  },
-];
-
-const STEPS = [
-  {
-    id: '01',
-    title: 'START PREPPING',
-    description: "Get your act together and sort your resume. Double check the details so you're good to go.",
-  },
-  {
-    id: '02',
-    title: 'HIT US UP',
-    description: (
-      <>
-        Tell us which job you want and drop your resume at{' '}
-        <Link href="mailto:hr.indonesia@evolutionwellness.co.id" sx={{ color: COLORS.red, textDecoration: 'underline' }}>
-          hr.indonesia@evolutionwellness.co.id
-        </Link>
-      </>
-    ),
-  },
-  {
-    id: '03',
-    title: 'STANDBY',
-    description: "We'll get in touch if there's a spot for you.",
-  },
-];
-
 export default function CareersJobs() {
   const [activeCategory, setActiveCategory] = useState('ALL');
+  const content = useSectionContent('career', 'jobs');
+  const JOBS = [1, 2, 3, 4].map((n) => ({
+    title: content[`job${n}_title`] || '',
+    department: content[`job${n}_dept`] || '',
+    location: content[`job${n}_location`] || '',
+    type: content[`job${n}_type`] || '',
+    isNew: false,
+  }));
+  const STEPS = [
+    { id: '01', title: content.step1_title || '', description: content.step1_desc || '' },
+    {
+      id: '02',
+      title: content.step2_title || '',
+      description: (
+        <>
+          {content.step2_desc}{' '}
+          <Link href={`mailto:${content.step2_email}`} sx={{ color: COLORS.red, textDecoration: 'underline' }}>
+            {content.step2_email}
+          </Link>
+        </>
+      ),
+    },
+    { id: '03', title: content.step3_title || '', description: content.step3_desc || '' },
+  ];
 
   return (
     <Box sx={{ bgcolor: COLORS.black, py: { xs: 10, md: 15 }, color: COLORS.white }}>
@@ -101,7 +71,7 @@ export default function CareersJobs() {
           >
             <m.div variants={varFade().inRight}>
               <Typography variant="h2" sx={{ fontWeight: 900, textTransform: 'uppercase', letterSpacing: 1 }}>
-                JOBS <Box component="span" sx={{ color: COLORS.red }}>WITH US</Box>
+                {content.jobs_title_base} <Box component="span" sx={{ color: COLORS.red }}>{content.jobs_title_highlight}</Box>
               </Typography>
             </m.div>
 
@@ -210,7 +180,7 @@ export default function CareersJobs() {
         <Box sx={{ textAlign: 'center', mb: 8 }}>
           <m.div variants={varFade().inDown}>
             <Typography variant="h2" sx={{ fontWeight: 900, textTransform: 'uppercase' }}>
-              LIKE IT <Box component="span" sx={{ color: COLORS.red }}>SO FAR?</Box>
+              {content.steps_title_base} <Box component="span" sx={{ color: COLORS.red }}>{content.steps_title_highlight}</Box>
             </Typography>
           </m.div>
         </Box>

@@ -12,6 +12,7 @@ import Iconify from 'src/components/iconify';
 import { MotionContainer, varFade } from 'src/components/animate';
 // hooks
 import { useBanner } from 'src/hooks/use-banner';
+import { useSectionContent } from 'src/hooks/use-page-content';
 
 // ----------------------------------------------------------------------
 
@@ -26,6 +27,7 @@ const DEFAULT_BG = '/assets/background/CAREERS/KEBUTUHAN WEB RF (2).png';
 export default function CareerHero() {
     const theme = useTheme();
     const bannerUrl = useBanner('career');
+    const content = useSectionContent('career', 'hero');
 
     return (
     <Box
@@ -93,7 +95,7 @@ export default function CareerHero() {
                 opacity: 0.9,
             }}
             >
-            Careers
+            {content.eyebrow}
             </Typography>
         </m.div>
         <m.div variants={varFade().inRight}>
@@ -108,7 +110,7 @@ export default function CareerHero() {
                 fontSize: { xs: '3rem', md: '5.5rem' }, // Ukuran font raksasa
             }}
             >
-            Be our Starmaker <br />
+            {content.title} <br />
             </Typography>
         </m.div>
 
@@ -123,7 +125,7 @@ export default function CareerHero() {
                 opacity: 0.9,
             }}
             >
-            Join the Red Fitness Squad and help inspire others to get better every day!
+            {content.description}
             </Typography>
         </m.div>
 
@@ -148,7 +150,7 @@ export default function CareerHero() {
                 },
             }}
             >
-            Follow Us On Instagram
+            {content.button}
             </Button>
         </m.div>
         </Container>

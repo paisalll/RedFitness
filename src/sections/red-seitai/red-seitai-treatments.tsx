@@ -10,6 +10,8 @@ import Button from '@mui/material/Button';
 // components
 import Iconify from 'src/components/iconify';
 import { MotionViewport, varFade } from 'src/components/animate';
+// hooks
+import { useSectionContent } from 'src/hooks/use-page-content';
 
 // ----------------------------------------------------------------------
 
@@ -17,44 +19,23 @@ const RED = '#DF2026';
 const RED_DARK = '#A8171C';
 const BLACK = '#060606';
 
-const TREATMENTS = [
-  {
-    num: '01',
-    icon: 'solar:hand-stars-bold-duotone',
-    title: 'Full Body Seitai',
-    duration: '60 mins',
-    desc: 'A complete head-to-toe body correction session. Addresses overall postural imbalances, releases tension stored across the entire musculoskeletal system.',
-    badge: 'Most Popular',
-  },
-  {
-    num: '02',
-    icon: 'solar:spine-bold-duotone',
-    title: 'Spinal Correction',
-    duration: '45 mins',
-    desc: 'Targeted therapy focusing on the spine and supporting muscles. Ideal for office workers, people with sedentary lifestyles, or those experiencing back discomfort.',
-    badge: null,
-  },
-  {
-    num: '03',
-    icon: 'solar:running-round-bold-duotone',
-    title: 'Sports Recovery',
-    duration: '50 mins',
-    desc: 'Designed for athletes and active individuals. Focuses on recovering overworked muscles, reducing inflammation, and restoring peak mobility after intense training.',
-    badge: 'For Athletes',
-  },
-  {
-    num: '04',
-    icon: 'solar:moon-bold-duotone',
-    title: 'Relaxation & Reset',
-    duration: '45 mins',
-    desc: 'A gentler Seitai session combining body alignment with deep relaxation techniques. Perfect for stress relief, mental fatigue, and overall renewal.',
-    badge: null,
-  },
+const TREATMENT_META = [
+  { num: '01', icon: 'solar:hand-stars-bold-duotone', badge: 'Most Popular' },
+  { num: '02', icon: 'solar:spine-bold-duotone', badge: null },
+  { num: '03', icon: 'solar:running-round-bold-duotone', badge: 'For Athletes' },
+  { num: '04', icon: 'solar:moon-bold-duotone', badge: null },
 ];
 
 // ----------------------------------------------------------------------
 
 export default function RedSeitaiTreatments() {
+  const content = useSectionContent('red-seitai', 'treatments');
+  const TREATMENTS = TREATMENT_META.map((m, i) => ({
+    ...m,
+    title: content[`t${i + 1}_title`] || '',
+    duration: content[`t${i + 1}_duration`] || '',
+    desc: content[`t${i + 1}_desc`] || '',
+  }));
   return (
     <Box
       sx={{
@@ -80,7 +61,7 @@ export default function RedSeitaiTreatments() {
                   fontFamily: 'monospace',
                 }}
               >
-                Our Treatments
+                {content.eyebrow}
               </Typography>
               <Box sx={{ width: 28, height: 2, bgcolor: RED }} />
             </Stack>
@@ -97,14 +78,14 @@ export default function RedSeitaiTreatments() {
                 lineHeight: 0.9,
               }}
             >
-              Choose Your{' '}
+              {content.title}{' '}
               <Box component="span" sx={{ color: RED, fontStyle: 'italic' }}>
-                Session.
+                {content.title_highlight}
               </Box>
             </Typography>
 
             <Typography sx={{ color: alpha('#fff', 0.55), maxWidth: 480, mx: 'auto', fontSize: '0.9rem', lineHeight: 1.8 }}>
-              Each session is tailored to your body's needs. Our certified therapists guide you through every step.
+              {content.description}
             </Typography>
           </m.div>
         </Box>
@@ -234,7 +215,7 @@ export default function RedSeitaiTreatments() {
                 '&:hover': { bgcolor: RED_DARK, boxShadow: 'none' },
               }}
             >
-              Book a Session
+              {content.cta_button1}
             </Button>
           </m.div>
 
@@ -257,7 +238,7 @@ export default function RedSeitaiTreatments() {
                 '&:hover': { borderColor: RED, color: RED, bgcolor: alpha(RED, 0.06) },
               }}
             >
-              Contact Us
+              {content.cta_button2}
             </Button>
           </m.div>
         </Stack>

@@ -12,6 +12,7 @@ import Iconify from 'src/components/iconify';
 import { MotionContainer, varFade } from 'src/components/animate';
 // hooks
 import { useBanner } from 'src/hooks/use-banner';
+import { useSectionContent } from 'src/hooks/use-page-content';
 
 // ----------------------------------------------------------------------
 
@@ -24,6 +25,7 @@ const DEFAULT_BG = '/assets/background/1.png';
 
 export default function RedSeitaiHero() {
   const bannerUrl = useBanner('red-seitai');
+  const content = useSectionContent('red-seitai', 'hero');
 
   return (
     <Box
@@ -97,7 +99,7 @@ export default function RedSeitaiHero() {
                 fontFamily: 'monospace',
               }}
             >
-              Wellness & Recovery
+              {content.eyebrow}
             </Typography>
           </Stack>
         </m.div>
@@ -116,9 +118,9 @@ export default function RedSeitaiHero() {
               fontSize: { xs: '3rem', md: '5.5rem' },
             }}
           >
-            Red Seitai <br />
+            {content.title} <br />
             <Box component="span" sx={{ color: RED, fontStyle: 'italic', display: 'block' }}>
-              Therapy.
+              {content.title_highlight}
             </Box>
           </Typography>
         </m.div>
@@ -133,7 +135,7 @@ export default function RedSeitaiHero() {
               lineHeight: 1.8,
             }}
           >
-            Restore balance and relieve tension with our Red Seitai Therapy — a holistic body correction treatment tailored to your well-being.
+            {content.description}
           </Typography>
         </m.div>
 
@@ -158,7 +160,7 @@ export default function RedSeitaiHero() {
                 '&:hover': { bgcolor: RED_DARK, boxShadow: 'none' },
               }}
             >
-              Book Session
+              {content.button1}
             </Button>
 
             <Button
@@ -179,7 +181,7 @@ export default function RedSeitaiHero() {
                 '&:hover': { borderColor: RED, bgcolor: alpha(RED, 0.1) },
               }}
             >
-              Learn More
+              {content.button2}
             </Button>
           </Stack>
         </m.div>

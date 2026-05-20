@@ -13,6 +13,7 @@ import Iconify from 'src/components/iconify';
 import { MotionContainer, varFade } from 'src/components/animate';
 // hooks
 import { useBanner } from 'src/hooks/use-banner';
+import { useSectionContent } from 'src/hooks/use-page-content';
 
 // ----------------------------------------------------------------------
 
@@ -24,6 +25,7 @@ const DEFAULT_BG = '/assets/background/TRAINER/16.png';
 export default function PersonalTrainingHero() {
   const theme = useTheme();
   const bannerUrl = useBanner('contact');
+  const content = useSectionContent('contact', 'hero');
 
   return (
     <Box
@@ -76,7 +78,7 @@ export default function PersonalTrainingHero() {
                 <Stack direction="row" alignItems="center" spacing={1.5} sx={{ mb: 2, justifyContent: { xs: 'center', md: 'flex-start' } }}>
                     <Box sx={{ width: 28, height: 2, bgcolor: RED }} />
                     <Typography sx={{ fontSize: '0.65rem', fontWeight: 800, letterSpacing: 4, textTransform: 'uppercase', color: RED, fontFamily: 'monospace' }}>
-                        Personal Training
+                        {content.eyebrow}
                     </Typography>
                 </Stack>
             </m.div>
@@ -96,8 +98,8 @@ export default function PersonalTrainingHero() {
                   fontSize: { xs: '3.5rem', md: '5.5rem' },
                 }}
               >
-                Train Like <br />
-                <Box component="span" sx={{ color: RED, fontStyle: 'italic' }}>A Star.</Box>
+                {content.title} <br />
+                <Box component="span" sx={{ color: RED, fontStyle: 'italic' }}>{content.title_highlight}</Box>
               </Typography>
             </m.div>
 
@@ -111,7 +113,7 @@ export default function PersonalTrainingHero() {
                   mx: { xs: 'auto', md: 'unset' }
                 }}
               >
-                Get maximum results with our StarMakers. Elevate your potential with a customized plan just for you.
+                {content.description}
               </Typography>
             </m.div>
 
@@ -139,7 +141,7 @@ export default function PersonalTrainingHero() {
                   }
                 }}
               >
-                Get Your Trainer
+                {content.button}
               </Button>
             </m.div>
           </Grid>

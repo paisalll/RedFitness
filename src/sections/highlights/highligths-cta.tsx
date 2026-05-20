@@ -8,6 +8,8 @@ import Typography from '@mui/material/Typography';
 // components
 import Iconify from 'src/components/iconify';
 import { varFade } from 'src/components/animate';
+// hooks
+import { useSectionContent } from 'src/hooks/use-page-content';
 
 // ----------------------------------------------------------------------
 
@@ -16,6 +18,7 @@ const RED_DARK = '#A8171C';
 const BLACK = '#060606';
 
 export default function HighligthDualCTA() {
+  const content = useSectionContent('highlights', 'cta');
   return (
     <Box sx={{ bgcolor: BLACK, overflow: 'hidden', borderTop: `1px solid ${alpha(RED, 0.15)}` }}>
       <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, width: 1 }}>
@@ -40,25 +43,25 @@ export default function HighligthDualCTA() {
             <Stack direction="row" alignItems="center" justifyContent="center" spacing={1.5} sx={{ mb: 2 }}>
               <Box sx={{ width: 20, height: 2, bgcolor: RED }} />
               <Typography sx={{ fontSize: '0.65rem', fontWeight: 800, letterSpacing: 4, textTransform: 'uppercase', color: RED, fontFamily: 'monospace' }}>
-                Trial Access
+                {content.trial_eyebrow}
               </Typography>
             </Stack>
 
             <Typography variant="h2" sx={{ color: '#fff', mb: 2, fontWeight: 800, textTransform: 'uppercase', fontFamily: "'Poppins', sans-serif", letterSpacing: -2, lineHeight: 0.95 }}>
-              Try Us <br /> For <Box component="span" sx={{ fontStyle: 'italic', color: RED }}>Free.</Box>
+              {content.trial_title} <br /> <Box component="span" sx={{ fontStyle: 'italic', color: RED }}>{content.trial_title_highlight}</Box>
             </Typography>
-            
+
             <Typography sx={{ color: alpha('#fff', 0.6), mb: 5, maxWidth: 320, fontSize: '0.9rem' }}>
-              Experience the standard of elite training with an exclusive trial.
+              {content.trial_description}
             </Typography>
 
             <Button
               variant="contained"
               size="large"
               endIcon={<Iconify icon="solar:arrow-right-up-bold" />}
-              sx={{ 
-                borderRadius: 0, 
-                px: 5, 
+              sx={{
+                borderRadius: 0,
+                px: 5,
                 py: 1.75,
                 fontWeight: 800,
                 textTransform: 'uppercase',
@@ -69,7 +72,7 @@ export default function HighligthDualCTA() {
                 '&:hover': { bgcolor: alpha('#fff', 0.9) }
               }}
             >
-              Claim Free Trial
+              {content.trial_button}
             </Button>
           </m.div>
         </Box>
@@ -91,26 +94,26 @@ export default function HighligthDualCTA() {
           <m.div variants={varFade().inUp}>
              <Stack direction="row" alignItems="center" justifyContent="center" spacing={1.5} sx={{ mb: 2 }}>
               <Typography sx={{ fontSize: '0.65rem', fontWeight: 800, letterSpacing: 4, textTransform: 'uppercase', color: RED, fontFamily: 'monospace' }}>
-                B2B Solutions
+                {content.corp_eyebrow}
               </Typography>
               <Box sx={{ width: 20, height: 2, bgcolor: RED }} />
             </Stack>
 
             <Typography variant="h2" sx={{ color: '#fff', mb: 2, fontWeight: 800, textTransform: 'uppercase', fontFamily: "'Poppins', sans-serif", letterSpacing: -2, lineHeight: 0.95 }}>
-              Corporate <br /> <Box component="span" sx={{ fontStyle: 'italic', color: RED }}>Deal.</Box>
+              {content.corp_title} <br /> <Box component="span" sx={{ fontStyle: 'italic', color: RED }}>{content.corp_title_highlight}</Box>
             </Typography>
 
             <Typography sx={{ color: alpha('#fff', 0.6), mb: 5, maxWidth: 320, fontSize: '0.9rem' }}>
-              Elevate your team&apos;s performance with our tailored corporate memberships.
+              {content.corp_description}
             </Typography>
 
             <Button
               variant="contained"
               size="large"
               endIcon={<Iconify icon="solar:arrow-right-up-bold" />}
-              sx={{ 
-                borderRadius: 0, 
-                px: 5, 
+              sx={{
+                borderRadius: 0,
+                px: 5,
                 py: 1.75,
                 fontWeight: 800,
                 textTransform: 'uppercase',
@@ -121,7 +124,7 @@ export default function HighligthDualCTA() {
                 '&:hover': { bgcolor: RED_DARK }
               }}
             >
-              Get Proposal
+              {content.corp_button}
             </Button>
           </m.div>
         </Box>

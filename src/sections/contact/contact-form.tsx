@@ -16,31 +16,14 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 // components
 import Iconify from 'src/components/iconify';
 import { MotionViewport, varFade } from 'src/components/animate';
+// hooks
+import { useSectionContent } from 'src/hooks/use-page-content';
 
 // ----------------------------------------------------------------------
 
 const RED = '#DF2026';
 const RED_DARK = '#A8171C';
 const BLACK = '#060606';
-
-const FAQ = [
-  {
-    question: 'CERTIFIED FITNESS COACHES: THE BENEFITS',
-    answer: 'Our coaches provide professional guidance, personalized programming, and the motivation you need to reach your goals safely and effectively.',
-  },
-  {
-    question: 'DEFINING GOALS WITH CERTIFIED FITNESS COACHES',
-    answer: 'Your coach will perform assessments to understand your current level and help you set SMART (Specific, Measurable, Achievable, Relevant, Time-bound) goals.',
-  },
-  {
-    question: 'HOW ARE FITNESS LEVELS ACCESSED?',
-    answer: 'We use a combination of postural analysis, dynamic movement screening, and strength/cardio testing to create your baseline.',
-  },
-  {
-    question: 'ADAPTING WORKOUTS TO FIT CRAZY SCHEDULES',
-    answer: 'Flexibility is key. Our trainers work around your availability, offering sessions that fit into your busy lifestyle.',
-  },
-];
 
 const inputSx = {
     '& .MuiFilledInput-root': {
@@ -57,6 +40,10 @@ const inputSx = {
 };
 
 export default function PersonalTrainingFinal() {
+  const content = useSectionContent('contact', 'form');
+  const BENEFITS = [1, 2, 3, 4, 5, 6].map((n) => content[`benefit${n}`] || '');
+  const FAQ = [1, 2, 3, 4].map((n) => ({ question: content[`faq${n}_q`] || '', answer: content[`faq${n}_a`] || '' }));
+
   return (
     <Box sx={{ bgcolor: BLACK, py: { xs: 10, md: 15 }, color: '#fff', borderTop: `1px solid ${alpha(RED, 0.15)}` }}>
       <Container component={MotionViewport}>
@@ -79,15 +66,15 @@ export default function PersonalTrainingFinal() {
                 <Stack direction="row" alignItems="center" justifyContent="center" spacing={1.5} sx={{ mb: 2 }}>
                     <Box sx={{ width: 20, height: 2, bgcolor: RED }} />
                     <Typography sx={{ fontSize: '0.65rem', fontWeight: 800, letterSpacing: 4, textTransform: 'uppercase', color: RED, fontFamily: 'monospace' }}>
-                        Limited Offer
+                        {content.form_eyebrow}
                     </Typography>
                 </Stack>
                 <Typography variant="h4" sx={{ mb: 1, fontWeight: 800, textAlign: 'center', fontFamily: "'Poppins', sans-serif", textTransform: 'uppercase', letterSpacing: -1 }}>
-                  Sign Up For A <br />
-                  <Box component="span" sx={{ color: RED, fontStyle: 'italic' }}>Free Trial.</Box>
+                  {content.form_title} <br />
+                  <Box component="span" sx={{ color: RED, fontStyle: 'italic' }}>{content.form_title_highlight}</Box>
                 </Typography>
                 <Typography variant="body2" sx={{ mb: 4, textAlign: 'center', opacity: 0.6, fontFamily: 'monospace' }}>
-                  We'll get in touch within 48 hours.
+                  {content.form_description}
                 </Typography>
 
                 <Stack spacing={2.5}>
@@ -123,7 +110,7 @@ export default function PersonalTrainingFinal() {
                       '&:hover': { bgcolor: RED_DARK, boxShadow: 'none' }
                     }}
                   >
-                    Submit Request
+                    {content.form_button}
                   </Button>
                 </Stack>
               </Box>
@@ -136,28 +123,21 @@ export default function PersonalTrainingFinal() {
               <Stack direction="row" alignItems="center" spacing={1.5} sx={{ mb: 2 }}>
                   <Box sx={{ width: 28, height: 2, bgcolor: RED }} />
                   <Typography sx={{ fontSize: '0.65rem', fontWeight: 800, letterSpacing: 4, textTransform: 'uppercase', color: RED, fontFamily: 'monospace' }}>
-                    Join The Program
+                    {content.program_eyebrow}
                   </Typography>
               </Stack>
               <Typography variant="h2" sx={{ fontWeight: 800, textTransform: 'uppercase', mb: 3, fontFamily: "'Poppins', sans-serif", letterSpacing: -2, lineHeight: 0.95 }}>
-                Personal Training <br /> <Box component="span" sx={{ fontStyle: 'italic', color: RED }}>Made For You.</Box>
+                {content.program_title} <br /> <Box component="span" sx={{ fontStyle: 'italic', color: RED }}>{content.program_title_highlight}</Box>
               </Typography>
               <Typography sx={{ color: alpha('#fff', 0.6), mb: 5, fontSize: '0.9rem', lineHeight: 1.8 }}>
-                Crush those goals with our experts. We don't do average. It's a custom, results-driven training vibe tailored specifically for your body and ambitions.
+                {content.program_description}
               </Typography>
 
               <Box sx={{ p: 4, bgcolor: '#080808', borderRadius: 0, border: `1px solid ${alpha('#fff', 0.1)}`, borderLeft: `3px solid ${RED}` }}>
-                <Typography variant="overline" sx={{ mb: 3, fontWeight: 800, color: RED, display: 'block', letterSpacing: 2 }}>YOU'LL ENJOY</Typography>
+                <Typography variant="overline" sx={{ mb: 3, fontWeight: 800, color: RED, display: 'block', letterSpacing: 2 }}>{content.program_benefits_label}</Typography>
                 <Stack spacing={2.5}>
-                  {[
-                    'Save up and own your fitness journey!',
-                    'Certified Coaches on your schedule, your style.',
-                    'Personalized plans.',
-                    'Epic assessments.',
-                    'MyCoach tracking.',
-                    'Plus pro tips on nutrition.'
-                  ].map((text) => (
-                    <Stack key={text} direction="row" spacing={2} alignItems="center">
+                  {BENEFITS.filter(Boolean).map((text, index) => (
+                    <Stack key={index} direction="row" spacing={2} alignItems="center">
                       <Iconify icon="solar:star-bold" width={18} sx={{ color: RED }} />
                       <Typography variant="body2" sx={{ opacity: 0.9, fontFamily: 'monospace', fontSize: '0.8rem' }}>{text.toUpperCase()}</Typography>
                     </Stack>
@@ -174,12 +154,12 @@ export default function PersonalTrainingFinal() {
              <Stack direction="row" alignItems="center" justifyContent="center" spacing={1.5} sx={{ mb: 2 }}>
                 <Box sx={{ width: 28, height: 2, bgcolor: RED }} />
                 <Typography sx={{ fontSize: '0.65rem', fontWeight: 800, letterSpacing: 4, textTransform: 'uppercase', color: RED, fontFamily: 'monospace' }}>
-                    Get Answers
+                    {content.faq_eyebrow}
                 </Typography>
                 <Box sx={{ width: 28, height: 2, bgcolor: RED }} />
             </Stack>
             <Typography variant="h2" sx={{ textAlign: 'center', fontWeight: 800, mb: 8, textTransform: 'uppercase', fontFamily: "'Poppins', sans-serif", letterSpacing: -2, lineHeight: 0.95 }}>
-              Frequently Asked <br /> <Box component="span" sx={{ color: RED, fontStyle: 'italic' }}>Questions.</Box>
+              {content.faq_title} <br /> <Box component="span" sx={{ color: RED, fontStyle: 'italic' }}>{content.faq_title_highlight}</Box>
             </Typography>
           </m.div>
 

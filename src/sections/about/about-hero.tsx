@@ -13,6 +13,7 @@ import Iconify from 'src/components/iconify';
 import { MotionContainer, varFade } from 'src/components/animate';
 // hooks
 import { useBanner } from 'src/hooks/use-banner';
+import { useSectionContent } from 'src/hooks/use-page-content';
 
 const RED = '#DF2026';
 const RED_DARK = '#A8171C';
@@ -24,6 +25,7 @@ const DEFAULT_BG = '/assets/background/member.png';
 export default function AboutHero() {
   const theme = useTheme();
   const bannerUrl = useBanner('membership');
+  const content = useSectionContent('membership', 'hero');
 
   return (
     <Box
@@ -61,14 +63,14 @@ export default function AboutHero() {
                 <Stack direction="row" alignItems="center" spacing={1.5} sx={{ mb: 2, justifyContent: { xs: 'center', md: 'flex-start' } }}>
                     <Box sx={{ width: 28, height: 2, bgcolor: RED }} />
                     <Typography sx={{ fontSize: '0.65rem', fontWeight: 800, letterSpacing: 4, textTransform: 'uppercase', color: RED, fontFamily: 'monospace' }}>
-                        Membership
+                        {content.eyebrow}
                     </Typography>
                 </Stack>
             </m.div>
 
             <Box sx={{ mt: 2, mb: 3 }}>
               <TextAnimate
-                text="GET YOUR"
+                text={content.title_line1}
                 variants={varFade().inRight}
                 sx={{ color: '#fff', display: 'block', fontFamily: "'Poppins', sans-serif", letterSpacing: -2, lineHeight: 1 }}
               />
@@ -78,8 +80,8 @@ export default function AboutHero() {
                 direction={{ xs: 'column', md: 'row' }}
                 sx={{ color: '#fff' }}
               >
-                <TextAnimate text="STAR POWER" sx={{ color: RED, fontFamily: "'Poppins', sans-serif", letterSpacing: -2, lineHeight: 1, fontStyle: 'italic' }} />
-                <TextAnimate text="ON." sx={{ color: '#fff', fontFamily: "'Poppins', sans-serif", letterSpacing: -2, lineHeight: 1 }} />
+                <TextAnimate text={content.title_line2} sx={{ color: RED, fontFamily: "'Poppins', sans-serif", letterSpacing: -2, lineHeight: 1, fontStyle: 'italic' }} />
+                <TextAnimate text={content.title_line3} sx={{ color: '#fff', fontFamily: "'Poppins', sans-serif", letterSpacing: -2, lineHeight: 1 }} />
               </Stack>
             </Box>
 
@@ -93,7 +95,7 @@ export default function AboutHero() {
                   mx: { xs: 'auto', md: 'unset' }
                 }}
               >
-                You're in charge. Get pumped with your choice of classes. Experience elite training tailored to your goals.
+                {content.description}
               </Typography>
             </m.div>
 
@@ -121,7 +123,7 @@ export default function AboutHero() {
                   },
                 }}
               >
-                LEARN MORE
+                {content.button}
               </Button>
             </m.div>
           </Grid>

@@ -13,28 +13,23 @@ import IconButton from '@mui/material/IconButton';
 import Image from 'src/components/image';
 import Iconify from 'src/components/iconify';
 import { MotionViewport, varFade } from 'src/components/animate';
+// hooks
+import { useSectionContent } from 'src/hooks/use-page-content';
 
 // ----------------------------------------------------------------------
 
 const RED = '#DF2026';
 const BLACK = '#060606';
 
-const HIGHLIGHTS = [
-    { 
-        title: 'FUN RUN COMMUNITY GATHERING SPONSORED BY METROPOLITAN MALL', 
-        image: '/assets/background/HIGHLIGHT/36.png' 
-    },
-    { 
-        title: 'RED FITNESS CSR & DONATION AT MIZAN AMANAH KALIDERES', 
-        image: '/assets/background/HIGHLIGHT/35.png' 
-    },
-    { 
-        title: 'RED FITNESS ZUMBA GLOW UP EVENT AT HOTEL NEO+ AIRPORT JAKARTA', 
-        image: '/assets/background/HIGHLIGHT/34.png' 
-    }
+const HIGHLIGHT_IMAGES = [
+    '/assets/background/HIGHLIGHT/36.png',
+    '/assets/background/HIGHLIGHT/35.png',
+    '/assets/background/HIGHLIGHT/34.png',
 ];
 
 export default function HighlightsList() {
+    const content = useSectionContent('highlights', 'list');
+    const HIGHLIGHTS = HIGHLIGHT_IMAGES.map((image, i) => ({ image, title: content[`item${i + 1}_title`] || '' }));
     return (
         <Box sx={{ bgcolor: BLACK, py: { xs: 10, md: 15 }, color: '#fff', borderTop: `1px solid ${alpha(RED, 0.15)}` }}>
         <Container component={MotionViewport}>
@@ -45,22 +40,22 @@ export default function HighlightsList() {
                 <Stack direction="row" alignItems="center" justifyContent="center" spacing={1.5} sx={{ mb: 2 }}>
                     <Box sx={{ width: 28, height: 2, bgcolor: RED }} />
                     <Typography sx={{ fontSize: '0.65rem', fontWeight: 800, letterSpacing: 4, textTransform: 'uppercase', color: RED, fontFamily: 'monospace' }}>
-                        Events & News
+                        {content.eyebrow}
                     </Typography>
                     <Box sx={{ width: 28, height: 2, bgcolor: RED }} />
                 </Stack>
-                <Typography 
-                variant="h2" 
-                sx={{ 
-                    fontWeight: 800, 
-                    textTransform: 'uppercase', 
+                <Typography
+                variant="h2"
+                sx={{
+                    fontWeight: 800,
+                    textTransform: 'uppercase',
                     letterSpacing: -2,
                     lineHeight: 0.9,
                     fontFamily: "'Poppins', sans-serif",
                     textAlign: 'center'
                 }}
                 >
-                Check Out Our <br/> <Box component="span" sx={{ color: RED, fontStyle: 'italic' }}>Highlights.</Box>
+                {content.title} <br/> <Box component="span" sx={{ color: RED, fontStyle: 'italic' }}>{content.title_highlight}</Box>
                 </Typography>
             </m.div>
             </Stack>

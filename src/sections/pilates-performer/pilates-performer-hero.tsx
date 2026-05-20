@@ -12,6 +12,7 @@ import Iconify from 'src/components/iconify';
 import { MotionContainer, varFade } from 'src/components/animate';
 // hooks
 import { useBanner } from 'src/hooks/use-banner';
+import { useSectionContent } from 'src/hooks/use-page-content';
 
 // ----------------------------------------------------------------------
 
@@ -24,6 +25,7 @@ const DEFAULT_BG = '/assets/background/1.png';
 
 export default function PilatesPerformerHero() {
   const bannerUrl = useBanner('pilates-performer');
+  const content = useSectionContent('pilates-performer', 'hero');
 
   return (
     <Box
@@ -96,7 +98,7 @@ export default function PilatesPerformerHero() {
                 fontFamily: 'monospace',
               }}
             >
-              Premium Program
+              {content.eyebrow}
             </Typography>
           </Stack>
         </m.div>
@@ -115,9 +117,9 @@ export default function PilatesPerformerHero() {
               fontSize: { xs: '3rem', md: '5.5rem' },
             }}
           >
-            Pilates <br />
+            {content.title} <br />
             <Box component="span" sx={{ color: RED, fontStyle: 'italic', display: 'block' }}>
-              Performer.
+              {content.title_highlight}
             </Box>
           </Typography>
         </m.div>
@@ -132,7 +134,7 @@ export default function PilatesPerformerHero() {
               lineHeight: 1.8,
             }}
           >
-            Elevate your core strength, flexibility, and posture with our exclusive Pilates Performer program — designed for all levels.
+            {content.description}
           </Typography>
         </m.div>
 
@@ -156,7 +158,7 @@ export default function PilatesPerformerHero() {
               '&:hover': { bgcolor: RED_DARK, boxShadow: 'none' },
             }}
           >
-            Join Now
+            {content.button}
           </Button>
         </m.div>
       </Container>

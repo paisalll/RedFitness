@@ -9,6 +9,8 @@ import Button from '@mui/material/Button';
 // components
 import Iconify from 'src/components/iconify';
 import { MotionViewport, varFade } from 'src/components/animate';
+// hooks
+import { useSectionContent } from 'src/hooks/use-page-content';
 
 // ----------------------------------------------------------------------
 
@@ -16,44 +18,25 @@ const RED = '#DF2026';
 const RED_DARK = '#A8171C';
 const BLACK = '#060606';
 
-const PROGRAMS = [
-  {
-    num: '01',
-    title: 'Reformer Pilates',
-    level: 'All Levels',
-    duration: '50 mins',
-    desc: 'Using the Pilates Reformer machine to provide resistance-based training. Ideal for building functional strength with controlled, fluid motion.',
-    tags: ['Reformer Machine', 'Resistance', 'Strength'],
-  },
-  {
-    num: '02',
-    title: 'Mat Pilates',
-    level: 'Beginner – Intermediate',
-    duration: '45 mins',
-    desc: 'The foundation of Pilates. Body-weight exercises performed on a mat, focusing on core engagement, breath control, and spinal alignment.',
-    tags: ['Mat', 'Core', 'Alignment'],
-  },
-  {
-    num: '03',
-    title: 'Pilates Flow',
-    level: 'Intermediate – Advanced',
-    duration: '55 mins',
-    desc: 'A dynamic class linking Pilates movements in a smooth sequence. Builds endurance, coordination, and full-body control.',
-    tags: ['Dynamic', 'Endurance', 'Flow'],
-  },
-  {
-    num: '04',
-    title: 'Private Session',
-    level: 'Personalised',
-    duration: '60 mins',
-    desc: '1-on-1 sessions with a certified Pilates instructor. Perfect for rehabilitation, specific goals, or learning correct technique.',
-    tags: ['Private', '1-on-1', 'Custom'],
-  },
+const PROGRAM_TAGS = [
+  ['Reformer Machine', 'Resistance', 'Strength'],
+  ['Mat', 'Core', 'Alignment'],
+  ['Dynamic', 'Endurance', 'Flow'],
+  ['Private', '1-on-1', 'Custom'],
 ];
 
 // ----------------------------------------------------------------------
 
 export default function PilatesPerformerPrograms() {
+  const content = useSectionContent('pilates-performer', 'programs');
+  const PROGRAMS = ['01', '02', '03', '04'].map((num, i) => ({
+    num,
+    title: content[`prog${i + 1}_title`] || '',
+    level: content[`prog${i + 1}_level`] || '',
+    duration: content[`prog${i + 1}_duration`] || '',
+    desc: content[`prog${i + 1}_desc`] || '',
+    tags: PROGRAM_TAGS[i],
+  }));
   return (
     <Box
       sx={{
@@ -86,7 +69,7 @@ export default function PilatesPerformerPrograms() {
                     fontFamily: 'monospace',
                   }}
                 >
-                  Our Programs
+                  {content.eyebrow}
                 </Typography>
               </Stack>
 
@@ -101,9 +84,9 @@ export default function PilatesPerformerPrograms() {
                   lineHeight: 0.9,
                 }}
               >
-                Choose Your{' '}
+                {content.title}{' '}
                 <Box component="span" sx={{ color: RED, fontStyle: 'italic' }}>
-                  Program.
+                  {content.title_highlight}
                 </Box>
               </Typography>
             </m.div>
@@ -111,7 +94,7 @@ export default function PilatesPerformerPrograms() {
 
           <m.div variants={varFade().inRight}>
             <Typography sx={{ color: alpha('#fff', 0.5), maxWidth: 360, fontSize: '0.875rem', lineHeight: 1.8 }}>
-              From beginner mat classes to advanced reformer sessions — find the program that fits your level and goals.
+              {content.subtitle}
             </Typography>
           </m.div>
         </Stack>
@@ -238,7 +221,7 @@ export default function PilatesPerformerPrograms() {
                 '&:hover': { bgcolor: RED_DARK, boxShadow: 'none' },
               }}
             >
-              Start Your Program
+              {content.cta_button}
             </Button>
           </m.div>
         </Box>

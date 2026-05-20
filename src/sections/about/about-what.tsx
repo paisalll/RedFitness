@@ -10,47 +10,50 @@ import Typography from '@mui/material/Typography';
 // components
 import Iconify from 'src/components/iconify';
 import { MotionViewport, varFade } from 'src/components/animate';
+// hooks
+import { useSectionContent } from 'src/hooks/use-page-content';
 
 // ----------------------------------------------------------------------
 
 const RED = '#DF2026';
 const BLACK = '#060606';
 
-const STATS = [
-  { value: '25', label: 'CLUBS' },
-  { value: '7', label: 'CLASS TYPES' },
-  { value: '85', label: 'CLASSES' },
-  { value: '7,000', label: 'CLASSES PER MONTH' },
-  { value: '45,000', label: 'MEMBERS' },
-];
-
-const STEPS = [
-  {
-    step: '01',
-    title: 'GET STARTED',
-    description: 'Fill in your details and select your preferred club.',
-    icon: 'solar:cursor-bold-duotone',
-  },
-  {
-    step: '02',
-    title: 'SELECT CLUB ACCESS',
-    description: 'Choose a Home Club or add Passport Access to all clubs.',
-    icon: 'solar:shop-2-bold-duotone',
-  },
-  {
-    step: '03',
-    title: 'SELECT BRAND ACCESS',
-    description: 'Confirm your personal details and make payment.',
-    icon: 'solar:card-verified-bold-duotone',
-  },
-];
-
 export default function HomeJoinSteps() {
+  const content = useSectionContent('membership', 'what');
+
+  const STATS = [
+    { value: content.stat1_value, label: content.stat1_label },
+    { value: content.stat2_value, label: content.stat2_label },
+    { value: content.stat3_value, label: content.stat3_label },
+    { value: content.stat4_value, label: content.stat4_label },
+    { value: content.stat5_value, label: content.stat5_label },
+  ];
+
+  const STEPS = [
+    {
+      step: '01',
+      title: content.step1_title,
+      description: content.step1_desc,
+      icon: 'solar:cursor-bold-duotone',
+    },
+    {
+      step: '02',
+      title: content.step2_title,
+      description: content.step2_desc,
+      icon: 'solar:shop-2-bold-duotone',
+    },
+    {
+      step: '03',
+      title: content.step3_title,
+      description: content.step3_desc,
+      icon: 'solar:card-verified-bold-duotone',
+    },
+  ];
 
   const renderStats = (
     <Grid container spacing={3} justifyContent="center" sx={{ mb: { xs: 10, md: 15 } }}>
       {STATS.map((stat, index) => (
-        <Grid key={stat.label} xs={6} md={2.4}>
+        <Grid key={index} xs={6} md={2.4}>
           <m.div variants={varFade().inUp} transition={{ delay: index * 0.1 }} style={{ height: '100%' }}>
             <Box
               sx={{
@@ -101,7 +104,7 @@ export default function HomeJoinSteps() {
         <Stack direction="row" alignItems="center" justifyContent="center" spacing={1.5} sx={{ mb: 2 }}>
             <Box sx={{ width: 28, height: 2, bgcolor: RED }} />
             <Typography sx={{ fontSize: '0.65rem', fontWeight: 800, letterSpacing: 4, textTransform: 'uppercase', color: RED, fontFamily: 'monospace' }}>
-                Join Us
+                {content.steps_eyebrow}
             </Typography>
             <Box sx={{ width: 28, height: 2, bgcolor: RED }} />
         </Stack>
@@ -118,7 +121,7 @@ export default function HomeJoinSteps() {
             fontFamily: "'Poppins', sans-serif"
           }}
         >
-          Join Online in <br/> <span style={{ color: RED, fontStyle: 'italic' }}>3 Easy Steps.</span>
+          {content.steps_title} <br/> <span style={{ color: RED, fontStyle: 'italic' }}>{content.steps_title_highlight}</span>
         </Typography>
       </m.div>
 

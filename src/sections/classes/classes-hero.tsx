@@ -12,6 +12,7 @@ import Iconify from 'src/components/iconify';
 import { MotionContainer, varFade } from 'src/components/animate';
 // hooks
 import { useBanner } from 'src/hooks/use-banner';
+import { useSectionContent } from 'src/hooks/use-page-content';
 
 // ----------------------------------------------------------------------
 
@@ -22,6 +23,7 @@ const DEFAULT_BG = 'public/assets/background/CLASSES/21.png';
 
 export default function ClassesHero() {
     const bannerUrl = useBanner('classes');
+    const content = useSectionContent('classes', 'hero');
     return (
     <Box
         sx={{
@@ -79,7 +81,7 @@ export default function ClassesHero() {
             <Stack direction="row" alignItems="center" spacing={1.5} sx={{ mb: 2, justifyContent: { xs: 'center', md: 'flex-start' } }}>
               <Box sx={{ width: 28, height: 2, bgcolor: RED }} />
               <Typography sx={{ fontSize: '0.65rem', fontWeight: 800, letterSpacing: 4, textTransform: 'uppercase', color: RED, fontFamily: 'monospace' }}>
-                Endless Options
+                {content.eyebrow}
               </Typography>
             </Stack>
         </m.div>
@@ -98,9 +100,9 @@ export default function ClassesHero() {
                 fontSize: { xs: '3rem', md: '5.5rem' },
             }}
             >
-            7,700 Classes <br />
+            {content.title} <br />
             <Box component="span" sx={{ color: RED, fontStyle: 'italic', display: 'block' }}>
-                Every Month.
+                {content.title_highlight}
             </Box>
             </Typography>
         </m.div>
@@ -115,7 +117,7 @@ export default function ClassesHero() {
                 lineHeight: 1.8
             }}
             >
-            Your toughest decision will be which of the 7,700 group fitness classes to try next.
+            {content.description}
             </Typography>
         </m.div>
 
@@ -142,7 +144,7 @@ export default function ClassesHero() {
                 },
             }}
             >
-            Explore Classes
+            {content.button}
             </Button>
         </m.div>
         </Container>

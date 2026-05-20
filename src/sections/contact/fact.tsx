@@ -10,6 +10,8 @@ import Typography from '@mui/material/Typography';
 import Image from 'src/components/image';
 import Iconify from 'src/components/iconify';
 import { MotionViewport, varFade } from 'src/components/animate';
+// hooks
+import { useSectionContent } from 'src/hooks/use-page-content';
 
 // ----------------------------------------------------------------------
 
@@ -17,6 +19,7 @@ const RED = '#DF2026';
 const BLACK = '#060606';
 
 export default function PersonalTrainingQuality() {
+  const content = useSectionContent('contact', 'fact');
   return (
     <Box sx={{ bgcolor: BLACK, py: { xs: 10, md: 15 }, overflow: 'hidden', borderTop: `1px solid ${alpha(RED, 0.15)}` }}>
       <Container component={MotionViewport} maxWidth="lg">
@@ -28,16 +31,16 @@ export default function PersonalTrainingQuality() {
               <Stack direction="row" alignItems="center" spacing={1.5} sx={{ mb: 2 }}>
                   <Box sx={{ width: 28, height: 2, bgcolor: RED }} />
                   <Typography sx={{ fontSize: '0.65rem', fontWeight: 800, letterSpacing: 4, textTransform: 'uppercase', color: RED, fontFamily: 'monospace' }}>
-                    Expertise
+                    {content.s1_eyebrow}
                   </Typography>
               </Stack>
               <Typography variant="h2" sx={{ color: '#fff', fontWeight: 800, mb: 3, textTransform: 'uppercase', lineHeight: 0.95, letterSpacing: -2, fontFamily: "'Poppins', sans-serif" }}>
-                Did You <br />
-                <Box component="span" sx={{ color: RED, fontStyle: 'italic' }}>Know?</Box>
+                {content.s1_title} <br />
+                <Box component="span" sx={{ color: RED, fontStyle: 'italic' }}>{content.s1_title_highlight}</Box>
               </Typography>
-              
+
               <Typography sx={{ color: alpha('#fff', 0.6), mb: 5, fontSize: '0.9rem', lineHeight: 1.8 }}>
-                Our StarMaker Instructors' strength? They're all certified trainers. Just so they can help you crush your goals.
+                {content.s1_description}
               </Typography>
 
               <Box
@@ -51,21 +54,21 @@ export default function PersonalTrainingQuality() {
                 }}
               >
                 <Typography variant="overline" sx={{ color: RED, fontWeight: 800, mb: 3, display: 'block', letterSpacing: 2, fontFamily: 'monospace' }}>
-                  YOU'LL GET
+                  {content.s1_label}
                 </Typography>
-                
+
                 <Stack spacing={3}>
                   <Stack direction="row" spacing={2.5}>
                     <Iconify icon="solar:star-bold" sx={{ color: RED, mt: 0.2, flexShrink: 0 }} width={20} />
                     <Typography sx={{ color: alpha('#fff', 0.9), fontSize: '0.85rem', lineHeight: 1.6 }}>
-                      Tailormade fitness plan to match your goals.
+                      {content.s1_point1}
                     </Typography>
                   </Stack>
-                  
+
                   <Stack direction="row" spacing={2.5}>
                     <Iconify icon="solar:star-bold" sx={{ color: RED, mt: 0.2, flexShrink: 0 }} width={20} />
                     <Typography sx={{ color: alpha('#fff', 0.9), fontSize: '0.85rem', lineHeight: 1.6 }}>
-                      Personal feedback to keep you motivated while you get supervised & fun sessions.
+                      {content.s1_point2}
                     </Typography>
                   </Stack>
                 </Stack>
@@ -114,18 +117,17 @@ export default function PersonalTrainingQuality() {
             <m.div variants={varFade().inRight}>
               <Stack direction="row" alignItems="center" spacing={1.5} sx={{ mb: 2, justifyContent: { xs: 'flex-start', md: 'flex-end' } }}>
                   <Typography sx={{ fontSize: '0.65rem', fontWeight: 800, letterSpacing: 4, textTransform: 'uppercase', color: RED, fontFamily: 'monospace' }}>
-                    Standard
+                    {content.s2_eyebrow}
                   </Typography>
                   <Box sx={{ width: 28, height: 2, bgcolor: RED }} />
               </Stack>
               <Typography variant="h2" sx={{ color: '#fff', fontWeight: 800, mb: 3, textTransform: 'uppercase', lineHeight: 0.95, letterSpacing: -2, fontFamily: "'Poppins', sans-serif" }}>
-                Committed <br />
-                <Box component="span" sx={{ color: RED, fontStyle: 'italic' }}>To Quality.</Box>
+                {content.s2_title} <br />
+                <Box component="span" sx={{ color: RED, fontStyle: 'italic' }}>{content.s2_title_highlight}</Box>
               </Typography>
-              
+
               <Typography sx={{ color: alpha('#fff', 0.6), lineHeight: 1.8, fontSize: '0.9rem' }}>
-                All our Certified Fitness Coaches are required to complete a vigorous foundation training program spanning 3 to 12 months. 
-                Our coaches are required to pass all exams before being allowed to train our clients.
+                {content.s2_description}
               </Typography>
             </m.div>
           </Grid>
