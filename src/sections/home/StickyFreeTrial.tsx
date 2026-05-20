@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { m, AnimatePresence } from 'framer-motion';
+import { useState, useEffect } from 'react';
+import { m } from 'framer-motion';
 // @mui
 import { alpha, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -9,170 +9,273 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import MenuItem from '@mui/material/MenuItem';
+import CircularProgress from '@mui/material/CircularProgress';
 // components
 import Iconify from 'src/components/iconify';
-import { varHover } from 'src/components/animate';
+// utils
+import { supabase } from 'src/utils/supabase';
+
+// ----------------------------------------------------------------------
+
+type Club = { id: string; name: string };
+
+const fieldSx = (theme: any) => ({
+  '& .MuiOutlinedInput-root': {
+    color: '#fff',
+    fontSize: '0.875rem',
+    '& fieldset': { borderColor: 'rgba(255,255,255,0.12)' },
+    '&:hover fieldset': { borderColor: 'rgba(255,255,255,0.3)' },
+    '&.Mui-focused fieldset': { borderColor: '#DF2026' },
+  },
+  '& .MuiInputLabel-root': { color: 'rgba(255,255,255,0.4)', fontSize: '0.875rem' },
+  '& .MuiInputLabel-root.Mui-focused': { color: '#DF2026' },
+  '& .MuiSelect-icon': { color: 'rgba(255,255,255,0.4)' },
+});
 
 // ----------------------------------------------------------------------
 
 export default function StickyFreeTrial() {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
+  const [clubs, setClubs] = useState<Club[]>([]);
+  const [form, setForm] = useState({ first_name: '', last_name: '', email: '', phone: '', club_id: '' });
+  const [submitting, setSubmitting] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState('');
 
-  const toggleSidebar = () => {
-    setOpen((prev) => !prev);
+  useEffect(() => {
+    supabase.from('clubs').select('id, name').order('id').then(({ data }) => {
+      if (data) setClubs(data as Club[]);
+    });
+  }, []);
+
+  const handleChange = (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    setForm((prev) => ({ ...prev, [field]: e.target.value }));
+    setError('');
+  };
+
+  const handleSubmit = async () => {
+    if (!form.first_name.trim() || !form.email.trim()) {
+      setError('Nama depan dan email wajib diisi.');
+      return;
+    }
+    setSubmitting(true);
+    setError('');
+    try {
+      const clubId = form.club_id || null;
+      const { error: insertError } = await supabase.from('registrations').insert([{
+        first_name: form.first_name.trim(),
+        last_name: form.last_name.trim() || null,
+        email: form.email.trim(),
+        phone: form.phone.trim() || null,
+        club_id: clubId,
+        source: 'free_trial',
+      }]);
+      if (insertError) throw insertError;
+
+      const clubName = clubs.find((c) => c.id === form.club_id)?.name ?? null;
+      await supabase.functions.invoke('send-registration-email', {
+        body: {
+          first_name: form.first_name.trim(),
+          last_name: form.last_name.trim() || null,
+          email: form.email.trim(),
+          phone: form.phone.trim() || null,
+          club_name: clubName,
+          source: 'free_trial',
+        },
+      });
+
+      setSuccess(true);
+      setForm({ first_name: '', last_name: '', email: '', phone: '', club_id: '' });
+    } catch (err: any) {
+      setError(err.message || 'Terjadi kesalahan. Coba lagi.');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
-    <>
-      {/* Container Utama Fixed Position */}
+    <Box
+      component={m.div}
+      initial={false}
+      animate={open ? 'open' : 'closed'}
+      variants={{
+        open: { x: 0 },
+        closed: { x: 380 },
+      }}
+      transition={{ type: 'spring', stiffness: 260, damping: 30 }}
+      sx={{
+        position: 'fixed',
+        top: '20%',
+        right: 0,
+        zIndex: 9999,
+        display: 'flex',
+        alignItems: 'flex-start',
+      }}
+    >
+      {/* TRIGGER TAB */}
       <Box
-        component={m.div}
-        initial={false}
-        animate={open ? 'open' : 'closed'}
-        variants={{
-          open: { x: 0 },
-          closed: { x: 380 }, // Sembunyikan form (geser ke kanan sebesar lebar form)
-        }}
-        transition={{ type: 'spring', stiffness: 260, damping: 30 }}
+        onClick={() => setOpen((prev) => !prev)}
         sx={{
-          position: 'fixed',
-          top: '20%', // Posisi vertikal (bisa disesuaikan)
-          right: 0,
-          zIndex: 9999, // Pastikan di atas semua elemen
+          cursor: 'pointer',
+          bgcolor: '#DF2026',
+          color: 'common.white',
+          p: 2,
+          borderTopLeftRadius: 8,
+          borderBottomLeftRadius: 8,
+          boxShadow: theme.customShadows.z24,
+          writingMode: 'vertical-rl',
+          textOrientation: 'mixed',
+          transform: 'rotate(180deg)',
           display: 'flex',
-          alignItems: 'flex-start',
+          alignItems: 'center',
+          justifyContent: 'center',
+          minHeight: 120,
+          fontWeight: 800,
+          letterSpacing: 2,
+          fontSize: 13,
+          fontFamily: 'monospace',
+          textTransform: 'uppercase',
+          '&:hover': { bgcolor: '#A8171C' },
         }}
       >
-        {/* 1. TRIGGER TAB (Tombol Vertikal) */}
-        <Box
-          onClick={toggleSidebar}
-          sx={{
-            cursor: 'pointer',
-            bgcolor: '#F70000', // Warna Pink kemerahan (sesuai gambar)
-            color: 'common.white',
-            p: 2,
-            borderTopLeftRadius: 8,
-            borderBottomLeftRadius: 8,
-            boxShadow: theme.customShadows.z24,
-            writingMode: 'vertical-rl', // Membuat teks vertikal
-            textOrientation: 'mixed',
-            transform: 'rotate(180deg)', // Agar teks terbaca dari bawah ke atas
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            height: 'auto',
-            minHeight: 120,
-            fontWeight: 800,
-            letterSpacing: 2,
-            fontSize: 14,
-            '&:hover': {
-              bgcolor: '#D40000',
-            },
-          }}
-        >
-          {open ? 'CLOSE' : 'TRY US FOR FREE'}
-        </Box>
+        {open ? 'CLOSE' : 'TRY US FOR FREE'}
+      </Box>
 
-        {/* 2. FORM PANEL */}
-        <Box
-          sx={{
-            width: 380,
-            bgcolor: 'grey.900', // Dark background
-            p: 3,
-            height: 'auto',
-            minHeight: 450,
-            boxShadow: `-24px 24px 72px -8px ${alpha(theme.palette.common.black, 0.48)}`,
-            borderLeft: `1px solid ${alpha(theme.palette.common.white, 0.1)}`,
-            display: 'flex',
-            flexDirection: 'column',
-          }}
-        >
-          <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ mb: 3 }}>
-            <Typography variant="h6" sx={{ color: 'common.white' }}>
-              GET FREE TRIAL
+      {/* FORM PANEL */}
+      <Box
+        sx={{
+          width: 380,
+          bgcolor: '#111',
+          p: 3,
+          minHeight: 450,
+          boxShadow: `-24px 24px 72px -8px ${alpha(theme.palette.common.black, 0.48)}`,
+          borderLeft: `3px solid #DF2026`,
+          display: 'flex',
+          flexDirection: 'column',
+        }}
+      >
+        <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ mb: 3 }}>
+          <Box>
+            <Typography sx={{ color: '#fff', fontWeight: 800, fontSize: '1rem', fontFamily: "'Poppins', sans-serif", textTransform: 'uppercase', letterSpacing: 0.5 }}>
+              Free Trial
             </Typography>
-            <IconButton onClick={toggleSidebar} size="small" sx={{ color: 'text.primary' }}>
-              <Iconify icon="eva:close-fill" />
-            </IconButton>
-          </Stack>
+            <Typography sx={{ color: 'rgba(255,255,255,0.35)', fontSize: '0.72rem', fontFamily: 'monospace', letterSpacing: 1 }}>
+              Daftar sesi pertama gratis
+            </Typography>
+          </Box>
+          <IconButton onClick={() => setOpen(false)} size="small" sx={{ color: 'rgba(255,255,255,0.35)', '&:hover': { color: '#fff' } }}>
+            <Iconify icon="eva:close-fill" />
+          </IconButton>
+        </Stack>
 
-          <Stack spacing={2}>
-            <TextField
-              fullWidth
+        {success ? (
+          <Stack alignItems="center" justifyContent="center" spacing={2.5} sx={{ flex: 1, py: 4 }}>
+            <Box sx={{ width: 56, height: 56, bgcolor: 'rgba(223,32,38,0.1)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Iconify icon="solar:check-circle-bold-duotone" width={32} sx={{ color: '#DF2026' }} />
+            </Box>
+            <Typography sx={{ color: '#fff', fontWeight: 700, textAlign: 'center', fontFamily: "'Poppins', sans-serif" }}>
+              Pendaftaran Berhasil!
+            </Typography>
+            <Typography sx={{ color: 'rgba(255,255,255,0.45)', fontSize: '0.85rem', textAlign: 'center', lineHeight: 1.7 }}>
+              Kami akan segera menghubungi kamu. Cek email untuk konfirmasi.
+            </Typography>
+            <Button
               size="small"
-              placeholder="First Name"
-              sx={{ bgcolor: alpha(theme.palette.grey[800], 0.5), borderRadius: 1 }}
-            />
-            <TextField
-              fullWidth
-              size="small"
-              placeholder="Last Name"
-              sx={{ bgcolor: alpha(theme.palette.grey[800], 0.5), borderRadius: 1 }}
-            />
-            <TextField
-              fullWidth
-              size="small"
-              placeholder="Email Address"
-              sx={{ bgcolor: alpha(theme.palette.grey[800], 0.5), borderRadius: 1 }}
-            />
-            <TextField
-              fullWidth
-              size="small"
-              placeholder="Phone Number"
-              sx={{ bgcolor: alpha(theme.palette.grey[800], 0.5), borderRadius: 1 }}
-            />
-            
-            <TextField 
-                select 
-                fullWidth 
-                size="small" 
-                defaultValue="" 
-                sx={{ bgcolor: alpha(theme.palette.grey[800], 0.5), borderRadius: 1 }}
+              onClick={() => setSuccess(false)}
+              sx={{ color: '#DF2026', fontSize: '0.75rem', fontFamily: 'monospace', letterSpacing: 1, textTransform: 'uppercase' }}
             >
-                <MenuItem value="" disabled>Preferred Club</MenuItem>
-                <MenuItem value="jakarta">Jakarta</MenuItem>
-                <MenuItem value="tangerang">Tangerang</MenuItem>
+              Daftar lagi
+            </Button>
+          </Stack>
+        ) : (
+          <Stack spacing={2} sx={{ flex: 1 }}>
+            <TextField
+              fullWidth
+              size="small"
+              label="Nama Depan *"
+              value={form.first_name}
+              onChange={handleChange('first_name')}
+              sx={fieldSx(theme)}
+            />
+            <TextField
+              fullWidth
+              size="small"
+              label="Nama Belakang"
+              value={form.last_name}
+              onChange={handleChange('last_name')}
+              sx={fieldSx(theme)}
+            />
+            <TextField
+              fullWidth
+              size="small"
+              label="Email *"
+              type="email"
+              value={form.email}
+              onChange={handleChange('email')}
+              sx={fieldSx(theme)}
+            />
+            <TextField
+              fullWidth
+              size="small"
+              label="Nomor Telepon"
+              value={form.phone}
+              onChange={handleChange('phone')}
+              sx={fieldSx(theme)}
+            />
+            <TextField
+              select
+              fullWidth
+              size="small"
+              label="Pilih Klub"
+              value={form.club_id}
+              onChange={handleChange('club_id')}
+              sx={fieldSx(theme)}
+              SelectProps={{ MenuProps: { PaperProps: { sx: { bgcolor: '#1a1a1a', color: '#fff', '& .MuiMenuItem-root:hover': { bgcolor: 'rgba(223,32,38,0.08)' } } } } }}
+            >
+              <MenuItem value="">Pilih Klub (opsional)</MenuItem>
+              {clubs.map((c) => (
+                <MenuItem key={c.id} value={String(c.id)}>{c.name}</MenuItem>
+              ))}
             </TextField>
+
+            {error && (
+              <Typography sx={{ color: '#DF2026', fontSize: '0.78rem', fontFamily: 'monospace' }}>
+                {error}
+              </Typography>
+            )}
 
             <Button
               variant="contained"
-              color="primary" // Cyan/Teal
               size="large"
+              onClick={handleSubmit}
+              disabled={submitting}
+              endIcon={!submitting && <Iconify icon="solar:arrow-right-up-bold" />}
               sx={{
-                mt: 2,
-                borderRadius: 30,
-                fontWeight: 'bold',
-                boxShadow: `0 8px 16px 0 ${alpha(theme.palette.primary.main, 0.24)}`
+                mt: 1,
+                bgcolor: '#DF2026',
+                color: '#fff',
+                borderRadius: 0,
+                fontWeight: 800,
+                fontSize: '0.72rem',
+                letterSpacing: 2,
+                textTransform: 'uppercase',
+                fontFamily: 'monospace',
+                boxShadow: 'none',
+                py: 1.5,
+                '&:hover': { bgcolor: '#A8171C', boxShadow: 'none' },
+                '&.Mui-disabled': { bgcolor: 'rgba(223,32,38,0.4)', color: 'rgba(255,255,255,0.5)' },
               }}
             >
-              SUBMIT
+              {submitting ? <CircularProgress size={20} color="inherit" /> : 'Daftar Sekarang'}
             </Button>
+
+            <Typography sx={{ color: 'rgba(255,255,255,0.25)', fontSize: '0.7rem', textAlign: 'center', lineHeight: 1.6 }}>
+              Data kamu aman dan tidak akan dibagikan ke pihak ketiga.
+            </Typography>
           </Stack>
-        </Box>
-      </Box>
-      
-      {/* Optional: Overlay background jika ingin layar belakang gelap saat form terbuka */}
-      {/* <AnimatePresence>
-        {open && (
-            <Box 
-                component={m.div}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                onClick={toggleSidebar}
-                sx={{
-                    position: 'fixed',
-                    top: 0,
-                    left: 0,
-                    width: '100vw',
-                    height: '100vh',
-                    bgcolor: 'rgba(0,0,0,0.5)',
-                    zIndex: 9998,
-                }}
-            />
         )}
-      </AnimatePresence> */}
-    </>
+      </Box>
+    </Box>
   );
 }

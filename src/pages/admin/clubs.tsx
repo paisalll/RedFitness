@@ -118,7 +118,7 @@ export default function AdminClubsPage() {
           <Table>
             <TableHead>
               <TableRow>
-                {['Name', 'City', 'Image', 'Actions'].map((h) => (
+                {['Name', 'City', 'WhatsApp', 'Image', 'Actions'].map((h) => (
                   <TableCell
                     key={h}
                     align={h === 'Actions' ? 'right' : 'left'}
@@ -134,6 +134,7 @@ export default function AdminClubsPage() {
                 <TableRow key={row.id}>
                   <TableCell sx={{ color: '#fff', borderColor: 'rgba(255,255,255,0.06)' }}>{row.name}</TableCell>
                   <TableCell sx={{ color: 'rgba(255,255,255,0.55)', borderColor: 'rgba(255,255,255,0.06)' }}>{row.city}</TableCell>
+                  <TableCell sx={{ color: 'rgba(255,255,255,0.55)', borderColor: 'rgba(255,255,255,0.06)', fontFamily: 'monospace', fontSize: '0.8rem' }}>{row.whatsapp_number || '—'}</TableCell>
                   <TableCell sx={{ borderColor: 'rgba(255,255,255,0.06)' }}>
                     {row.image_url && (
                       <img src={row.image_url} alt="" width={56} height={38} style={{ borderRadius: 4, objectFit: 'cover' }} />
@@ -190,6 +191,7 @@ export default function AdminClubsPage() {
             <TextField label="Club Key" value={formData.club_key || ''} onChange={(e) => setFormData({ ...formData, club_key: e.target.value })} fullWidth sx={inputDarkSx} />
             <TextField label="City" value={formData.city || ''} onChange={(e) => setFormData({ ...formData, city: e.target.value })} fullWidth sx={inputDarkSx} />
             <TextField label="Address" multiline rows={3} value={formData.address || ''} onChange={(e) => setFormData({ ...formData, address: e.target.value })} fullWidth sx={inputDarkSx} />
+            <TextField label="WhatsApp Number (e.g. 628123456789)" value={formData.whatsapp_number || ''} onChange={(e) => setFormData({ ...formData, whatsapp_number: e.target.value })} fullWidth sx={inputDarkSx} />
           </Stack>
         </DialogContent>
         <DialogActions sx={{ p: 2.5, borderTop: '1px solid rgba(255,255,255,0.06)' }}>

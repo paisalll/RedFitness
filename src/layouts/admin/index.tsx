@@ -16,6 +16,7 @@ const NAV_ITEMS: { label: string; path: string; icon: string; roles: AdminRole[]
   { label: 'Schedules', path: '/rf-admin/schedules', icon: 'solar:calendar-bold-duotone', roles: ['admin', 'schedule_manager'] },
   { label: 'Banners', path: '/rf-admin/banners', icon: 'solar:gallery-wide-bold-duotone', roles: ['admin'] },
   { label: 'Page Content', path: '/rf-admin/content', icon: 'solar:document-text-bold-duotone', roles: ['admin'] },
+  { label: 'Registrations', path: '/rf-admin/registrations', icon: 'solar:users-group-rounded-bold-duotone', roles: ['admin'] },
 ];
 
 export default function AdminLayout() {

@@ -42,6 +42,7 @@ const AdminClassesPage = lazy(() => import('src/pages/admin/classes'));
 const AdminSchedulesPage = lazy(() => import('src/pages/admin/schedules'));
 const AdminBannersPage = lazy(() => import('src/pages/admin/banners'));
 const AdminContentPage = lazy(() => import('src/pages/admin/content'));
+const AdminRegistrationsPage = lazy(() => import('src/pages/admin/registrations'));
 
 // ----------------------------------------------------------------------
 
@@ -130,6 +131,7 @@ export const mainRoutes = [
           { path: 'schedules', element: <AdminSchedulesPage /> },
           { path: 'banners', element: <AdminBannersPage /> },
           { path: 'content', element: <AdminContentPage /> },
+          { path: 'registrations', element: <AdminRegistrationsPage /> },
         ],
       },
     ],

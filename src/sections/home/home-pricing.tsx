@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { m } from 'framer-motion';
 // @mui
 import { alpha, useTheme } from '@mui/material/styles';
@@ -14,39 +15,14 @@ import { useResponsive } from 'src/hooks/use-responsive';
 import Iconify from 'src/components/iconify';
 import { MotionViewport, varFade } from 'src/components/animate';
 import Image from 'src/components/image';
+// utils
+import { supabase } from 'src/utils/supabase';
 
 // ----------------------------------------------------------------------
 
 const RED = '#DF2026';
 const RED_DARK = '#A8171C';
 const BLACK = '#060606';
-const WA_GREEN = '#25D366'; // Disimpan khusus jika ingin dipakai di icon WA
-
-// ----------------------------------------------------------------------
-
-const WA_CONTACTS = [
-  {
-    label: 'Membership Inquiry',
-    description: 'Tanya info harga, paket, dan promo terbaru.',
-    number: '6289646805434', // Ganti dengan nomor WA aktual
-    message: 'Halo Red Fitness! Saya ingin tanya info membership.',
-    icon: 'solar:tag-price-bold-duotone',
-  },
-  {
-    label: 'Class Booking',
-    description: 'Reservasi kelas pilates, cardio, dan lainnya.',
-    number: '6289646805434', // Ganti dengan nomor WA aktual
-    message: 'Halo Red Fitness! Saya ingin booking kelas.',
-    icon: 'solar:calendar-bold-duotone',
-  },
-  {
-    label: 'Personal Training',
-    description: 'Jadwalkan sesi dengan certified trainer kami.',
-    number: '6289646805434', // Ganti dengan nomor WA aktual
-    message: 'Halo Red Fitness! Saya tertarik dengan program Personal Training.',
-    icon: 'solar:dumbbell-large-bold-duotone',
-  },
-];
 
 const OPERATIONAL_HOURS = [
   { day: 'Senin – Jumat', hours: '06.00 – 22.00' },
@@ -66,9 +42,21 @@ const INSTA_POSTS = [
 
 // ----------------------------------------------------------------------
 
+type Club = { id: string; name: string; city: string; whatsapp_number: string };
+
 export default function HomeAppAndSocial() {
   const theme = useTheme();
   const mdUp = useResponsive('up', 'md');
+  const [clubs, setClubs] = useState<Club[]>([]);
+
+  useEffect(() => {
+    supabase
+      .from('clubs')
+      .select('id, name, city, whatsapp_number')
+      .not('whatsapp_number', 'is', null)
+      .order('id')
+      .then(({ data }) => { if (data) setClubs(data as Club[]); });
+  }, []);
 
   const handleWhatsApp = (number: string, message: string) => {
     const url = `https://wa.me/${number}?text=${encodeURIComponent(message)}`;
@@ -170,12 +158,12 @@ export default function HomeAppAndSocial() {
       {/* Right — WA Cards */}
       <Grid xs={12} md={7}>
         <Stack spacing={2.5}>
-          {WA_CONTACTS.map((contact, index) => (
-            <m.div key={contact.label} variants={varFade({ distance: 30 }).inRight}>
+          {clubs.map((club) => (
+            <m.div key={club.id} variants={varFade({ distance: 30 }).inRight}>
               <Box
                 sx={{
                   p: { xs: 2.5, md: 3 },
-                  borderRadius: 0, // Dibuat tajam
+                  borderRadius: 0,
                   border: `1px solid ${alpha('#fff', 0.06)}`,
                   bgcolor: alpha('#fff', 0.02),
                   display: 'flex',
@@ -194,7 +182,7 @@ export default function HomeAppAndSocial() {
                     sx={{
                       width: 52,
                       height: 52,
-                      borderRadius: 0, // Icon box tajam
+                      borderRadius: 0,
                       bgcolor: 'transparent',
                       border: `1px solid ${alpha(RED, 0.2)}`,
                       display: 'flex',
@@ -203,14 +191,14 @@ export default function HomeAppAndSocial() {
                       flexShrink: 0,
                     }}
                   >
-                    <Iconify icon={contact.icon} width={26} sx={{ color: RED }} />
+                    <Iconify icon="solar:buildings-2-bold-duotone" width={26} sx={{ color: RED }} />
                   </Box>
                   <Box>
                     <Typography variant="subtitle1" sx={{ color: 'common.white', fontWeight: 800, mb: 0.25, textTransform: 'uppercase', fontFamily: "'Poppins', sans-serif", fontSize: '0.95rem' }}>
-                      {contact.label}
+                      {club.name}
                     </Typography>
                     <Typography variant="caption" sx={{ color: alpha('#fff', 0.45), lineHeight: 1.6, fontSize: '0.8rem' }}>
-                      {contact.description}
+                      {club.city}
                     </Typography>
                   </Box>
                 </Stack>
@@ -218,17 +206,17 @@ export default function HomeAppAndSocial() {
                 <Button
                   variant="contained"
                   size="small"
-                  onClick={() => handleWhatsApp(contact.number, contact.message)}
+                  onClick={() => handleWhatsApp(club.whatsapp_number, `Halo Red Fitness ${club.name}! Saya ingin bertanya informasi lebih lanjut.`)}
                   startIcon={<Iconify icon="ic:baseline-whatsapp" width={18} />}
                   sx={{
-                    bgcolor: RED, // Menggunakan RED agar selaras, bukan hijau
+                    bgcolor: RED,
                     color: '#fff',
                     fontWeight: 800,
                     fontSize: '0.68rem',
                     letterSpacing: 1.5,
                     px: 2.5,
                     py: 1.25,
-                    borderRadius: 0, // Tombol tajam
+                    borderRadius: 0,
                     whiteSpace: 'nowrap',
                     textTransform: 'uppercase',
                     fontFamily: 'monospace',
