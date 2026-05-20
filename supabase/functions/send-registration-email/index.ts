@@ -46,6 +46,7 @@ serve(async (req) => {
         user: Deno.env.get('SMTP_USER'),
         pass: Deno.env.get('SMTP_PASS'),
       },
+      tls: { rejectUnauthorized: false },
     });
 
     const from = 'Red Fitness <halo@redfitness.co.id>';
