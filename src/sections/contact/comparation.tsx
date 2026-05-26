@@ -52,9 +52,9 @@ const ROWS = [
 ];
 
 const STEP_IMAGES = [
-  { id: '01', img: '/assets/background/TRAINER/19.png' },
-  { id: '02', img: '/assets/background/TRAINER/17.png' },
-  { id: '03', img: '/assets/background/TRAINER/18.png' },
+  { id: '01', img: '/assets/background/TRAINER/19.webp' },
+  { id: '02', img: '/assets/background/TRAINER/17.webp' },
+  { id: '03', img: '/assets/background/TRAINER/18.webp' },
 ];
 
 export default function PersonalTrainingComparison() {

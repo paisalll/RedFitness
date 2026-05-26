@@ -19,7 +19,7 @@ import { useSectionContent } from 'src/hooks/use-page-content';
 const RED = '#DF2026';
 const RED_DARK = '#A8171C';
 const BLACK = '#060606';
-const DEFAULT_BG = 'public/assets/background/CLASSES/21.png';
+const DEFAULT_BG = 'public/assets/background/CLASSES/21.webp';
 
 export default function ClassesHero() {
     const bannerUrl = useBanner('classes');

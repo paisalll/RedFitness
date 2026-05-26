@@ -88,7 +88,7 @@ export function NavItemDashboard({ item, sx, ...other }: NavItemDashboardProps) 
           <Box
             component="img"
             alt="illustration_dashboard"
-            src="/assets/illustrations/illustration_dashboard.png"
+            src="/assets/illustrations/illustration_dashboard.webp"
           />
         </m.div>
       </CardActionArea>

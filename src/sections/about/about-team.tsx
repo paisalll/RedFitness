@@ -124,7 +124,7 @@ export default function HomeGoalsAndDualCTA() {
             >
               <Image
                 alt="crush goals"
-                src="/assets/background/home/7.png" 
+                src="/assets/background/home/7.webp" 
                 ratio="3/4"
                 sx={{
                   transition: 'transform 0.5s ease',

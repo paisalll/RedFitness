@@ -120,7 +120,7 @@ export default function HomeAdvertisement() {
         }}
         transition={{ duration: 4, repeat: Infinity }}
         alt="dumbbell"
-        src="/assets/images/home/dumbelll.png"
+        src="/assets/images/home/dumbelll.webp"
         sx={{ maxWidth: { xs: 320, md: 460 }, dropShadow: `0px 20px 40px ${alpha(BLACK, 0.6)}` }}
       />
     </Stack>

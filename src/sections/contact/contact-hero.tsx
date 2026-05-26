@@ -20,7 +20,7 @@ import { useSectionContent } from 'src/hooks/use-page-content';
 const RED = '#DF2026';
 const RED_DARK = '#A8171C';
 const BLACK = '#060606';
-const DEFAULT_BG = '/assets/background/TRAINER/16.png';
+const DEFAULT_BG = '/assets/background/TRAINER/16.webp';
 
 export default function PersonalTrainingHero() {
   const theme = useTheme();

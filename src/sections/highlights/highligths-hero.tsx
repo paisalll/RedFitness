@@ -16,7 +16,7 @@ import { useSectionContent } from 'src/hooks/use-page-content';
 
 const RED = '#DF2026';
 const BLACK = '#060606';
-const DEFAULT_BG = '/assets/background/op.png';
+const DEFAULT_BG = '/assets/background/op.webp';
 
 export default function HightligthHero() {
     const bannerUrl = useBanner('highlights');

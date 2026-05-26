@@ -31,11 +31,11 @@ const RED = '#DF2026';
 const BLACK = '#060606';
 
 const CLASS_IMAGES = [
-    { id: '01', image: '/assets/background/CLASSES/s1.png' },
-    { id: '02', image: '/assets/background/CLASSES/s2.png' },
-    { id: '03', image: '/assets/background/CLASSES/s3.png' },
-    { id: '04', image: '/assets/background/CLASSES/s4.png' },
-    { id: '06', image: '/assets/background/CLASSES/s5.png' },
+    { id: '01', image: '/assets/background/CLASSES/s1.webp' },
+    { id: '02', image: '/assets/background/CLASSES/s2.webp' },
+    { id: '03', image: '/assets/background/CLASSES/s3.webp' },
+    { id: '04', image: '/assets/background/CLASSES/s4.webp' },
+    { id: '06', image: '/assets/background/CLASSES/s5.webp' },
 ];
 
 export default function ClassesSignature() {

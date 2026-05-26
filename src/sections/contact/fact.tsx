@@ -81,7 +81,7 @@ export default function PersonalTrainingQuality() {
               <Box sx={{ position: 'relative' }}>
                 <Image
                   alt="trainer feedback"
-                  src="public/assets/images/people-working-out-indoors-together-with-dumbbells.jpg"
+                  src="public/assets/images/people-working-out-indoors-together-with-dumbbells.webp"
                   sx={{
                     borderRadius: 0, // Sharp
                     border: `1px solid ${alpha(RED, 0.2)}`,
@@ -101,7 +101,7 @@ export default function PersonalTrainingQuality() {
                 <Box sx={{ position: 'relative' }}>
                     <Image
                         alt="quality assessment"
-                        src="public/assets/images/people-working-out-indoors-together-with-dumbbells.jpg"
+                        src="public/assets/images/people-working-out-indoors-together-with-dumbbells.webp"
                         sx={{
                         borderRadius: 0, // Sharp
                         border: `1px solid ${alpha(RED, 0.2)}`,

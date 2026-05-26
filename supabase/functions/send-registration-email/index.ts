@@ -1,11 +1,26 @@
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
-import { createTransport } from 'npm:nodemailer';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
+
+async function sendEmail(apiKey: string, payload: object) {
+  const res = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${apiKey}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload),
+  });
+  if (!res.ok) {
+    const body = await res.text();
+    throw new Error(`Resend error ${res.status}: ${body}`);
+  }
+  return res.json();
+}
 
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
@@ -15,7 +30,6 @@ serve(async (req) => {
   try {
     const { first_name, last_name, email, phone, club_id, source } = await req.json();
 
-    // Insert using service role key — bypasses RLS
     const supabase = createClient(
       Deno.env.get('SUPABASE_URL')!,
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!,
@@ -31,31 +45,21 @@ serve(async (req) => {
     }]);
     if (insertError) throw insertError;
 
-    // Resolve club name for email
     let club_name: string | null = null;
     if (club_id) {
       const { data: clubRow } = await supabase.from('clubs').select('name').eq('id', club_id).single();
       club_name = clubRow?.name ?? null;
     }
 
-    const transporter = createTransport({
-      host: Deno.env.get('SMTP_HOST'),
-      port: Number(Deno.env.get('SMTP_PORT') ?? '587'),
-      secure: Deno.env.get('SMTP_SECURE') === 'true',
-      auth: {
-        user: Deno.env.get('SMTP_USER'),
-        pass: Deno.env.get('SMTP_PASS'),
-      },
-      tls: { rejectUnauthorized: false },
-    });
-
+    const apiKey = Deno.env.get('RESEND_API_KEY')!;
     const from = 'Red Fitness <halo@redfitness.co.id>';
     const fullName = [first_name, last_name].filter(Boolean).join(' ');
     const clubLabel = club_name ? ` – ${club_name}` : '';
 
-    await transporter.sendMail({
+    // Confirmation email to user
+    await sendEmail(apiKey, {
       from,
-      to: email,
+      to: [email],
       subject: 'Selamat datang di Red Fitness – Free Trial Terdaftar!',
       html: `
         <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;background:#0a0a0a;color:#fff;padding:40px;">
@@ -77,9 +81,7 @@ serve(async (req) => {
               ${club_name ? `<tr><td style="padding:6px 0;">Klub</td><td style="color:#fff;">${club_name}</td></tr>` : ''}
             </table>
           </div>
-          <p style="color:rgba(255,255,255,0.4);font-size:13px;">
-            Ada pertanyaan? Balas email ini atau hubungi kami langsung via WhatsApp.
-          </p>
+          <p style="color:rgba(255,255,255,0.4);font-size:13px;">Ada pertanyaan? Balas email ini atau hubungi kami langsung via WhatsApp.</p>
           <p style="color:rgba(255,255,255,0.2);font-size:11px;margin-top:32px;border-top:1px solid rgba(255,255,255,0.08);padding-top:20px;">
             © Red Fitness Indonesia. All rights reserved.
           </p>
@@ -87,9 +89,10 @@ serve(async (req) => {
       `,
     });
 
-    await transporter.sendMail({
+    // Notification to admin
+    await sendEmail(apiKey, {
       from,
-      to: 'halo@redfitness.co.id',
+      to: ['halo@redfitness.co.id'],
       subject: `[Free Trial] ${fullName}${clubLabel}`,
       html: `
         <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;background:#1a1a1a;color:#fff;padding:32px;">
@@ -124,6 +127,7 @@ serve(async (req) => {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
   } catch (err: any) {
+    console.error('Edge function error:', err.message);
     return new Response(JSON.stringify({ error: err.message }), {
       status: 500,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },

@@ -100,7 +100,7 @@ export default function CareersCulture() {
               <Box sx={{ position: 'relative', borderRadius: 2, overflow: 'hidden' }}>
                 <Image
                   alt="Success Culture"
-                  src="/assets/background/CAREERS/carrer1.png" // Ganti dengan gambar tim gym
+                  src="/assets/background/CAREERS/carrer1.webp" // Ganti dengan gambar tim gym
                   sx={{ width: 1, height: 1, objectFit: 'cover' }}
                 />
                 

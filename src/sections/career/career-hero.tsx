@@ -22,7 +22,7 @@ const COLORS = {
     black: '#000000',
     white: '#FFFFFF',
 };
-const DEFAULT_BG = '/assets/background/CAREERS/KEBUTUHAN WEB RF (2).png';
+const DEFAULT_BG = '/assets/background/CAREERS/KEBUTUHAN WEB RF (2).webp';
 
 export default function CareerHero() {
     const theme = useTheme();

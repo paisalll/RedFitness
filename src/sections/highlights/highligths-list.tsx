@@ -22,9 +22,9 @@ const RED = '#DF2026';
 const BLACK = '#060606';
 
 const HIGHLIGHT_IMAGES = [
-    '/assets/background/HIGHLIGHT/36.png',
-    '/assets/background/HIGHLIGHT/35.png',
-    '/assets/background/HIGHLIGHT/34.png',
+    '/assets/background/HIGHLIGHT/36.webp',
+    '/assets/background/HIGHLIGHT/35.webp',
+    '/assets/background/HIGHLIGHT/34.webp',
 ];
 
 export default function HighlightsList() {

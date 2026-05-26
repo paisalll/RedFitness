@@ -34,7 +34,7 @@ const RED_DARK = '#A8171C';
 const StyledRoot = styled('div')<{ bannerUrl?: string }>(({ theme, bannerUrl }) => ({
   ...bgGradient({
     color: alpha(theme.palette.background.default, theme.palette.mode === 'light' ? 0.9 : 0.6),
-    imgUrl: bannerUrl || '/assets/background/1.png',
+    imgUrl: bannerUrl || '/assets/background/1.webp',
   }),
   width: '100%',
   height: '100vh',

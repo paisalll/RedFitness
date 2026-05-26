@@ -36,7 +36,7 @@ export default function AuthModernCompactLayout({ children }: Props) {
             backgroundSize: 'cover',
             backgroundRepeat: 'no-repeat',
             backgroundPosition: 'center center',
-            backgroundImage: 'url(/assets/background/overlay_4.jpg)',
+            backgroundImage: 'url(/assets/background/overlay_4.webp)',
           },
         }}
       >

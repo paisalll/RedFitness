@@ -54,7 +54,7 @@ export default function BankingCurrentBalance({ list, sx }: Props) {
       sx={{
         ...bgGradient({
           color: alpha(theme.palette.grey[900], 0.8),
-          imgUrl: '/assets/background/overlay_2.jpg',
+          imgUrl: '/assets/background/overlay_2.webp',
         }),
         height: 262,
         borderRadius: 2,

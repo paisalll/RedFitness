@@ -29,7 +29,7 @@ const TESTIMONIALS = [
     role: 'Member since 2018',
     quote: 'I finally found a routine I can stick to.',
     review: 'Before joining Red Fitness Indonesia, I struggled to stay consistent. With the support from trainers and the right environment, I was able to build a routine, stay motivated, and see real progress. This is more than just a gym—it’s where my journey truly started.',
-    avatar: '/assets/background/home_member/8.png',
+    avatar: '/assets/background/home_member/8.webp',
   },
   {
     id: 2,
@@ -37,7 +37,7 @@ const TESTIMONIALS = [
     role: 'Member since 2020',
     quote: 'ADDICTED TO THE ENERGY',
     review: 'The vibe here is unmatched. I used to dread going to the gym, but now I look forward to the BodyCombat classes every single week. The instructors push you to your limits in the best way possible!',
-    avatar: '/assets/background/home_member/9.png',
+    avatar: '/assets/background/home_member/9.webp',
   },
   {
     id: 3,
@@ -45,7 +45,7 @@ const TESTIMONIALS = [
     role: 'Member since 2022',
     quote: 'STRONGER THAN YESTERDAY',
     review: 'Joining the personal training program was the best investment I ever made. My trainer understands my goals perfectly and helps me crush them one rep at a time.',
-    avatar: '/assets/background/home_member/10.png',
+    avatar: '/assets/background/home_member/10.webp',
   },
 ];
 

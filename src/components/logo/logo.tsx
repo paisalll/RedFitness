@@ -16,11 +16,11 @@ const Logo = forwardRef<HTMLDivElement, LogoProps>(
   ({ disabledLink = false, sx, ...other }, ref) => {
     
     // Pastikan path ini sesuai dengan lokasi file di folder public kamu.
-    // Jika file ada di public/assets/Asset 1.png, maka path-nya adalah:
+    // Jika file ada di public/assets/Asset 1.webp, maka path-nya adalah:
     const logo = (
       <Box
         component="img"
-        src="/assets/Asset 1.png"
+        src="/assets/Asset 1.webp"
         alt="Red Fitness Logo"
         sx={{ 
           width: 'auto', // Gunakan auto agar aspek rasio terjaga
