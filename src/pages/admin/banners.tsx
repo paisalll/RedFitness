@@ -6,6 +6,7 @@ import {
 import Iconify from 'src/components/iconify';
 import { supabase } from 'src/utils/supabase';
 import { useAdminAuth } from 'src/contexts/admin-auth-context';
+import { useBanners, mutate, KEYS } from 'src/api/admin';
 
 const PAGE_LABELS: Record<string, string> = {
   home: 'Home',
@@ -29,18 +30,8 @@ export default function AdminBannersPage() {
     if (role && role !== 'admin') navigate('/rf-admin/schedules', { replace: true });
   }, [role, navigate]);
 
-  const [banners, setBanners] = useState<Banner[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { banners, isLoading: loading } = useBanners() as { banners: Banner[]; isLoading: boolean };
   const [uploading, setUploading] = useState<string | null>(null);
-
-  const fetchBanners = async () => {
-    setLoading(true);
-    const { data } = await supabase.from('banners').select('*').order('page_key');
-    if (data) setBanners(data);
-    setLoading(false);
-  };
-
-  useEffect(() => { fetchBanners(); }, []);
 
   const handleUpload = async (pageKey: string, file: File) => {
     setUploading(pageKey);
@@ -61,7 +52,7 @@ export default function AdminBannersPage() {
         .upsert({ page_key: pageKey, image_url: urlData.publicUrl, updated_at: new Date().toISOString() }, { onConflict: 'page_key' });
       if (updateError) throw updateError;
 
-      fetchBanners();
+      mutate(KEYS.banners);
     } catch (err: any) {
       alert('Upload error: ' + err.message);
     } finally {

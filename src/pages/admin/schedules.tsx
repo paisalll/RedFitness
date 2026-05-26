@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import {
   Box, Typography, Button, Stack, Table, TableBody, TableCell,
   TableContainer, TableHead, TableRow, Paper, IconButton, Dialog,
@@ -7,6 +7,7 @@ import {
 } from '@mui/material';
 import Iconify from 'src/components/iconify';
 import { supabase } from 'src/utils/supabase';
+import { useSchedules, useClubOptions, useClassOptions, mutate, KEYS } from 'src/api/admin';
 
 const DAYS = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'];
 
@@ -23,38 +24,13 @@ const inputDarkSx = {
 };
 
 export default function AdminSchedulesPage() {
-  const [data, setData] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { schedules: data, isLoading: loading } = useSchedules();
+  const { clubOptions } = useClubOptions();
+  const { classOptions } = useClassOptions();
   const [openDialog, setOpenDialog] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [formData, setFormData] = useState<any>({});
   const [isSaving, setIsSaving] = useState(false);
-  const [clubOptions, setClubOptions] = useState<any[]>([]);
-  const [classOptions, setClassOptions] = useState<any[]>([]);
-
-  const fetchData = async () => {
-    setLoading(true);
-    const { data: result } = await supabase
-      .from('schedules')
-      .select('*, clubs(name), classes(title)')
-      .order('id');
-    if (result) setData(result);
-    setLoading(false);
-  };
-
-  const fetchOptions = async () => {
-    const [clubs, classes] = await Promise.all([
-      supabase.from('clubs').select('id, name'),
-      supabase.from('classes').select('id, title'),
-    ]);
-    if (clubs.data) setClubOptions(clubs.data);
-    if (classes.data) setClassOptions(classes.data);
-  };
-
-  useEffect(() => {
-    fetchData();
-    fetchOptions();
-  }, []);
 
   const handleSave = async () => {
     setIsSaving(true);
@@ -71,7 +47,8 @@ export default function AdminSchedulesPage() {
         if (error) throw error;
       }
       setOpenDialog(false);
-      fetchData();
+      mutate(KEYS.schedules);
+      mutate(KEYS.counts);
     } catch (err: any) {
       alert('Error: ' + err.message);
     } finally {
@@ -82,7 +59,8 @@ export default function AdminSchedulesPage() {
   const handleDelete = async (id: any) => {
     if (!window.confirm('Delete this schedule?')) return;
     await supabase.from('schedules').delete().eq('id', id);
-    fetchData();
+    mutate(KEYS.schedules);
+    mutate(KEYS.counts);
   };
 
   const openNew = () => { setFormData({}); setIsEdit(false); setOpenDialog(true); };

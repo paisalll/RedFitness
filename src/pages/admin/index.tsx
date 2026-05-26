@@ -1,10 +1,7 @@
-import { useEffect, useState } from 'react';
 import { Box, Typography, Grid, Card, Stack, CircularProgress } from '@mui/material';
 import Iconify from 'src/components/iconify';
-import { supabase } from 'src/utils/supabase';
 import { useAdminAuth } from 'src/contexts/admin-auth-context';
-
-type Counts = { clubs: number; classes: number; schedules: number };
+import { useAdminCounts } from 'src/api/admin';
 
 const STATS = [
   { key: 'clubs', label: 'Total Clubs', icon: 'solar:buildings-2-bold-duotone' },
@@ -14,19 +11,7 @@ const STATS = [
 
 export default function AdminDashboardPage() {
   const { user } = useAdminAuth();
-  const [counts, setCounts] = useState<Counts>({ clubs: 0, classes: 0, schedules: 0 });
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    Promise.all([
-      supabase.from('clubs').select('id', { count: 'exact', head: true }),
-      supabase.from('classes').select('id', { count: 'exact', head: true }),
-      supabase.from('schedules').select('id', { count: 'exact', head: true }),
-    ]).then(([c1, c2, c3]) => {
-      setCounts({ clubs: c1.count ?? 0, classes: c2.count ?? 0, schedules: c3.count ?? 0 });
-      setLoading(false);
-    });
-  }, []);
+  const { counts, isLoading: loading } = useAdminCounts();
 
   return (
     <Box sx={{ p: 4 }}>

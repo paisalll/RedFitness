@@ -8,6 +8,7 @@ import {
 import Iconify from 'src/components/iconify';
 import { supabase } from 'src/utils/supabase';
 import { useAdminAuth } from 'src/contexts/admin-auth-context';
+import { useClubs, mutate, KEYS } from 'src/api/admin';
 
 const inputDarkSx = {
   '& .MuiOutlinedInput-root': {
@@ -28,22 +29,12 @@ export default function AdminClubsPage() {
     if (role && role !== 'admin') navigate('/rf-admin/schedules', { replace: true });
   }, [role, navigate]);
 
-  const [data, setData] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { clubs: data, isLoading: loading } = useClubs();
   const [openDialog, setOpenDialog] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [formData, setFormData] = useState<any>({});
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState(false);
-
-  const fetchData = async () => {
-    setLoading(true);
-    const { data: result } = await supabase.from('clubs').select('*').order('id');
-    if (result) setData(result);
-    setLoading(false);
-  };
-
-  useEffect(() => { fetchData(); }, []);
 
   const uploadImage = async (file: File): Promise<string> => {
     const fileExt = file.name.split('.').pop();
@@ -68,7 +59,9 @@ export default function AdminClubsPage() {
         if (error) throw error;
       }
       setOpenDialog(false);
-      fetchData();
+      mutate(KEYS.clubs);
+      mutate(`${KEYS.clubs}/options`);
+      mutate(KEYS.counts);
     } catch (err: any) {
       alert('Error: ' + err.message);
     } finally {
@@ -79,7 +72,9 @@ export default function AdminClubsPage() {
   const handleDelete = async (id: any) => {
     if (!window.confirm('Delete this club?')) return;
     await supabase.from('clubs').delete().eq('id', id);
-    fetchData();
+    mutate(KEYS.clubs);
+    mutate(`${KEYS.clubs}/options`);
+    mutate(KEYS.counts);
   };
 
   const openNew = () => { setFormData({}); setSelectedFile(null); setIsEdit(false); setOpenDialog(true); };

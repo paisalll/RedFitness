@@ -1,10 +1,10 @@
-import { useState, useEffect } from 'react';
 import {
   Box, Typography, Button, Stack, Table, TableBody, TableCell,
   TableContainer, TableHead, TableRow, Paper, Chip, CircularProgress, IconButton,
 } from '@mui/material';
 import Iconify from 'src/components/iconify';
 import { supabase } from 'src/utils/supabase';
+import { useRegistrations, mutate, KEYS } from 'src/api/admin';
 
 // ----------------------------------------------------------------------
 
@@ -20,25 +20,12 @@ function formatDate(iso: string) {
 // ----------------------------------------------------------------------
 
 export default function AdminRegistrationsPage() {
-  const [data, setData] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  const fetchData = async () => {
-    setLoading(true);
-    const { data: result } = await supabase
-      .from('registrations')
-      .select('*, clubs(name)')
-      .order('created_at', { ascending: false });
-    if (result) setData(result);
-    setLoading(false);
-  };
-
-  useEffect(() => { fetchData(); }, []);
+  const { registrations: data, isLoading: loading } = useRegistrations();
 
   const handleDelete = async (id: number) => {
     if (!window.confirm('Hapus pendaftaran ini?')) return;
     await supabase.from('registrations').delete().eq('id', id);
-    fetchData();
+    mutate(KEYS.registrations);
   };
 
   const handleExportCSV = () => {
@@ -87,7 +74,7 @@ export default function AdminRegistrationsPage() {
           <Button
             variant="outlined"
             startIcon={<Iconify icon="solar:refresh-bold" />}
-            onClick={fetchData}
+            onClick={() => mutate(KEYS.registrations)}
             sx={{ color: 'rgba(255,255,255,0.5)', borderColor: 'rgba(255,255,255,0.12)', '&:hover': { borderColor: '#DF2026', color: '#DF2026' } }}
           >
             Refresh

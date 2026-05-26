@@ -8,6 +8,7 @@ import Iconify from 'src/components/iconify';
 import { supabase } from 'src/utils/supabase';
 import { useAdminAuth } from 'src/contexts/admin-auth-context';
 import { CONTENT_SCHEMAS, SectionContent } from 'src/content';
+import { usePageContent, mutate, KEYS } from 'src/api/admin';
 
 // ----------------------------------------------------------------------
 
@@ -42,45 +43,29 @@ export default function AdminContentPage() {
     [pageKey]
   );
 
-  const [loading, setLoading] = useState(true);
+  const { rows, isLoading: loading } = usePageContent(pageKey);
+
   const [savingSection, setSavingSection] = useState<string | null>(null);
   // `values` = editable state, `saved` = last persisted snapshot (for dirty check)
   const [values, setValues] = useState<PageValues>({});
   const [saved, setSaved] = useState<PageValues>({});
   const [toast, setToast] = useState<{ msg: string; type: 'success' | 'error' } | null>(null);
 
-  const fetchContent = async () => {
+  // Rebuild local edit state whenever the page or fetched rows change.
+  useEffect(() => {
     if (!schema) return;
-    setLoading(true);
-
-    // Start from schema defaults so every field is always present.
     const base: PageValues = {};
     schema.sections.forEach((sec) => {
       base[sec.key] = { ...sec.defaults };
     });
-
-    const { data } = await supabase
-      .from('page_content')
-      .select('section_key, content')
-      .eq('page_key', pageKey);
-
-    if (data) {
-      data.forEach((row: { section_key: string; content: SectionContent }) => {
-        if (base[row.section_key]) {
-          base[row.section_key] = { ...base[row.section_key], ...(row.content || {}) };
-        }
-      });
-    }
-
+    rows.forEach((row: { section_key: string; content: SectionContent }) => {
+      if (base[row.section_key]) {
+        base[row.section_key] = { ...base[row.section_key], ...(row.content || {}) };
+      }
+    });
     setValues(base);
     setSaved(JSON.parse(JSON.stringify(base)));
-    setLoading(false);
-  };
-
-  useEffect(() => {
-    fetchContent();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pageKey]);
+  }, [pageKey, rows, schema]);
 
   const setField = (sectionKey: string, fieldKey: string, value: string) => {
     setValues((prev) => ({
@@ -110,6 +95,7 @@ export default function AdminContentPage() {
         ...prev,
         [sectionKey]: JSON.parse(JSON.stringify(values[sectionKey])),
       }));
+      mutate(KEYS.pageContent(pageKey));
       setToast({ msg: 'Perubahan tersimpan', type: 'success' });
     } catch (err: any) {
       setToast({ msg: 'Gagal menyimpan: ' + err.message, type: 'error' });
