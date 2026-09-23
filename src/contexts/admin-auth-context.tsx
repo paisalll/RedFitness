@@ -48,17 +48,16 @@ export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
   });
 
   const fetchRole = async (userId: string): Promise<AdminRole | null> => {
-    const { data } = await supabase
-      .from('admin_profiles')
-      .select('role')
-      .eq('id', userId)
-      .single();
+    const { data } = await supabase.from('admin_profiles').select('role').eq('id', userId).single();
     return (data?.role as AdminRole) || null;
   };
 
   useEffect(() => {
+    let currentUserId: string | null = null;
+
     supabase.auth.getSession().then(async ({ data: { session } }) => {
       if (session?.user) {
+        currentUserId = session.user.id;
         const role = await fetchRole(session.user.id);
         setState({ user: session.user, role, loading: false });
       } else {
@@ -66,15 +65,32 @@ export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
       }
     });
 
+    // IMPORTANT: never call other supabase.* methods synchronously inside
+    // onAuthStateChange — the auth client holds an internal lock while this
+    // callback runs, so an awaited query in here (e.g. fetchRole's
+    // `.from().select()`) deadlocks and never resolves. This event also
+    // fires on every tab focus (visibilitychange -> token refresh), which
+    // is what caused the "stuck loading" after switching tabs. Deferring
+    // with setTimeout lets the lock release first, per Supabase's own
+    // guidance. We also skip the role refetch when it's just a token
+    // refresh for the same user, since the role can't have changed.
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange(async (event, session) => {
-      if (session?.user) {
-        const role = await fetchRole(session.user.id);
-        setState({ user: session.user, role, loading: false });
-      } else {
-        setState({ user: null, role: null, loading: false });
-      }
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setTimeout(async () => {
+        if (session?.user) {
+          if (session.user.id === currentUserId) {
+            setState((prev) => ({ ...prev, user: session.user, loading: false }));
+            return;
+          }
+          currentUserId = session.user.id;
+          const role = await fetchRole(session.user.id);
+          setState({ user: session.user, role, loading: false });
+        } else {
+          currentUserId = null;
+          setState({ user: null, role: null, loading: false });
+        }
+      }, 0);
     });
 
     return () => subscription.unsubscribe();
